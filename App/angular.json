@@ -25,7 +25,11 @@
             "tsConfig": "tsconfig.app.json",
             "aot": true,
             "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.scss"],
+            "styles": [
+              "src/styles.scss",
+              "node_modules/@ngx-spectre/common/assets/spectre.scss",
+              "node_modules/@ngx-spectre/common/assets/spectre-icons.scss"
+            ],
             "scripts": []
           },
           "configurations": {

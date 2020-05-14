@@ -1,1 +1,21 @@
-<router-outlet></router-outlet>
+<s-sidenav>
+  <s-sidenav-menu>
+    <div class="docs-brand">
+      <a class="docs-logo" routerLink="">
+        <h2>JDR</h2>
+      </a>
+    </div>
+    <s-scrollbar [contentClass]="'docs-nav'">
+      <s-menu>
+        <s-menu-item>
+          <a routerLink="/scenarios" routerLinkActive="active">Scenarios</a>
+        </s-menu-item>
+      </s-menu>
+    </s-scrollbar>
+  </s-sidenav-menu>
+  <content>
+    <div class="container">
+      <router-outlet></router-outlet>
+    </div>
+  </content>
+</s-sidenav>

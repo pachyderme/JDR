@@ -1,0 +1,16 @@
+::ng-deep .card .card-image:last-child img {
+  height: 250px;
+  width: 100%;
+  object-fit: cover;
+}
+
+::ng-deep .card-footer {
+  text-align: right;
+  .menu {
+    text-align: left;
+  }
+}
+
+.column {
+  padding: 1.5rem;
+}
