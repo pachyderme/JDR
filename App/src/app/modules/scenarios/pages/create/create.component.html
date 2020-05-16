@@ -1,0 +1,184 @@
+<header class="page-title">
+  <h1 class="s-title">New scenario</h1>
+  <div class="divider"></div>
+</header>
+<div class="columns text-center">
+  <section class="column col-6 col-mx-auto">
+    <s-step>
+      <s-step-item
+        (onActivated)="onStepActivated(0)"
+        [active]="currentStepIndex == 0"
+      >
+        <a class="c-hand">Base</a>
+      </s-step-item>
+      <s-step-item
+        (onActivated)="onStepActivated(1)"
+        [active]="currentStepIndex == 1"
+      >
+        <a class="c-hand">Advance</a>
+      </s-step-item>
+      <s-step-item
+        (onActivated)="onStepActivated(2)"
+        [active]="currentStepIndex == 2"
+      >
+        <a class="c-hand">Locations</a>
+      </s-step-item>
+      <s-step-item
+        (onActivated)="onStepActivated(3)"
+        [active]="currentStepIndex == 3"
+      >
+        <a class="c-hand">Template</a>
+      </s-step-item>
+    </s-step>
+  </section>
+</div>
+<div class="container" [ngSwitch]="currentStepIndex">
+  <section *ngSwitchCase="0">
+    <form
+      [formGroup]="baseForm"
+      class="container"
+      (ngSubmit)="onBaseFormSubmit()"
+    >
+      <s-card class="column col-10">
+        <s-card-header>
+          <h2 class="text-center">Base</h2>
+        </s-card-header>
+        <s-card-body>
+          <div class="columns">
+            <div class="form-group column col-12">
+              <s-input
+                name="name"
+                [label]="'Nom'"
+                [type]="'text'"
+                [enabled]="true"
+                formControlName="name"
+                [placeholder]="'My scenario'"
+              >
+              </s-input>
+              <s-textarea
+                name="summary"
+                [label]="'Summary'"
+                [enabled]="true"
+                formControlName="summary"
+                [placeholder]="'Once upon a time...'"
+              >
+              </s-textarea>
+              <s-textarea
+                name="goal"
+                [label]="'Goal'"
+                [enabled]="true"
+                formControlName="goal"
+                [placeholder]="'Kill the big bad guy and...'"
+              >
+              </s-textarea>
+            </div>
+          </div>
+        </s-card-body>
+        <s-card-footer>
+          <div class="submit-button-container">
+            <button type="submit" class="btn">Next</button>
+          </div>
+        </s-card-footer>
+      </s-card>
+    </form>
+  </section>
+  <section *ngSwitchCase="1">
+    <form
+      [formGroup]="advanceForm"
+      class="container"
+      (ngSubmit)="onAdvanceFormSubmit()"
+    >
+      <s-card class="column col-10">
+        <s-card-header>
+          <h2 class="text-center">Advance</h2>
+        </s-card-header>
+        <s-card-body>
+          <div class="columns">
+            <div class="form-group column col-12">
+              <s-autocomplete
+                name="univers"
+                formControlName="univers"
+                [propertyValue]="'label'"
+                [showSelectedItems]="true"
+                [multiSelect]="false"
+                [items]="items"
+                [itemsFilter]="itemsFilter.bind(this)"
+              >
+                <ng-template let-item>
+                  <s-avatar
+                    [initials]="item.initials"
+                    [status]="item.status"
+                    [mainImage]="item.mainImage"
+                    [subImage]="item.subImage"
+                    *ngIf="
+                      item.initials ||
+                      item.status ||
+                      item.mainImage ||
+                      item.subImage
+                    "
+                    [size]="'sm'"
+                  ></s-avatar>
+                  {{ item.label }}
+                </ng-template>
+                <s-autocomplete-no-result>
+                  No result
+                </s-autocomplete-no-result>
+              </s-autocomplete>
+            </div>
+          </div>
+        </s-card-body>
+        <s-card-footer>
+          <div class="submit-button-container">
+            <button type="submit" class="btn">Next</button>
+          </div>
+        </s-card-footer>
+      </s-card>
+    </form>
+  </section>
+  <section *ngSwitchCase="2">
+    <form
+      [formGroup]="locationsForm"
+      class="container"
+      (ngSubmit)="onLocationsFormSubmit()"
+    >
+      <s-card class="column col-10">
+        <s-card-header>
+          <h2 class="text-center">Locations</h2>
+        </s-card-header>
+        <s-card-body>
+          <div class="columns">
+            <div class="form-group column col-12"></div>
+          </div>
+        </s-card-body>
+        <s-card-footer>
+          <div class="submit-button-container">
+            <button type="submit" class="btn">Next</button>
+          </div>
+        </s-card-footer>
+      </s-card>
+    </form>
+  </section>
+  <section *ngSwitchCase="3">
+    <form
+      [formGroup]="templateForm"
+      class="container"
+      (ngSubmit)="onTemplateFormSubmit()"
+    >
+      <s-card class="column col-10">
+        <s-card-header>
+          <h2 class="text-center">Template</h2>
+        </s-card-header>
+        <s-card-body>
+          <div class="columns">
+            <div class="form-group column col-12"></div>
+          </div>
+        </s-card-body>
+        <s-card-footer>
+          <div class="submit-button-container">
+            <button type="submit" class="btn">Save</button>
+          </div>
+        </s-card-footer>
+      </s-card>
+    </form>
+  </section>
+</div>

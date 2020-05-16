@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { SThemingService } from '@ngx-spectre/common';
+import { SThemingService, SThemeConfiguration } from '@ngx-spectre/common';
 
 @Component({
   selector: 'app-root',
@@ -10,6 +10,8 @@ export class AppComponent {
   title = 'App';
 
   public constructor(private themingService: SThemingService) {
-    this.themingService.update();
+    const theme = new SThemeConfiguration();
+    theme.primaryColor = '#CF2900';
+    this.themingService.update(theme);
   }
 }
