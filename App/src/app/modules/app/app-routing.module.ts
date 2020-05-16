@@ -22,6 +22,11 @@ const routes: Routes = [
       import('../scenarios/scenarios.module').then((m) => m.ScenariosModule),
   },
   {
+    path: 'characters',
+    loadChildren: () =>
+      import('../characters/characters.module').then((m) => m.CharactersModule),
+  },
+  {
     path: '**',
     redirectTo: 'error',
   },
