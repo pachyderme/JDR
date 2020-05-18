@@ -21,7 +21,7 @@
         (onActivated)="onStepActivated(2)"
         [active]="currentStepIndex == 2"
       >
-        <a class="c-hand">Locations</a>
+        <a class="c-hand">Characters</a>
       </s-step-item>
       <s-step-item
         (onActivated)="onStepActivated(3)"
@@ -95,14 +95,15 @@
         <s-card-body>
           <div class="columns">
             <div class="form-group column col-12">
+              <label class="form-label">Univers (optionnal)</label>
               <s-autocomplete
                 name="univers"
                 formControlName="univers"
                 [propertyValue]="'label'"
                 [showSelectedItems]="true"
                 [multiSelect]="false"
-                [items]="items"
-                [itemsFilter]="itemsFilter.bind(this)"
+                [items]="univers"
+                [itemsFilter]="universFilter.bind(this)"
               >
                 <ng-template let-item>
                   <s-avatar
@@ -124,6 +125,14 @@
                   No result
                 </s-autocomplete-no-result>
               </s-autocomplete>
+              <s-textarea
+                name="image"
+                [label]="'Image URL (Optionnal)'"
+                [enabled]="true"
+                formControlName="image"
+                [placeholder]="'https://www.google.fr/...'"
+              >
+              </s-textarea>
             </div>
           </div>
         </s-card-body>
@@ -137,17 +146,47 @@
   </section>
   <section *ngSwitchCase="2">
     <form
-      [formGroup]="locationsForm"
+      [formGroup]="charactersForm"
       class="container"
-      (ngSubmit)="onLocationsFormSubmit()"
+      (ngSubmit)="onCharactersFormSubmit()"
     >
       <s-card class="column col-10">
         <s-card-header>
-          <h2 class="text-center">Locations</h2>
+          <h2 class="text-center">Characters</h2>
         </s-card-header>
         <s-card-body>
           <div class="columns">
-            <div class="form-group column col-12"></div>
+            <div class="form-group column col-12">
+              <label class="form-label">Characters (optionnal)</label>
+              <s-autocomplete
+                name="characters"
+                formControlName="characters"
+                [propertyValue]="'name'"
+                [showSelectedItems]="true"
+                [items]="characters"
+                [itemsFilter]="charactersFilter.bind(this)"
+              >
+                <ng-template let-item>
+                  <s-avatar
+                    [initials]="item.initials"
+                    [status]="item.status"
+                    [mainImage]="item.mainImage"
+                    [subImage]="item.subImage"
+                    *ngIf="
+                      item.initials ||
+                      item.status ||
+                      item.mainImage ||
+                      item.subImage
+                    "
+                    [size]="'sm'"
+                  ></s-avatar>
+                  {{ item.name }}
+                </ng-template>
+                <s-autocomplete-no-result>
+                  No result
+                </s-autocomplete-no-result>
+              </s-autocomplete>
+            </div>
           </div>
         </s-card-body>
         <s-card-footer>
@@ -170,7 +209,16 @@
         </s-card-header>
         <s-card-body>
           <div class="columns">
-            <div class="form-group column col-12"></div>
+            <div class="form-group column col-12">
+              <s-select
+                name="selectValue"
+                [label]="'Template'"
+                [enabled]="true"
+                formControlName="template"
+                [items]="templates"
+              >
+              </s-select>
+            </div>
           </div>
         </s-card-body>
         <s-card-footer>

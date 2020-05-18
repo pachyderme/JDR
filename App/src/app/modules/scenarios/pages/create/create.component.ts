@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { StartWithPipe } from 'src/app/shared/pipes/start-with.pipe';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-create',
@@ -12,15 +13,20 @@ export class CreateComponent implements OnInit {
 
   public baseForm: FormGroup;
   public advanceForm: FormGroup;
-  public locationsForm: FormGroup;
+  public charactersForm: FormGroup;
   public templateForm: FormGroup;
-  public items: any[] = [];
-  public itemsSelected: any[] = [];
-  public itemSelected: any;
+  public univers: any[] = [];
+  public characters: any[] = [];
+  public selectedCharacters: any[] = [];
+  public templates: any[] = [];
+  public selectedTemplate: any;
+  public selectedUnivers: any;
 
   constructor(
     private formBuilder: FormBuilder,
-    private startWithPipe: StartWithPipe
+    private startWithPipe: StartWithPipe,
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -30,14 +36,7 @@ export class CreateComponent implements OnInit {
       goal: [''],
     });
 
-    this.advanceForm = this.formBuilder.group({
-      univers: [''],
-    });
-
-    this.locationsForm = this.formBuilder.group({});
-    this.templateForm = this.formBuilder.group({});
-
-    this.items.push(
+    this.univers.push(
       {
         label: 'Dungeons and dragons',
         initials: 'DD',
@@ -72,7 +71,67 @@ export class CreateComponent implements OnInit {
       }
     );
 
-    this.itemsSelected.push(this.items[0]);
+    this.advanceForm = this.formBuilder.group({
+      univers: [''],
+      image: [''],
+    });
+
+    this.characters = [
+      {
+        name: 'Luna',
+        initials: 'Lu',
+      },
+      {
+        name: 'Wrax',
+        initials: 'Wr',
+      },
+      {
+        name: 'Dicham',
+        initials: 'Dc',
+      },
+      {
+        name: 'Rakar',
+        initials: 'Ra',
+      },
+      {
+        name: "Saud'ho",
+        initials: 'Sa',
+      },
+      {
+        name: 'Xavro',
+        initials: 'Xa',
+      },
+    ];
+
+    this.charactersForm = this.formBuilder.group({
+      characters: [''],
+    });
+
+    this.templates = [
+      {
+        value: 0,
+        displayValue: 'None',
+      },
+      {
+        value: 1,
+        displayValue: 'Linear',
+      },
+      {
+        value: 2,
+        displayValue: 'Branches',
+      },
+      {
+        value: 3,
+        displayValue: 'Sandbox',
+      },
+      {
+        value: 4,
+        displayValue: 'Emerging',
+      },
+    ];
+    this.templateForm = this.formBuilder.group({
+      template: ['0'],
+    });
   }
 
   public onStepActivated(index: number = 0) {
@@ -87,19 +146,30 @@ export class CreateComponent implements OnInit {
     this.changeCurrentStepIndex(this.currentStepIndex + 1);
   }
 
-  public onLocationsFormSubmit() {
+  public onCharactersFormSubmit() {
     this.changeCurrentStepIndex(this.currentStepIndex + 1);
   }
 
   public onTemplateFormSubmit() {
     console.log('Create the scenario !');
+    this.router.navigate(['../details', 0], {
+      relativeTo: this.route,
+    });
   }
 
-  public itemsFilter(items: any[], search: string): any[] {
+  public universFilter(items: any[], search: string): any[] {
     if (this.startWithPipe) {
-      return this.startWithPipe.transform(this.items, search, 'label');
+      return this.startWithPipe.transform(this.univers, search, 'label');
     } else {
-      return this.items;
+      return this.univers;
+    }
+  }
+
+  public charactersFilter(items: any[], search: string): any[] {
+    if (this.startWithPipe) {
+      return this.startWithPipe.transform(this.characters, search, 'name');
+    } else {
+      return this.characters;
     }
   }
 
