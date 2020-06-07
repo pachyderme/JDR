@@ -95,15 +95,15 @@
         <s-card-body>
           <div class="columns">
             <div class="form-group column col-12">
-              <label class="form-label">Univers (optionnal)</label>
+              <label class="form-label">Universe (optionnal)</label>
               <s-autocomplete
                 name="univers"
-                formControlName="univers"
+                formControlName="universe"
                 [propertyValue]="'label'"
                 [showSelectedItems]="true"
                 [multiSelect]="false"
-                [items]="univers"
-                [itemsFilter]="universFilter.bind(this)"
+                [items]="universes"
+                [itemsFilter]="universesFilter.bind(this)"
               >
                 <ng-template let-item>
                   <s-avatar

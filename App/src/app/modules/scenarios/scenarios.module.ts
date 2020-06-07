@@ -12,6 +12,11 @@ import {
   SFormModule,
   SAutocompleteModule,
   SAvatarModule,
+  STabsModule,
+  SBreadcrumbModule,
+  STileModule,
+  SNavModule,
+  SDividerModule,
 } from '@ngx-spectre/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StartWithPipe } from 'src/app/shared/pipes/start-with.pipe';
@@ -28,6 +33,11 @@ import { StartWithPipe } from 'src/app/shared/pipes/start-with.pipe';
     ReactiveFormsModule,
     SAutocompleteModule,
     SAvatarModule,
+    STabsModule,
+    SBreadcrumbModule,
+    STileModule,
+    SNavModule,
+    SDividerModule,
   ],
   declarations: [ListComponent, DetailsComponent, CreateComponent],
   providers: [StartWithPipe],

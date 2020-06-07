@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { StartWithPipe } from 'src/app/shared/pipes/start-with.pipe';
 import { Router, ActivatedRoute } from '@angular/router';
+import { UniversService } from '../../services/univers.service';
+import { CharactersService } from '../../services/characters.service';
+import { TemplatesService } from '../../services/templates.service';
 
 @Component({
   selector: 'app-create',
@@ -15,18 +18,21 @@ export class CreateComponent implements OnInit {
   public advanceForm: FormGroup;
   public charactersForm: FormGroup;
   public templateForm: FormGroup;
-  public univers: any[] = [];
+  public universes: any[] = [];
   public characters: any[] = [];
   public selectedCharacters: any[] = [];
   public templates: any[] = [];
   public selectedTemplate: any;
-  public selectedUnivers: any;
+  public selectedUniverse: any;
 
   constructor(
     private formBuilder: FormBuilder,
     private startWithPipe: StartWithPipe,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private universService: UniversService,
+    private charactersService: CharactersService,
+    private templatesService: TemplatesService
   ) {}
 
   ngOnInit() {
@@ -36,99 +42,20 @@ export class CreateComponent implements OnInit {
       goal: [''],
     });
 
-    this.univers.push(
-      {
-        label: 'Dungeons and dragons',
-        initials: 'DD',
-      },
-      {
-        label: 'Lord of the rings',
-        initials: 'LR',
-      },
-      {
-        label: 'Star wars - Clone wars',
-        initials: 'SW',
-      },
-      {
-        label: 'Star wars - Rebels',
-        initials: 'SW',
-      },
-      {
-        label: "Star wars - The Great Sith's war",
-        initials: 'SW',
-      },
-      {
-        label: 'Star wars - The old republic',
-        initials: 'SW',
-      },
-      {
-        label: 'Warhammer',
-        initials: 'WH',
-      },
-      {
-        label: 'Warhammer 40k',
-        initials: 'WH',
-      }
-    );
+    this.universes = this.universService.get();
 
     this.advanceForm = this.formBuilder.group({
-      univers: [''],
+      universe: [''],
       image: [''],
     });
 
-    this.characters = [
-      {
-        name: 'Luna',
-        initials: 'Lu',
-      },
-      {
-        name: 'Wrax',
-        initials: 'Wr',
-      },
-      {
-        name: 'Dicham',
-        initials: 'Dc',
-      },
-      {
-        name: 'Rakar',
-        initials: 'Ra',
-      },
-      {
-        name: "Saud'ho",
-        initials: 'Sa',
-      },
-      {
-        name: 'Xavro',
-        initials: 'Xa',
-      },
-    ];
+    this.characters = this.charactersService.get();
 
     this.charactersForm = this.formBuilder.group({
       characters: [''],
     });
 
-    this.templates = [
-      {
-        value: 0,
-        displayValue: 'None',
-      },
-      {
-        value: 1,
-        displayValue: 'Linear',
-      },
-      {
-        value: 2,
-        displayValue: 'Branches',
-      },
-      {
-        value: 3,
-        displayValue: 'Sandbox',
-      },
-      {
-        value: 4,
-        displayValue: 'Emerging',
-      },
-    ];
+    this.templates = this.templatesService.get();
     this.templateForm = this.formBuilder.group({
       template: ['0'],
     });
@@ -157,11 +84,11 @@ export class CreateComponent implements OnInit {
     });
   }
 
-  public universFilter(items: any[], search: string): any[] {
+  public universesFilter(items: any[], search: string): any[] {
     if (this.startWithPipe) {
-      return this.startWithPipe.transform(this.univers, search, 'label');
+      return this.startWithPipe.transform(this.universes, search, 'label');
     } else {
-      return this.univers;
+      return this.universes;
     }
   }
 

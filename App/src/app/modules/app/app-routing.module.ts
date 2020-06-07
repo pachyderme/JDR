@@ -18,11 +18,17 @@ const routes: Routes = [
   },
   {
     path: 'scenarios',
+    data: {
+      breadcrumb: 'Scenarios',
+    },
     loadChildren: () =>
       import('../scenarios/scenarios.module').then((m) => m.ScenariosModule),
   },
   {
     path: 'characters',
+    data: {
+      breadcrumb: 'Characters',
+    },
     loadChildren: () =>
       import('../characters/characters.module').then((m) => m.CharactersModule),
   },

@@ -18,7 +18,7 @@
       <s-card-header [title]="title"> </s-card-header>
       <s-card-body>{{ text }}</s-card-body>
       <s-card-footer>
-        <button class="btn btn-link">Edit</button>
+        <button class="btn btn-link" (click)="onEditClick(item)">Edit</button>
         <s-dropdown [right]="true">
           <s-dropdown-button [displayArrow]="false"
             ><i class="icon icon-more-vert"></i

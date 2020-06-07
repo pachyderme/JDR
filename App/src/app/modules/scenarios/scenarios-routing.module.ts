@@ -17,6 +17,9 @@ const routes: Routes = [
   {
     path: 'details/:id',
     component: DetailsComponent,
+    data: {
+      breadcrumb: 'Editing',
+    },
   },
   {
     path: 'create',
