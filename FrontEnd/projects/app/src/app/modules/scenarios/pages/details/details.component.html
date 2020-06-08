@@ -1,0 +1,272 @@
+<header class="page-title">
+  <h1 class="s-title">Editing : {{ scenario.name }}</h1>
+  <div class="divider"></div>
+</header>
+<div class="container">
+  <s-tabs>
+    <s-tab-item>
+      <s-tab-item-header>
+        Summary
+      </s-tab-item-header>
+      <s-tab-item-body>
+        <form [formGroup]="summaryForm" class="container">
+          <div class="columns">
+            <div class="form-group column col-6">
+              <s-input
+                name="name"
+                [label]="'Nom'"
+                [type]="'text'"
+                [enabled]="true"
+                formControlName="name"
+                [placeholder]="'My scenario'"
+              >
+              </s-input>
+              <s-textarea
+                name="summary"
+                [label]="'Summary'"
+                [enabled]="true"
+                formControlName="summary"
+                [placeholder]="'Once upon a time...'"
+              >
+              </s-textarea>
+              <s-textarea
+                name="goal"
+                [label]="'Goal'"
+                [enabled]="true"
+                formControlName="goal"
+                [placeholder]="'Kill the big bad guy and...'"
+              >
+              </s-textarea>
+              <s-select
+                name="selectValue"
+                [label]="'Template'"
+                [enabled]="true"
+                formControlName="template"
+                [items]="templates"
+              >
+              </s-select>
+            </div>
+            <div class="form-group column col-6">
+              <label class="form-label">Universe (optionnal)</label>
+              <s-autocomplete
+                name="univers"
+                formControlName="universe"
+                [propertyValue]="'label'"
+                [showSelectedItems]="true"
+                [multiSelect]="false"
+                [items]="universes"
+                [itemsFilter]="universesFilter.bind(this)"
+              >
+                <ng-template let-item>
+                  <s-avatar
+                    [initials]="item.initials"
+                    [status]="item.status"
+                    [mainImage]="item.mainImage"
+                    [subImage]="item.subImage"
+                    *ngIf="
+                      item.initials ||
+                      item.status ||
+                      item.mainImage ||
+                      item.subImage
+                    "
+                    [size]="'sm'"
+                  ></s-avatar>
+                  {{ item.label }}
+                </ng-template>
+                <s-autocomplete-no-result>
+                  No result
+                </s-autocomplete-no-result>
+              </s-autocomplete>
+              <s-textarea
+                name="image"
+                [label]="'Image URL (Optionnal)'"
+                [enabled]="true"
+                formControlName="image"
+                [placeholder]="'https://www.google.fr/...'"
+              >
+              </s-textarea>
+              <label class="form-label">Characters (optionnal)</label>
+              <s-autocomplete
+                name="characters"
+                formControlName="characters"
+                [propertyValue]="'name'"
+                [showSelectedItems]="true"
+                [items]="characters"
+                [itemsFilter]="charactersFilter.bind(this)"
+              >
+                <ng-template let-item>
+                  <s-avatar
+                    [initials]="item.initials"
+                    [status]="item.status"
+                    [mainImage]="item.mainImage"
+                    [subImage]="item.subImage"
+                    *ngIf="
+                      item.initials ||
+                      item.status ||
+                      item.mainImage ||
+                      item.subImage
+                    "
+                    [size]="'sm'"
+                  ></s-avatar>
+                  {{ item.name }}
+                </ng-template>
+                <s-autocomplete-no-result>
+                  No result
+                </s-autocomplete-no-result>
+              </s-autocomplete>
+            </div>
+          </div>
+        </form>
+        <pre>{{ summaryForm.value | json }}</pre>
+      </s-tab-item-body>
+    </s-tab-item>
+    <s-tab-item>
+      <s-tab-item-header>
+        Design
+      </s-tab-item-header>
+      <s-tab-item-body>
+        tab2
+      </s-tab-item-body>
+    </s-tab-item>
+    <s-tab-item>
+      <s-tab-item-header>
+        Locations
+      </s-tab-item-header>
+      <s-tab-item-body>
+        <div class="columns">
+          <section class="col-1">
+            <s-nav>
+              <s-nav-item [active]="true">
+                <a>All</a>
+              </s-nav-item>
+              <s-nav-item>
+                <a>Planets</a>
+                <s-nav>
+                  <s-nav-item>
+                    <a>Siths</a>
+                  </s-nav-item>
+                  <s-nav-item>
+                    <a>Republic</a>
+                  </s-nav-item>
+                  <s-nav-item>
+                    <a>Unknown</a>
+                  </s-nav-item>
+                </s-nav>
+              </s-nav-item>
+              <s-nav-item>
+                <a>Ships</a>
+              </s-nav-item>
+              <s-nav-item>
+                <a>Buildings</a>
+              </s-nav-item>
+            </s-nav>
+          </section>
+          <section>
+            <s-divider [vertical]="true"></s-divider>
+          </section>
+          <section class="col-10 columns">
+            <s-tile
+              *ngFor="let item of scenario.locations"
+              [compact]="true"
+              class="col-4"
+            >
+              <s-tile-content>
+                <s-tile-title>
+                  {{ item.name }}
+                </s-tile-title>
+                <s-tile-subtitle class="text-gray">
+                  {{ item.comment }}
+                </s-tile-subtitle>
+              </s-tile-content>
+              <s-tile-action>
+                <s-dropdown>
+                  <s-dropdown-button [displayArrow]="false">
+                    <i class="icon icon-more-vert"></i>
+                  </s-dropdown-button>
+                  <s-menu>
+                    <s-menu-item>
+                      <a (click)="onLocationEditClick(item.id)">Edit</a>
+                    </s-menu-item>
+                    <s-menu-item>
+                      <a>Delete</a>
+                    </s-menu-item>
+                  </s-menu>
+                </s-dropdown>
+              </s-tile-action>
+            </s-tile>
+          </section>
+        </div>
+      </s-tab-item-body>
+    </s-tab-item>
+    <s-tab-item>
+      <s-tab-item-header>
+        Ressources
+      </s-tab-item-header>
+      <s-tab-item-body>
+        <div class="columns">
+          <section class="col-1">
+            <s-nav>
+              <s-nav-item [active]="true">
+                <a>All</a>
+              </s-nav-item>
+              <s-nav-item>
+                <a>Characters</a>
+                <s-nav>
+                  <s-nav-item>
+                    <a>Siths</a>
+                  </s-nav-item>
+                  <s-nav-item>
+                    <a>Republic</a>
+                  </s-nav-item>
+                  <s-nav-item>
+                    <a>Unknown</a>
+                  </s-nav-item>
+                </s-nav>
+              </s-nav-item>
+              <s-nav-item>
+                <a>Monsters</a>
+              </s-nav-item>
+              <s-nav-item>
+                <a>Others</a>
+              </s-nav-item>
+            </s-nav>
+          </section>
+          <section>
+            <s-divider [vertical]="true"></s-divider>
+          </section>
+          <section class="col-10 columns">
+            <s-tile
+              *ngFor="let item of scenario.ressources"
+              [compact]="true"
+              class="col-4"
+            >
+              <s-tile-content>
+                <s-tile-title>
+                  {{ item.name }}
+                </s-tile-title>
+                <s-tile-subtitle class="text-gray">
+                  {{ item.comment }}
+                </s-tile-subtitle>
+              </s-tile-content>
+              <s-tile-action>
+                <s-dropdown>
+                  <s-dropdown-button [displayArrow]="false">
+                    <i class="icon icon-more-vert"></i>
+                  </s-dropdown-button>
+                  <s-menu>
+                    <s-menu-item>
+                      <a>Edit</a>
+                    </s-menu-item>
+                    <s-menu-item>
+                      <a>Delete</a>
+                    </s-menu-item>
+                  </s-menu>
+                </s-dropdown>
+              </s-tile-action>
+            </s-tile>
+          </section>
+        </div>
+      </s-tab-item-body>
+    </s-tab-item>
+  </s-tabs>
+</div>
