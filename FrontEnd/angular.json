@@ -127,7 +127,7 @@
       "projectType": "library",
       "root": "projects/fabricjs-editor",
       "sourceRoot": "projects/fabricjs-editor/src",
-      "prefix": "lib",
+      "prefix": "jdr",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",

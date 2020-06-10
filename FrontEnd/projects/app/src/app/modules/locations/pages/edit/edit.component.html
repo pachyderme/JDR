@@ -1,3 +1,535 @@
-<p>
-  edit works!
-</p>
+<header class="page-title">
+  <h1 class="s-title">Editing : {{ location.name }}</h1>
+  <s-dropdown class="export-menu" [right]="true">
+    <s-dropdown-button [displayArrow]="false"
+      ><i class="icon icon-more-vert"></i
+    ></s-dropdown-button>
+    <s-menu>
+      <s-menu-item>
+        <a (click)="rasterize()">Export to image</a>
+      </s-menu-item>
+      <s-menu-item>
+        <a (click)="rasterizeSVG()">Export to SVG</a>
+      </s-menu-item>
+    </s-menu>
+  </s-dropdown>
+  <div class="divider"></div>
+</header>
+<div class="container">
+  <div class="columns">
+    <s-tabs class="column col-12">
+      <s-tab-item>
+        <s-tab-item-header>
+          Design
+        </s-tab-item-header>
+        <s-tab-item-body>
+          <!-- Header -->
+          <div class="columns">
+            <div class="column col-1">
+              <button
+                class="btn btn-link column col-6"
+                (click)="saveCanvasToJSON()"
+              >
+                <img src="../../../../../assets/icons/save.png" />
+              </button>
+              <button
+                class="btn btn-link column col-6"
+                (click)="loadCanvasFromJSON()"
+              >
+                <img src="../../../../../assets/icons/load.png" />
+              </button>
+            </div>
+            <s-divider [vertical]="true"></s-divider>
+            <div class="column col-1">
+              <button
+                class="btn btn-link column col-6"
+                (click)="confirmClear()"
+              >
+                <img src="../../../../../assets/icons/clean.png" />
+              </button>
+            </div>
+          </div>
+          <div class="columns">
+            <section class="col-1 tool-menu column">
+              <div class="columns">
+                <div class="column col-12">
+                  <button
+                    class="btn btn-link column col-6"
+                    (click)="onUploadImage()"
+                  >
+                    <img src="../../../../../assets/icons/upload-image.png" />
+                  </button>
+                  <button
+                    class="btn btn-link column col-6"
+                    (click)="onAddImage()"
+                  >
+                    <img src="../../../../../assets/icons/image.png" />
+                  </button>
+                </div>
+                <div class="column col-12">
+                  <button
+                    class="btn btn-link column col-6"
+                    (click)="onAddText()"
+                  >
+                    <img src="../../../../../assets/icons/text.png" />
+                  </button>
+                  <button
+                    class="btn btn-link column col-6"
+                    (click)="onAddFigure()"
+                  >
+                    <img src="../../../../../assets/icons/figure.png" />
+                  </button>
+                </div>
+              </div>
+            </section>
+            <section>
+              <s-divider [vertical]="true"></s-divider>
+            </section>
+            <section class="col-9 columns">
+              <jdr-fabricjs-editor class="editor" #canvas></jdr-fabricjs-editor>
+            </section>
+            <!-- OLD -->
+            <section *ngIf="false">
+              <!-- Upload Images -->
+              <div class="card">
+                <div class="card-header">Upload image</div>
+                <div class="card-body text-center">
+                  <img
+                    id="testImage"
+                    *ngIf="canvas.url"
+                    class="images-item-upload"
+                    [src]="canvas.url"
+                    (click)="addImageOnCanvas(canvas.url)"
+                  />
+                  <input type="file" (change)="readUrl($event)" />
+                  <br />
+                  <br />
+                  <div
+                    class="btn-group btn-group-justified"
+                    role="group"
+                    aria-label="..."
+                  >
+                    <div class="btn-group" role="group">
+                      <button
+                        type="button"
+                        class="btn btn-outline-danger btn-sm"
+                        (click)="removeWhite(canvas.url)"
+                      >
+                        <i class="fa fa-times" aria-hidden="true"></i> Remove
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Options -->
+              <div class="card">
+                <div class="card-header">Options</div>
+                <div class="card-body text-center">
+                  <div class="btn-group" role="group" aria-label="...">
+                    <button
+                      data-toggle="tooltip"
+                      data-placement="bottom"
+                      title="Delete element"
+                      type="button"
+                      class="btn btn-outline-danger"
+                      [disabled]="!canvas.selected"
+                      (click)="removeSelected()"
+                    >
+                      <i class="fa fa-trash" aria-hidden="true"></i>
+                    </button>
+                    <button
+                      data-toggle="tooltip"
+                      data-placement="bottom"
+                      title="Send to back"
+                      type="button"
+                      class="btn btn-outline-primary"
+                      [disabled]="!canvas.selected"
+                      (click)="sendToBack()"
+                    >
+                      <i class="fa fa-level-down" aria-hidden="true"></i>
+                    </button>
+                    <button
+                      data-toggle="tooltip"
+                      data-placement="bottom"
+                      title="Send to front"
+                      type="button"
+                      class="btn btn-outline-primary"
+                      [disabled]="!canvas.selected"
+                      (click)="bringToFront()"
+                    >
+                      <i class="fa fa-level-up" aria-hidden="true"></i>
+                    </button>
+                    <button
+                      data-toggle="tooltip"
+                      data-placement="bottom"
+                      title="Clone"
+                      type="button"
+                      class="btn btn-outline-primary"
+                      [disabled]="
+                        !canvas.selected || canvas.selected.type == 'group'
+                      "
+                      (click)="clone()"
+                    >
+                      <i class="fa fa-clone" aria-hidden="true"></i>
+                    </button>
+                    <button
+                      data-toggle="tooltip"
+                      data-placement="bottom"
+                      title="Unselect"
+                      type="button"
+                      class="btn btn-outline-primary"
+                      [disabled]="!canvas.selected"
+                      (click)="cleanSelect()"
+                    >
+                      <i class="fa fa-remove" aria-hidden="true"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <!-- Custom -->
+              <div class="card">
+                <div class="card-header">Custom</div>
+                <div class="card-body">
+                  <div
+                    class="custom-item"
+                    *ngIf="canvas.selected && canvas.selected.type == 'group'"
+                  >
+                    Group Selected
+                  </div>
+                  <div class="custom-item" *ngIf="!canvas.selected">
+                    No items selected
+                  </div>
+                  <div
+                    class="custom-item"
+                    *ngIf="canvas.selected && canvas.selected.type != 'group'"
+                  >
+                    <div class="custom-item-title">ID</div>
+                    <div class="custom-item-body">
+                      <input
+                        type="text"
+                        class="form-control"
+                        [(ngModel)]="canvas.props.id"
+                        (keyup)="setId()"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    class="custom-item"
+                    *ngIf="canvas.selected && canvas.selected.type != 'group'"
+                  >
+                    <div class="custom-item-title">Opacity</div>
+                    <div class="custom-item-body">
+                      <input
+                        type="range"
+                        [(ngModel)]="canvas.props.opacity"
+                        (change)="setOpacity()"
+                      />{{ canvas.props.opacity }}
+                    </div>
+                  </div>
+                  <div
+                    class="custom-item"
+                    *ngIf="
+                      (canvas.selected && canvas.textEditor) ||
+                      (canvas.selected && canvas.figureEditor)
+                    "
+                  >
+                    <div class="custom-item-title">Fill</div>
+                    <div class="custom-item-body">
+                      <input
+                        type="text"
+                        class="form-control"
+                        [cpPosition]="'bottom'"
+                        [(colorPicker)]="canvas.props.fill"
+                        [style.background]="canvas.props.fill"
+                        [value]="canvas.props.fill"
+                        (colorPickerChange)="setFill()"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    class="custom-item"
+                    *ngIf="canvas.selected && canvas.textEditor"
+                  >
+                    <div class="custom-item-title">Font family</div>
+                    <div class="custom-item-body">
+                      <select
+                        [(ngModel)]="canvas.props.fontFamily"
+                        class="form-control"
+                        (change)="setFontFamily()"
+                      >
+                        <option value="arial">Arial</option>
+                        <option value="helvetica" selected>Helvetica</option>
+                        <option value="verdana">Verdana</option>
+                        <option value="courier">Courier</option>
+                        <option value="Roboto">Roboto</option>
+                        <option value="Open Sans">Open Sans</option>
+                        <option value="Zilla Slab">Zilla Slab</option>
+                        <option value="Lato">Lato</option>
+                        <option value="Bellefair">Bellefair</option>
+                        <option value="Fresca">Fresca</option>
+                        <option value="Raleway">Raleway</option>
+                        <option value="Open Sans Condensed"
+                          >Open Sans Condensed</option
+                        >
+                        <option value="Indie Flower">Indie Flower</option>
+                        <option value="Josefin Sans">Josefin Sans</option>
+                        <option value="Inconsolata">Inconsolata</option>
+                        <option value="Pacifico">Pacifico</option>
+                        <option value="Gloria Hallelujah"
+                          >Gloria Hallelujah</option
+                        >
+                      </select>
+                    </div>
+                  </div>
+                  <div
+                    class="custom-item"
+                    *ngIf="canvas.selected && canvas.textEditor"
+                  >
+                    <div class="custom-item-title">Text Align</div>
+                    <div class="custom-item-body text-center">
+                      <div class="btn-group" role="group" aria-label="...">
+                        <button
+                          type="button"
+                          class="btn btn-primary"
+                          [ngClass]="{
+                            active: canvas.props.textAlign == 'left'
+                          }"
+                          (click)="setTextAlign('left')"
+                        >
+                          <i class="fa fa-align-left"></i>
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-primary"
+                          [ngClass]="{
+                            active: canvas.props.textAlign == 'center'
+                          }"
+                          (click)="setTextAlign('center')"
+                        >
+                          <i class="fa fa-align-center"></i>
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-primary"
+                          [ngClass]="{
+                            active: canvas.props.textAlign == 'right'
+                          }"
+                          (click)="setTextAlign('right')"
+                        >
+                          <i class="fa fa-align-right"></i>
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-primary"
+                          [ngClass]="{
+                            active: canvas.props.textAlign == 'justify'
+                          }"
+                          (click)="setTextAlign('justify')"
+                        >
+                          <i class="fa fa-align-justify"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="custom-item"
+                    *ngIf="canvas.selected && canvas.textEditor"
+                  >
+                    <div class="custom-item-title">Style</div>
+                    <div class="custom-item-body text-center">
+                      <div class="btn-group" role="group" aria-label="...">
+                        <button
+                          type="button"
+                          class="btn btn-primary btn-sm"
+                          [ngClass]="{ active: canvas.props.fontWeight }"
+                          (click)="setBold()"
+                        >
+                          <i class="fa fa-bold"></i>
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-primary btn-sm"
+                          [ngClass]="{ active: canvas.props.fontStyle }"
+                          (click)="setFontStyle()"
+                        >
+                          <i class="fa fa-italic"></i>
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-primary btn-sm"
+                          [ngClass]="{ active: hasTextDecoration('underline') }"
+                          (click)="setTextDecoration('underline')"
+                        >
+                          <i class="fa fa-underline"></i>
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-primary btn-sm"
+                          [ngClass]="{ active: hasTextDecoration('overline') }"
+                          (click)="setTextDecoration('overline')"
+                        >
+                          <i class="fa fa-underline fa-flip-vertical"></i>
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-primary btn-sm"
+                          [ngClass]="{
+                            active: hasTextDecoration('line-through')
+                          }"
+                          (click)="setTextDecoration('line-through')"
+                        >
+                          <i class="fa fa-strikethrough"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="custom-item"
+                    *ngIf="canvas.selected && canvas.textEditor"
+                  >
+                    <div class="custom-item-title">Font Size</div>
+                    <div class="custom-item-body">
+                      <input
+                        type="range"
+                        [(ngModel)]="canvas.props.fontSize"
+                        (change)="setFontSize()"
+                        step="1"
+                        min="1"
+                        max="120"
+                      />{{ canvas.props.fontSize }}
+                    </div>
+                  </div>
+                  <div
+                    class="custom-item"
+                    *ngIf="canvas.selected && canvas.textEditor"
+                  >
+                    <div class="custom-item-title">Line Height</div>
+                    <div class="custom-item-body">
+                      <input
+                        type="range"
+                        [(ngModel)]="canvas.props.lineHeight"
+                        (change)="setLineHeight()"
+                        step="0.1"
+                        min="0"
+                        max="10"
+                      />{{ canvas.props.lineHeight }}
+                    </div>
+                  </div>
+                  <div
+                    class="custom-item"
+                    *ngIf="canvas.selected && canvas.textEditor"
+                  >
+                    <div class="custom-item-title">Char Spacing</div>
+                    <div class="custom-item-body">
+                      <input
+                        type="range"
+                        [(ngModel)]="canvas.props.charSpacing"
+                        (change)="setCharSpacing()"
+                        step="10"
+                        min="-200"
+                        max="800"
+                      />{{ canvas.props.charSpacing }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </s-tab-item-body>
+      </s-tab-item>
+      <s-tab-item>
+        <s-tab-item-header>
+          Advanced
+        </s-tab-item-header>
+        <s-tab-item-body>
+          <div class="columns">
+            <!-- Size -->
+            <div class="card">
+              <div class="card-header">Size</div>
+              <div class="card-body">
+                <div class="form-group">
+                  <div class="input-group">
+                    <input
+                      type="text"
+                      class="form-control"
+                      [(ngModel)]="canvas.size.width"
+                      (keyup)="changeSize()"
+                    />
+                    <div class="input-group-append">
+                      <span class="input-group-text">
+                        Width
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="input-group mb-3">
+                    <input
+                      type="text"
+                      class="form-control"
+                      [(ngModel)]="canvas.size.height"
+                      (keyup)="changeSize()"
+                    />
+                    <div class="input-group-append">
+                      <span class="input-group-text">
+                        Height
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Background -->
+            <div class="card" *ngIf="!canvas.selected">
+              <div class="card-header">Canvas</div>
+              <div class="card-body">
+                <div class="custom-item" *ngIf="!canvas.props.canvasImage">
+                  <div class="custom-item-title">Background Color</div>
+                  <div class="custom-item-body">
+                    <input
+                      type="text"
+                      class="form-control"
+                      [cpPosition]="'bottom'"
+                      [(colorPicker)]="canvas.props.canvasFill"
+                      [style.background]="canvas.props.canvasFill"
+                      [value]="canvas.props.canvasFill"
+                      (colorPickerChange)="setCanvasFill()"
+                    />
+                  </div>
+                </div>
+                <div class="custom-item">
+                  <div class="custom-item-title">Background Image (url)</div>
+                  <div class="custom-item-body">
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="http://example.jpg"
+                      [(ngModel)]="canvas.props.canvasImage"
+                      (keyup)="setCanvasImage()"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- To JSON -->
+            <div class="card">
+              <div class="card-header">
+                <button
+                  type="button"
+                  class="btn btn-primary btn-sm"
+                  (click)="rasterizeJSON()"
+                >
+                  <i class="fa fa-refresh" aria-hidden="true"></i> Render to
+                  json
+                </button>
+              </div>
+              <div class="card-body">
+                <pre>{{ canvas.json }}</pre>
+              </div>
+            </div>
+          </div>
+        </s-tab-item-body>
+      </s-tab-item>
+    </s-tabs>
+  </div>
+</div>
