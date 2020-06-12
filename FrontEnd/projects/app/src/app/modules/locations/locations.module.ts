@@ -15,8 +15,15 @@ import {
   SMenuModule,
   SToastService,
   SToastModule,
+  STooltipDirectiveModule,
+  SAccordionModule,
+  SSliderModule,
+  SAutocompleteModule,
+  SFormModule,
+  SBadgeDirectiveModule,
 } from '@ngx-spectre/common';
 import { SaveToastComponent } from './components/save-toast/save-toast.component';
+import { StartWithPipe } from '../../shared/pipes/start-with.pipe';
 
 @NgModule({
   imports: [
@@ -32,8 +39,15 @@ import { SaveToastComponent } from './components/save-toast/save-toast.component
     SMenuModule,
     SToastModule,
     OverlayModule,
+    STooltipDirectiveModule,
+    SAccordionModule,
+    SSliderModule,
+    SAutocompleteModule,
+    SMenuModule,
+    SFormModule,
+    SBadgeDirectiveModule,
   ],
   declarations: [EditComponent, SaveToastComponent],
-  providers: [SToastService],
+  providers: [SToastService, StartWithPipe],
 })
 export class LocationsModule {}

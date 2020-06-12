@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { FabricjsEditorComponent } from 'projects/fabricjs-editor/src/public-api';
 import { SToastConfig, SToastService } from '@ngx-spectre/common';
 import { SaveToastComponent } from '../../components/save-toast/save-toast.component';
+import { KeyValue } from '@angular/common';
+import { StartWithPipe } from 'projects/app/src/app/shared/pipes/start-with.pipe';
 
 @Component({
   selector: 'app-edit',
@@ -12,11 +14,83 @@ export class EditComponent implements OnInit, AfterViewInit {
   @ViewChild('canvas', { static: false }) canvas: FabricjsEditorComponent;
 
   public location: any;
+  public fonts: any[] = [];
 
-  constructor(private sToastService: SToastService) {}
+  constructor(
+    private sToastService: SToastService,
+    private startWithPipe: StartWithPipe
+  ) {}
 
   ngOnInit() {
     this.location = { name: "Mar'Salma" };
+    this.fonts = [
+      {
+        value: 'arial',
+        displayValue: 'Arial',
+      },
+      {
+        value: 'helvetica',
+        displayValue: 'Helvetica',
+      },
+      {
+        value: 'verdana',
+        displayValue: 'Verdana',
+      },
+      {
+        value: 'courier',
+        displayValue: 'Courier',
+      },
+      {
+        value: 'Roboto',
+        displayValue: 'Roboto',
+      },
+      {
+        value: 'Open Sans',
+        displayValue: 'Open Sans',
+      },
+      {
+        value: 'Zilla Slab',
+        displayValue: 'Zilla Slab',
+      },
+      {
+        value: 'Lato',
+        displayValue: 'Lato',
+      },
+      {
+        value: 'Bellefair',
+        displayValue: 'Bellefair',
+      },
+      {
+        value: 'Fresca',
+        displayValue: 'Fresca',
+      },
+      {
+        value: 'Raleway',
+        displayValue: 'Raleway',
+      },
+      {
+        value: 'Indie Flower',
+        displayValue: 'Indie Flower',
+      },
+      {
+        value: 'Josefin Sans',
+        displayValue: 'Josefin Sans',
+      },
+      {
+        value: 'Inconsolata',
+        displayValue: 'Inconsolata',
+      },
+      {
+        value: 'Pacifico',
+        displayValue: 'Pacifico',
+      },
+      {
+        value: 'Gloria Hallelujah',
+        displayValue: 'Gloria Hallelujah',
+      },
+    ];
+
+    this.selectedFont = this.fonts[1];
   }
 
   ngAfterViewInit(): void {
@@ -25,6 +99,14 @@ export class EditComponent implements OnInit, AfterViewInit {
       this.canvas.size.height = 600;
       this.changeSize();
     });
+  }
+
+  public fontsFilter(items: KeyValue<string, string>[], search: string): any[] {
+    if (this.startWithPipe) {
+      return this.startWithPipe.transform(this.fonts, search, 'value');
+    } else {
+      return this.fonts;
+    }
   }
 
   public onUploadImage(): void {
@@ -42,8 +124,8 @@ export class EditComponent implements OnInit, AfterViewInit {
     this.addText();
   }
 
-  public onAddFigure(): void {
-    this.addFigure('rectangle');
+  public onAddFigure(form: string): void {
+    this.addFigure(form);
   }
 
   public rasterize() {
@@ -152,8 +234,8 @@ export class EditComponent implements OnInit, AfterViewInit {
     this.canvas.setFontStyle();
   }
 
-  public hasTextDecoration(value) {
-    this.canvas.hasTextDecoration(value);
+  public hasTextDecoration(value): boolean {
+    return this.canvas.hasTextDecoration(value);
   }
 
   public setTextDecoration(value) {

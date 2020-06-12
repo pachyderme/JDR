@@ -233,6 +233,13 @@ export class FabricjsEditorComponent implements AfterViewInit {
           fill: '#ff5722',
         });
         break;
+      case 'line':
+        add = new fabric.Line([250, 125, 250, 175], {
+          fill: 'blue',
+          stroke: 'green',
+          strokeWidth: 5,
+        });
+        break;
     }
     this.extend(add, this.randomId());
     this.canvas.add(add);
@@ -268,17 +275,10 @@ export class FabricjsEditorComponent implements AfterViewInit {
   }
 
   setCanvasImage() {
-    const self = this;
     if (this.props.canvasImage) {
-      this.canvas.setBackgroundColor(
-        new fabric.Pattern({
-          source: this.props.canvasImage,
-          repeat: 'repeat',
-        }),
-        () => {
-          self.props.canvasFill = '';
-          self.canvas.renderAll();
-        }
+      this.canvas.setBackgroundImage(
+        this.props.canvasImage,
+        this.canvas.renderAll.bind(this.canvas)
       );
     }
   }
