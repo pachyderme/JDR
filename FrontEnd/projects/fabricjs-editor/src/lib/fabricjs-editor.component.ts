@@ -141,6 +141,28 @@ export class FabricjsEditorComponent implements AfterViewInit {
         this.drawingMouseCanvas.renderAll();
       }
     });
+
+    this.canvas.on('mouse:wheel', (e) => {
+      const wheelEvent = e.e as WheelEvent;
+
+      const delta = wheelEvent.deltaY;
+      let zoom = this.canvas.getZoom();
+
+      if (delta > 0) {
+        zoom = zoom / 1.1;
+      } else {
+        zoom = zoom * 1.1;
+      }
+
+      if (zoom > 10) zoom = 10;
+      if (zoom < 0.5) zoom = 0.5;
+
+      const point = new fabric.Point(wheelEvent.offsetX, wheelEvent.offsetY);
+      this.canvas.zoomToPoint(point, zoom);
+
+      e.e.preventDefault();
+      e.e.stopPropagation();
+    });
   }
 
   public getBrushTextureFromImage(url: string): fabric.PatternBrush {
