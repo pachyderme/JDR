@@ -204,13 +204,13 @@
             <section>
               <s-divider [vertical]="true"></s-divider>
             </section>
-            <section class="col-7 columns editor-container">
+            <section class="col-8 column editor-container">
               <jdr-fabricjs-editor class="editor" #canvas></jdr-fabricjs-editor>
             </section>
             <section>
               <s-divider [vertical]="true"></s-divider>
             </section>
-            <section class="col-lg-2">
+            <section class="col-2 column">
               <!-- Brush -->
               <section class="column" *ngIf="canvas.drawing">
                 <div>Width</div>
@@ -225,7 +225,7 @@
                 <div>Color</div>
                 <input
                   type="text"
-                  class="form-control"
+                  class="form-input"
                   [cpPosition]="'bottom'"
                   [(colorPicker)]="canvas.props.brushColor"
                   [style.background]="canvas.props.brushColor"
@@ -235,7 +235,7 @@
                 <div>Shadow color</div>
                 <input
                   type="text"
-                  class="form-control"
+                  class="form-input"
                   [cpPosition]="'bottom'"
                   [(colorPicker)]="canvas.props.brushShadowColor"
                   [style.background]="canvas.props.brushShadowColor"
@@ -254,7 +254,6 @@
               </section>
               <s-accordion
                 [arrow]="true"
-                [group]="true"
                 id="demo-accordion-group-1"
                 *ngIf="!canvas.drawing"
               >
@@ -302,7 +301,7 @@
                     <div>Fill</div>
                     <input
                       type="text"
-                      class="form-control"
+                      class="form-input"
                       [cpPosition]="'bottom'"
                       [(colorPicker)]="canvas.props.fill"
                       [style.background]="canvas.props.fill"
@@ -503,11 +502,7 @@
                   </div>
                 </s-accordion-body>
               </s-accordion>
-              <s-accordion
-                [arrow]="true"
-                [group]="true"
-                id="demo-accordion-group-2"
-              >
+              <s-accordion [arrow]="true" id="demo-accordion-group-2">
                 <s-accordion-header>
                   Images
                 </s-accordion-header>

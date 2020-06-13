@@ -57,7 +57,6 @@ export class FabricjsEditorComponent implements AfterViewInit {
       hoverCursor: 'pointer',
       selection: true,
       selectionBorderColor: 'blue',
-      freeDrawingCursor: 'none',
     });
 
     this.drawingMouseCanvas = new fabric.StaticCanvas(
@@ -67,40 +66,11 @@ export class FabricjsEditorComponent implements AfterViewInit {
     this.canvas.on({
       'object:moving': (e) => {},
       'object:modified': (e) => {},
-      'object:selected': (e) => {
-        const selectedObject = e.target;
-        this.selected = selectedObject;
-        selectedObject.hasRotatingPoint = true;
-        selectedObject.transparentCorners = false;
-        selectedObject.cornerColor = 'rgba(255, 87, 34, 0.7)';
-
-        this.resetPanels();
-
-        if (selectedObject.type !== 'group' && selectedObject) {
-          this.getId();
-          this.getOpacity();
-
-          switch (selectedObject.type) {
-            case 'rect':
-            case 'circle':
-            case 'triangle':
-              this.figureEditor = true;
-              this.getFill();
-              break;
-            case 'i-text':
-              this.textEditor = true;
-              this.getLineHeight();
-              this.getCharSpacing();
-              this.getBold();
-              this.getFill();
-              this.getTextDecoration();
-              this.getTextAlign();
-              this.getFontFamily();
-              break;
-            case 'image':
-              break;
-          }
-        }
+      'selection:updated': (e) => {
+        this.onSelection(e);
+      },
+      'selection:created': (e) => {
+        this.onSelection(e);
       },
       'selection:cleared': (e) => {
         this.selected = null;
@@ -165,6 +135,47 @@ export class FabricjsEditorComponent implements AfterViewInit {
     });
   }
 
+  private onSelection(e: any): void {
+    const selectedObject = e.target as fabric.Object;
+    this.selected = selectedObject;
+    selectedObject.hasRotatingPoint = true;
+    selectedObject.transparentCorners = false;
+    selectedObject.borderDashArray = [3, 3];
+    selectedObject.borderColor = '#555';
+    selectedObject.cornerColor = '#EEE';
+    selectedObject.cornerStrokeColor = '#888';
+    selectedObject.cornerStyle = 'circle';
+    selectedObject.cornerSize = 15;
+
+    this.resetPanels();
+
+    if (selectedObject.type !== 'group' && selectedObject) {
+      this.getId();
+      this.getOpacity();
+
+      switch (selectedObject.type) {
+        case 'rect':
+        case 'circle':
+        case 'triangle':
+          this.figureEditor = true;
+          this.getFill();
+          break;
+        case 'i-text':
+          this.textEditor = true;
+          this.getLineHeight();
+          this.getCharSpacing();
+          this.getBold();
+          this.getFill();
+          this.getTextDecoration();
+          this.getTextAlign();
+          this.getFontFamily();
+          break;
+        case 'image':
+          break;
+      }
+    }
+  }
+
   public getBrushTextureFromImage(url: string): fabric.PatternBrush {
     var img = new Image();
     img.src = url;
@@ -179,7 +190,7 @@ export class FabricjsEditorComponent implements AfterViewInit {
     // canvas dimensions
     let canvasSize = {
       width: 1200,
-      height: 500,
+      height: 700,
     };
     // canvas container dimensions
     let containerSize = {
@@ -213,8 +224,8 @@ export class FabricjsEditorComponent implements AfterViewInit {
         fontFamily: 'helvetica',
         angle: 0,
         fill: '#000000',
-        scaleX: 0.5,
-        scaleY: 0.5,
+        scaleX: 1.5,
+        scaleY: 1.5,
         fontWeight: '',
         hasRotatingPoint: true,
       });
@@ -367,10 +378,16 @@ export class FabricjsEditorComponent implements AfterViewInit {
 
   setCanvasImage() {
     if (this.props.canvasImage) {
-      this.canvas.setBackgroundImage(
-        this.props.canvasImage,
-        this.canvas.renderAll.bind(this.canvas)
-      );
+      const img = new fabric.Pattern({
+        source: this.props.canvasImage,
+        repeat: 'repeat',
+      });
+
+      this.canvas.setBackgroundColor(img, () => {
+        setTimeout(() => {
+          this.canvas.renderAll();
+        }, 100);
+      });
     }
   }
 
@@ -731,18 +748,19 @@ export class FabricjsEditorComponent implements AfterViewInit {
         this.canvas.freeDrawingBrush = this.getBrushTextureFromImage(
           this.props.brushTextureImage
         );
+        this.changeBrushShadow();
       }
 
       this.canvas.freeDrawingBrush.width = this.props.brushWidth;
       this.canvas.freeDrawingBrush.color = this.props.brushColor;
 
-      var cursorOpacity = 0;
+      var cursorOpacity = 0.15;
       this.drawingMouseCursorForm = new fabric.Circle({
         left: 0,
         top: 0,
         radius: this.canvas.freeDrawingBrush.width / 2,
-        fill: 'rgba(255,0,0,' + cursorOpacity + ')',
-        stroke: this.canvas.freeDrawingBrush.color,
+        fill: 'rgba(255,255,255,' + cursorOpacity + ')',
+        stroke: '#fff',
         originX: 'center',
         originY: 'center',
         opacity: 0,

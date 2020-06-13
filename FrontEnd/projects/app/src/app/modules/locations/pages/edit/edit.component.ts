@@ -95,11 +95,19 @@ export class EditComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.canvas.size.width = 800;
-      this.canvas.size.height = 600;
-      this.changeSize();
+      // lava
+      // this.canvas.props.brushTextureImage =
+      //   'https://cdn.discordapp.com/attachments/552494232208932864/721367903123013632/ad013159801ce0b18997af2215b74ac9.jpg';
       this.canvas.props.brushTextureImage =
-        'https://cdn.discordapp.com/attachments/552494232208932864/721367903123013632/ad013159801ce0b18997af2215b74ac9.jpg';
+        '../../../../../assets/img/flaw.png';
+      this.canvas.props.brushShadowColor = 'rgba(250, 250, 250, 0.5)';
+      this.canvas.props.canvasImage = '../../../../../assets/img/ground.jpg';
+      this.canvas.props.brushShadowWidth = 35;
+      this.canvas.props.brushWidth = 140;
+      this.setCanvasImage();
+      setTimeout(() => {
+        this.onBrushShadowChange();
+      });
     });
   }
 
@@ -161,9 +169,7 @@ export class EditComponent implements OnInit, AfterViewInit {
   }
 
   public onAddImage(): void {
-    this.canvas.addImageOnCanvas(
-      'https://www.tvovermind.com/wp-content/uploads/2019/12/Baby-Yoda.jpg'
-    );
+    this.canvas.addImageOnCanvas('../../../../../assets/img/mountain_1.png');
   }
 
   public onAddText(): void {
