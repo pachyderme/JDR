@@ -4,7 +4,7 @@ import { SToastConfig, SToastService } from '@ngx-spectre/common';
 import { SaveToastComponent } from '../../components/save-toast/save-toast.component';
 import { KeyValue } from '@angular/common';
 import { StartWithPipe } from 'projects/app/src/app/shared/pipes/start-with.pipe';
-
+import { CdkDragDrop, CdkDragEnd } from '@angular/cdk/drag-drop';
 @Component({
   selector: 'app-edit',
   templateUrl: './edit.component.html',
@@ -17,6 +17,9 @@ export class EditComponent implements OnInit, AfterViewInit {
   public fonts: any[] = [];
   public brushcShadowColor: string = '#000';
   public brushcShadowWidth: number = 30;
+  public images: any[] = [];
+  public canvasItems: any[];
+  public lastMouseCoords: MouseEvent;
 
   constructor(
     private sToastService: SToastService,
@@ -91,6 +94,25 @@ export class EditComponent implements OnInit, AfterViewInit {
         displayValue: 'Gloria Hallelujah',
       },
     ];
+
+    this.images = [
+      {
+        url: '../../../../../assets/img/flaw.png',
+      },
+      {
+        url: '../../../../../assets/img/ground.jpg',
+      },
+      {
+        url: '../../../../../assets/img/mountain_1.png',
+      },
+      {
+        url: '../../../../../assets/img/water.jpg',
+      },
+    ];
+
+    document.addEventListener('mousemove', (e: MouseEvent) => {
+      this.lastMouseCoords = e;
+    });
   }
 
   ngAfterViewInit(): void {
@@ -109,6 +131,19 @@ export class EditComponent implements OnInit, AfterViewInit {
         this.onBrushShadowChange();
       });
     });
+  }
+
+  public drop(event: CdkDragDrop<string[]>): void {
+    if (
+      event.previousContainer !== event.container &&
+      event.isPointerOverContainer
+    ) {
+      const item = event.previousContainer.data[event.previousIndex] as any;
+      const imgElement = event.item.element.nativeElement as HTMLImageElement;
+      const width = imgElement.clientWidth;
+      const height = imgElement.clientHeight;
+      this.canvas.dropImage(this.lastMouseCoords, item.url, width, height);
+    }
   }
 
   public fontsFilter(items: KeyValue<string, string>[], search: string): any[] {

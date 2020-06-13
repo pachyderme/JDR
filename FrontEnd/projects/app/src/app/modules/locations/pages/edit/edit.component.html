@@ -204,7 +204,13 @@
             <section>
               <s-divider [vertical]="true"></s-divider>
             </section>
-            <section class="col-8 column editor-container">
+            <section
+              class="col-8 column editor-container"
+              cdkDropList
+              #canvasContainer="cdkDropList"
+              [cdkDropListData]="canvasItems"
+              (cdkDropListDropped)="drop($event)"
+            >
               <jdr-fabricjs-editor class="editor" #canvas></jdr-fabricjs-editor>
             </section>
             <section>
@@ -507,29 +513,25 @@
                   Images
                 </s-accordion-header>
                 <s-accordion-body>
-                  <img
-                    id="testImage"
-                    *ngIf="canvas.url"
-                    class="images-item-upload"
-                    [src]="canvas.url"
-                    (click)="addImageOnCanvas(canvas.url)"
-                  />
-                  <input type="file" (change)="readUrl($event)" />
-                  <div
-                    class="btn-group btn-group-justified"
-                    role="group"
-                    aria-label="..."
+                  <label class="btn btn-sm btn-action s-circle add-file-button">
+                    <input
+                      type="file"
+                      style="display: none;"
+                      (change)="readUrl($event)"
+                    />
+                    <i class="icon icon-plus"></i>
+                  </label>
+                  <section
+                    class="columns col-12 images-container"
+                    cdkDropList
+                    #imagesContainer="cdkDropList"
+                    [cdkDropListData]="images"
+                    [cdkDropListConnectedTo]="[canvasContainer]"
                   >
-                    <div class="btn-group" role="group">
-                      <button
-                        type="button"
-                        class="btn btn-outline-danger btn-sm"
-                        (click)="removeWhite(canvas.url)"
-                      >
-                        <i class="fa fa-times" aria-hidden="true"></i> Remove
-                      </button>
+                    <div class="column col-6" *ngFor="let item of images">
+                      <img [src]="item.url" class="img-responsive" cdkDrag />
                     </div>
-                  </div>
+                  </section>
                 </s-accordion-body>
               </s-accordion>
             </section>

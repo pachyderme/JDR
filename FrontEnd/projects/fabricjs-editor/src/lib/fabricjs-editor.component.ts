@@ -56,7 +56,8 @@ export class FabricjsEditorComponent implements AfterViewInit {
     this.canvas = new fabric.Canvas(this.htmlCanvas.nativeElement, {
       hoverCursor: 'pointer',
       selection: true,
-      selectionBorderColor: 'blue',
+      selectionBorderColor: '#DDD',
+      selectionColor: 'rgba(200, 200, 200, 0.25)',
     });
 
     this.drawingMouseCanvas = new fabric.StaticCanvas(
@@ -259,19 +260,39 @@ export class FabricjsEditorComponent implements AfterViewInit {
 
   // Block "Upload Image"
 
-  addImageOnCanvas(url) {
+  addImageOnCanvas(
+    url: string,
+    top: number = 10,
+    left: number = 10,
+    width?: number,
+    height?: number
+  ) {
     if (url) {
       fabric.Image.fromURL(url, (image) => {
+        if (width) {
+          left = left - width / 2;
+        }
+
+        if (height) {
+          top = top - height / 2;
+        }
+
         image.set({
-          left: 10,
-          top: 10,
+          left,
+          top,
           angle: 0,
           padding: 10,
           cornerSize: 10,
           hasRotatingPoint: true,
         });
-        image.scaleToWidth(200);
-        image.scaleToHeight(200);
+
+        if (width) {
+          image.scaleToWidth(width);
+        }
+
+        if (height) {
+          image.scaleToHeight(height);
+        }
         this.extend(image, this.randomId());
         this.canvas.add(image);
         this.selectItemAfterAdded(image);
@@ -792,5 +813,17 @@ export class FabricjsEditorComponent implements AfterViewInit {
       offsetX: 0,
       offsetY: 0,
     });
+  }
+
+  public dropImage(
+    point: any,
+    url: string,
+    width: number,
+    height: number
+  ): void {
+    var m = this.canvas.viewportTransform;
+    const pointer = this.canvas.getPointer(point, false);
+
+    this.addImageOnCanvas(url, pointer.y, pointer.x, width, height);
   }
 }

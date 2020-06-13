@@ -28,3 +28,16 @@
 .editor-container {
   padding-bottom: 12px;
 }
+
+.add-file-button {
+  float: right;
+}
+
+.images-container img {
+  transition: box-shadow 0.25s ease-in-out;
+  cursor: move;
+}
+
+.images-container img:hover {
+  box-shadow: 0 0.25rem 1rem rgba(48, 55, 66, 0.15);
+}

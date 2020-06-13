@@ -24,6 +24,7 @@ import {
 } from '@ngx-spectre/common';
 import { SaveToastComponent } from './components/save-toast/save-toast.component';
 import { StartWithPipe } from '../../shared/pipes/start-with.pipe';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
   imports: [
@@ -46,6 +47,7 @@ import { StartWithPipe } from '../../shared/pipes/start-with.pipe';
     SMenuModule,
     SFormModule,
     SBadgeDirectiveModule,
+    DragDropModule,
   ],
   declarations: [EditComponent, SaveToastComponent],
   providers: [SToastService, StartWithPipe],
