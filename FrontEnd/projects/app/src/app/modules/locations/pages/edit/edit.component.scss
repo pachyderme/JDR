@@ -15,10 +15,16 @@
 
 .editor {
   margin-top: 12px;
+  width: 100%;
+  height: 100%;
 }
 
 .activate-badge {
   display: inline-block;
   position: absolute;
   right: 0;
+}
+
+.editor-container {
+  padding-bottom: 12px;
 }

@@ -15,6 +15,8 @@ export class EditComponent implements OnInit, AfterViewInit {
 
   public location: any;
   public fonts: any[] = [];
+  public brushcShadowColor: string = '#000';
+  public brushcShadowWidth: number = 30;
 
   constructor(
     private sToastService: SToastService,
@@ -89,8 +91,6 @@ export class EditComponent implements OnInit, AfterViewInit {
         displayValue: 'Gloria Hallelujah',
       },
     ];
-
-    this.selectedFont = this.fonts[1];
   }
 
   ngAfterViewInit(): void {
@@ -98,6 +98,8 @@ export class EditComponent implements OnInit, AfterViewInit {
       this.canvas.size.width = 800;
       this.canvas.size.height = 600;
       this.changeSize();
+      this.canvas.props.brushTextureImage =
+        'https://cdn.discordapp.com/attachments/552494232208932864/721367903123013632/ad013159801ce0b18997af2215b74ac9.jpg';
     });
   }
 
@@ -107,6 +109,51 @@ export class EditComponent implements OnInit, AfterViewInit {
     } else {
       return this.fonts;
     }
+  }
+
+  public onDrawMenuClick(item: string): void {
+    switch (item) {
+      case 'brush':
+        if (this.canvas.selected) {
+          this.cleanSelect();
+          this.canvas.setDrawingMode(true);
+        } else {
+          this.canvas.setDrawingMode(!this.canvas.drawing);
+        }
+        break;
+      case 'move':
+        this.canvas.setDrawingMode(false);
+        break;
+      case 'line':
+      case 'square':
+      case 'triangle':
+      case 'circle':
+      case 'rectangle':
+        this.onAddFigure(item);
+        break;
+      case 'text':
+        this.onAddText();
+        break;
+      case 'image':
+        this.onAddImage();
+        break;
+    }
+
+    if (item !== 'brush') {
+      this.canvas.setDrawingMode(false);
+    }
+  }
+
+  public onBrushShadowChange(): void {
+    this.canvas.changeBrushShadow();
+  }
+
+  public onBrushWidthChange(): void {
+    this.canvas.changeBrushWidth();
+  }
+
+  public onBrushColorChange(): void {
+    this.canvas.changeBrushColor();
   }
 
   public onUploadImage(): void {
@@ -151,7 +198,7 @@ export class EditComponent implements OnInit, AfterViewInit {
   }
 
   public changeSize() {
-    this.canvas.changeSize();
+    // this.canvas.changeSize();
   }
 
   public addText() {

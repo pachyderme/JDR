@@ -110,9 +110,37 @@
                 <div class="column col-12">
                   <button
                     class="btn btn-link column col-6"
+                    [sTooltip]="'Add line'"
+                    [sTooltipDirection]="'bottom'"
+                    (click)="onDrawMenuClick('move')"
+                  >
+                    <div
+                      [sBadge]
+                      class="activate-badge"
+                      *ngIf="!canvas.drawing"
+                    ></div>
+                    <img src="../../../../../assets/icons/cursor.png" />
+                  </button>
+                  <button
+                    class="btn btn-link column col-6"
+                    [sTooltip]="'Brush'"
+                    [sTooltipDirection]="'bottom'"
+                    (click)="onDrawMenuClick('brush')"
+                  >
+                    <div
+                      [sBadge]
+                      class="activate-badge"
+                      *ngIf="canvas.drawing"
+                    ></div>
+                    <img src="../../../../../assets/icons/paint-brush.png" />
+                  </button>
+                </div>
+                <div class="column col-12">
+                  <button
+                    class="btn btn-link column col-6"
                     [sTooltip]="'Add image'"
                     [sTooltipDirection]="'bottom'"
-                    (click)="onAddImage()"
+                    (click)="onDrawMenuClick('image')"
                   >
                     <img src="../../../../../assets/icons/image.png" />
                   </button>
@@ -120,7 +148,7 @@
                     class="btn btn-link column col-6"
                     [sTooltip]="'Add text'"
                     [sTooltipDirection]="'bottom'"
-                    (click)="onAddText()"
+                    (click)="onDrawMenuClick('text')"
                   >
                     <img src="../../../../../assets/icons/text.png" />
                   </button>
@@ -130,7 +158,7 @@
                     class="btn btn-link column col-6"
                     [sTooltip]="'Add rectangle'"
                     [sTooltipDirection]="'bottom'"
-                    (click)="onAddFigure('rectangle')"
+                    (click)="onDrawMenuClick('rectangle')"
                   >
                     <img src="../../../../../assets/icons/rectangle.png" />
                   </button>
@@ -138,7 +166,7 @@
                     class="btn btn-link column col-6"
                     [sTooltip]="'Add circle'"
                     [sTooltipDirection]="'bottom'"
-                    (click)="onAddFigure('circle')"
+                    (click)="onDrawMenuClick('circle')"
                   >
                     <img src="../../../../../assets/icons/circle.png" />
                   </button>
@@ -148,7 +176,7 @@
                     class="btn btn-link column col-6"
                     [sTooltip]="'Add triangle'"
                     [sTooltipDirection]="'bottom'"
-                    (click)="onAddFigure('triangle')"
+                    (click)="onDrawMenuClick('triangle')"
                   >
                     <img src="../../../../../assets/icons/triangle.png" />
                   </button>
@@ -156,7 +184,7 @@
                     class="btn btn-link column col-6"
                     [sTooltip]="'Add square'"
                     [sTooltipDirection]="'bottom'"
-                    (click)="onAddFigure('square')"
+                    (click)="onDrawMenuClick('square')"
                   >
                     <img src="../../../../../assets/icons/square.png" />
                   </button>
@@ -166,7 +194,7 @@
                     class="btn btn-link column col-6"
                     [sTooltip]="'Add line'"
                     [sTooltipDirection]="'bottom'"
-                    (click)="onAddFigure('line')"
+                    (click)="onDrawMenuClick('line')"
                   >
                     <img src="../../../../../assets/icons/line.png" />
                   </button>
@@ -176,17 +204,59 @@
             <section>
               <s-divider [vertical]="true"></s-divider>
             </section>
-            <section class="col-7 columns">
+            <section class="col-7 columns editor-container">
               <jdr-fabricjs-editor class="editor" #canvas></jdr-fabricjs-editor>
             </section>
             <section>
               <s-divider [vertical]="true"></s-divider>
             </section>
             <section class="col-lg-2">
+              <!-- Brush -->
+              <section class="column" *ngIf="canvas.drawing">
+                <div>Width</div>
+                <s-slider
+                  name="slider"
+                  [(ngModel)]="canvas.props.brushWidth"
+                  [min]="0"
+                  [max]="250"
+                  (change)="onBrushWidthChange()"
+                >
+                </s-slider>
+                <div>Color</div>
+                <input
+                  type="text"
+                  class="form-control"
+                  [cpPosition]="'bottom'"
+                  [(colorPicker)]="canvas.props.brushColor"
+                  [style.background]="canvas.props.brushColor"
+                  [value]="canvas.props.brushColor"
+                  (colorPickerChange)="onBrushColorChange()"
+                />
+                <div>Shadow color</div>
+                <input
+                  type="text"
+                  class="form-control"
+                  [cpPosition]="'bottom'"
+                  [(colorPicker)]="canvas.props.brushShadowColor"
+                  [style.background]="canvas.props.brushShadowColor"
+                  [value]="canvas.props.brushShadowColor"
+                  (colorPickerChange)="onBrushShadowChange()"
+                />
+                <div>Shadow width</div>
+                <s-slider
+                  name="slider"
+                  [(ngModel)]="canvas.props.brushShadowWidth"
+                  [min]="0"
+                  [max]="100"
+                  (change)="onBrushShadowChange()"
+                >
+                </s-slider>
+              </section>
               <s-accordion
                 [arrow]="true"
                 [group]="true"
                 id="demo-accordion-group-1"
+                *ngIf="!canvas.drawing"
               >
                 <s-accordion-header>
                   Custom

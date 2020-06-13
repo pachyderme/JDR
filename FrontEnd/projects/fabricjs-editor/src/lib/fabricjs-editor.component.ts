@@ -8,6 +8,7 @@ import { fabric } from 'fabric';
 })
 export class FabricjsEditorComponent implements AfterViewInit {
   @ViewChild('htmlCanvas') htmlCanvas: ElementRef;
+  @ViewChild('htmlCursorCanvas') htmlCursorCanvas: ElementRef;
 
   private canvas: fabric.Canvas;
   public props = {
@@ -24,6 +25,11 @@ export class FabricjsEditorComponent implements AfterViewInit {
     textAlign: null,
     fontFamily: null,
     TextDecoration: '',
+    brushWidth: 50,
+    brushColor: '#000',
+    brushShadowWidth: 0,
+    brushShadowColor: '#000',
+    brushTextureImage: null,
   };
 
   public textString: string;
@@ -39,6 +45,9 @@ export class FabricjsEditorComponent implements AfterViewInit {
   private imageEditor = false;
   public figureEditor = false;
   public selected: any;
+  public drawing = false;
+  private drawingMouseCanvas: fabric.StaticCanvas;
+  private drawingMouseCursorForm: fabric.Circle;
 
   constructor() {}
 
@@ -48,7 +57,12 @@ export class FabricjsEditorComponent implements AfterViewInit {
       hoverCursor: 'pointer',
       selection: true,
       selectionBorderColor: 'blue',
+      freeDrawingCursor: 'none',
     });
+
+    this.drawingMouseCanvas = new fabric.StaticCanvas(
+      this.htmlCursorCanvas.nativeElement
+    );
 
     this.canvas.on({
       'object:moving': (e) => {},
@@ -94,23 +108,78 @@ export class FabricjsEditorComponent implements AfterViewInit {
       },
     });
 
-    this.canvas.setWidth(this.size.width);
-    this.canvas.setHeight(this.size.height);
+    window.onresize = (event) => {
+      this.fitResponsiveCanvas();
+    };
+
+    setTimeout(() => {
+      this.fitResponsiveCanvas();
+    });
 
     // get references to the html canvas element & its context
     this.canvas.on('mouse:down', (e) => {
       const canvasElement: any = document.getElementById('canvas');
     });
+
+    this.canvas.on('mouse:move', (e) => {
+      if (this.drawing) {
+        const mouse = e.pointer;
+        this.drawingMouseCursorForm.opacity = 1;
+        const canvasZoom = this.drawingMouseCanvas.getZoom();
+        const form = this.drawingMouseCursorForm.set({
+          top: mouse.y / canvasZoom,
+          left: mouse.x / canvasZoom,
+        });
+        form.setCoords();
+        this.drawingMouseCanvas.renderAll();
+      }
+    });
+
+    this.canvas.on('mouse:out', () => {
+      if (this.drawing) {
+        this.drawingMouseCursorForm.opacity = 0;
+        this.drawingMouseCanvas.renderAll();
+      }
+    });
+  }
+
+  public getBrushTextureFromImage(url: string): fabric.PatternBrush {
+    var img = new Image();
+    img.src = url;
+
+    var texturePatternBrush = new (fabric as any).PatternBrush(this.canvas);
+    (texturePatternBrush as any).source = img;
+
+    return texturePatternBrush;
+  }
+
+  public fitResponsiveCanvas(): void {
+    // canvas dimensions
+    let canvasSize = {
+      width: 1200,
+      height: 500,
+    };
+    // canvas container dimensions
+    let containerSize = {
+      width: document.getElementById('canvas-container').offsetWidth,
+      height: document.getElementById('canvas-container').offsetHeight,
+    };
+    let scaleRatio = Math.min(
+      containerSize.width / canvasSize.width,
+      containerSize.height / canvasSize.height
+    );
+    this.canvas.setWidth(containerSize.width);
+    this.canvas.setHeight(containerSize.height);
+    //set canvas zoom aspect
+    this.canvas.setZoom(scaleRatio);
+
+    this.drawingMouseCanvas.setWidth(containerSize.width);
+    this.drawingMouseCanvas.setHeight(containerSize.height);
+    //set canvas zoom aspect
+    this.drawingMouseCanvas.setZoom(scaleRatio);
   }
 
   /*------------------------Block elements------------------------*/
-
-  // Block "Size"
-
-  changeSize() {
-    this.canvas.setWidth(this.size.width);
-    this.canvas.setHeight(this.size.height);
-  }
 
   // Block "Add text"
 
@@ -629,5 +698,59 @@ export class FabricjsEditorComponent implements AfterViewInit {
     this.textEditor = false;
     this.imageEditor = false;
     this.figureEditor = false;
+  }
+
+  public setDrawingMode(drawing: boolean = true): void {
+    this.drawing = drawing;
+    this.canvas.isDrawingMode = this.drawing;
+
+    if (drawing) {
+      if (this.props.brushTextureImage) {
+        this.canvas.freeDrawingBrush = this.getBrushTextureFromImage(
+          this.props.brushTextureImage
+        );
+      }
+
+      this.canvas.freeDrawingBrush.width = this.props.brushWidth;
+      this.canvas.freeDrawingBrush.color = this.props.brushColor;
+
+      var cursorOpacity = 0;
+      this.drawingMouseCursorForm = new fabric.Circle({
+        left: 0,
+        top: 0,
+        radius: this.canvas.freeDrawingBrush.width / 2,
+        fill: 'rgba(255,0,0,' + cursorOpacity + ')',
+        stroke: this.canvas.freeDrawingBrush.color,
+        originX: 'center',
+        originY: 'center',
+        opacity: 0,
+      });
+
+      this.drawingMouseCanvas.add(this.drawingMouseCursorForm);
+    } else if (this.drawingMouseCursorForm) {
+      this.drawingMouseCanvas.remove(this.drawingMouseCursorForm);
+    }
+  }
+
+  public changeBrushWidth(): void {
+    this.canvas.freeDrawingBrush.width = this.props.brushWidth;
+    this.drawingMouseCursorForm.setRadius(this.props.brushWidth / 2);
+    this.drawingMouseCanvas.renderAll();
+  }
+
+  public changeBrushColor(): void {
+    this.canvas.freeDrawingBrush.color = this.props.brushColor;
+    this.canvas.renderAll();
+  }
+
+  public changeBrushShadow(): void {
+    (this.canvas
+      .freeDrawingBrush as fabric.PatternBrush).shadow = new fabric.Shadow({
+      color: this.props.brushShadowColor,
+      blur: this.props.brushShadowWidth,
+      affectStroke: true,
+      offsetX: 0,
+      offsetY: 0,
+    });
   }
 }
