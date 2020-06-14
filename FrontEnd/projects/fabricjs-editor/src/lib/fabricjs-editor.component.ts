@@ -48,6 +48,8 @@ export class FabricjsEditorComponent implements AfterViewInit {
   public drawing = false;
   private drawingMouseCanvas: fabric.StaticCanvas;
   private drawingMouseCursorForm: fabric.Circle;
+  private lastDrawedForm: fabric.Path;
+  private lastDrawedStroke: fabric.Path;
 
   constructor() {}
 
@@ -76,6 +78,55 @@ export class FabricjsEditorComponent implements AfterViewInit {
       'selection:cleared': (e) => {
         this.selected = null;
         this.resetPanels();
+      },
+      'path:created': (e) => {
+        const currentPath = (e as any).path as fabric.Path;
+
+        let points: fabric.Point[] = [];
+
+        if (this.lastDrawedForm) {
+          points = points.concat(this.lastDrawedForm.path);
+          this.canvas.remove(this.lastDrawedForm);
+        }
+
+        this.lastDrawedForm = currentPath;
+
+        currentPath.set({ path: currentPath.path.concat(points) });
+        let dims = (currentPath as any)._calcDimensions();
+
+        currentPath.set({
+          width: dims.width,
+          height: dims.height,
+          left: dims.left - this.props.brushWidth / 2,
+          top: dims.top - this.props.brushWidth / 2,
+          pathOffset: {
+            x: dims.width / 2 + dims.left,
+            y: dims.height / 2 + dims.top,
+          },
+          dirty: true,
+        } as any);
+
+        currentPath.setCoords();
+
+        currentPath.clone((path: fabric.Path) => {
+          if (this.lastDrawedStroke) {
+            this.canvas.remove(this.lastDrawedStroke);
+          }
+
+          this.lastDrawedStroke = path;
+
+          path.stroke = '#3F2A13';
+          path.strokeWidth += 10;
+          path.left -= 5;
+          path.top -= 5;
+          path.fill = 'rgba(0,0,0,0)';
+
+          currentPath.shadow = null;
+
+          this.canvas.add(path);
+          const index = this.canvas.getObjects().indexOf(currentPath) - 1;
+          this.canvas.moveTo(path, index);
+        });
       },
     });
 
@@ -181,7 +232,9 @@ export class FabricjsEditorComponent implements AfterViewInit {
     var img = new Image();
     img.src = url;
 
-    var texturePatternBrush = new (fabric as any).PatternBrush(this.canvas);
+    var texturePatternBrush = new (fabric as any).PatternBrush(
+      this.canvas
+    ) as fabric.PatternBrush;
     (texturePatternBrush as any).source = img;
 
     return texturePatternBrush;
@@ -769,6 +822,7 @@ export class FabricjsEditorComponent implements AfterViewInit {
         this.canvas.freeDrawingBrush = this.getBrushTextureFromImage(
           this.props.brushTextureImage
         );
+
         this.changeBrushShadow();
       }
 

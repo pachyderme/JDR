@@ -117,15 +117,16 @@ export class EditComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      // lava
-      // this.canvas.props.brushTextureImage =
-      //   'https://cdn.discordapp.com/attachments/552494232208932864/721367903123013632/ad013159801ce0b18997af2215b74ac9.jpg';
+      // brush
       this.canvas.props.brushTextureImage =
-        '../../../../../assets/img/flaw.png';
+        '../../../../../assets/img/ground.jpg';
       this.canvas.props.brushShadowColor = 'rgba(250, 250, 250, 0.5)';
-      this.canvas.props.canvasImage = '../../../../../assets/img/ground.jpg';
       this.canvas.props.brushShadowWidth = 35;
       this.canvas.props.brushWidth = 140;
+
+      // background
+      this.canvas.props.canvasImage = '../../../../../assets/img/water.jpg';
+
       this.setCanvasImage();
       setTimeout(() => {
         this.onBrushShadowChange();
@@ -177,9 +178,6 @@ export class EditComponent implements OnInit, AfterViewInit {
       case 'text':
         this.onAddText();
         break;
-      case 'image':
-        this.onAddImage();
-        break;
     }
 
     if (item !== 'brush') {
@@ -201,10 +199,6 @@ export class EditComponent implements OnInit, AfterViewInit {
 
   public onUploadImage(): void {
     console.log('TODO : Upload Image');
-  }
-
-  public onAddImage(): void {
-    this.canvas.addImageOnCanvas('../../../../../assets/img/mountain_1.png');
   }
 
   public onAddText(): void {
