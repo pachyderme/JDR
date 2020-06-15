@@ -19,15 +19,16 @@
     "@angular/platform-browser": "~9.1.6",
     "@angular/platform-browser-dynamic": "~9.1.6",
     "@angular/router": "~9.1.6",
-    "ngx-color-picker": "^9.1.0",
-    "ngx-perfect-scrollbar": "^9.0.0",
-    "@types/color": "^3.0.1",
     "@ngx-spectre/common": "0.0.8",
     "@rxweb/reactive-form-validators": "^2.0.0-rc2",
+    "@types/color": "^3.0.1",
+    "fabric": "^3.6.3",
+    "ngx-color-picker": "^9.1.0",
+    "ngx-perfect-scrollbar": "^9.0.0",
     "rxjs": "~6.5.4",
+    "ts-keycode-enum": "^1.0.6",
     "tslib": "^1.10.0",
-    "zone.js": "~0.10.2",
-    "fabric": "^3.6.3"
+    "zone.js": "~0.10.2"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.901.7",

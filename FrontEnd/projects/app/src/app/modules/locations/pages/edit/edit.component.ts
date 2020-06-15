@@ -4,7 +4,9 @@ import { SToastConfig, SToastService } from '@ngx-spectre/common';
 import { SaveToastComponent } from '../../components/save-toast/save-toast.component';
 import { KeyValue } from '@angular/common';
 import { StartWithPipe } from 'projects/app/src/app/shared/pipes/start-with.pipe';
-import { CdkDragDrop, CdkDragEnd } from '@angular/cdk/drag-drop';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import { Key } from 'ts-keycode-enum';
+
 @Component({
   selector: 'app-edit',
   templateUrl: './edit.component.html',
@@ -113,6 +115,8 @@ export class EditComponent implements OnInit, AfterViewInit {
     document.addEventListener('mousemove', (e: MouseEvent) => {
       this.lastMouseCoords = e;
     });
+
+    document.addEventListener('keydown', this.onKeyDown.bind(this));
   }
 
   ngAfterViewInit(): void {
@@ -338,5 +342,13 @@ export class EditComponent implements OnInit, AfterViewInit {
 
   public rasterizeJSON() {
     this.canvas.rasterizeJSON();
+  }
+
+  public onKeyDown(event: KeyboardEvent): void {
+    switch (event.keyCode) {
+      case Key.Delete:
+        this.removeSelected();
+        break;
+    }
   }
 }
