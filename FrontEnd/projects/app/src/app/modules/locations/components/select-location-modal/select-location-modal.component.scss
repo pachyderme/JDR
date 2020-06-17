@@ -1,0 +1,14 @@
+@import "../../../../../../../../node_modules/@ngx-spectre/common/assets/variables";
+
+::ng-deep .locations-container {
+  max-height: 50vh;
+}
+
+.locations-card-container {
+  width: 100%;
+  padding: 0.5rem;
+
+  .selected {
+    border: 1px solid $primary-color;
+  }
+}

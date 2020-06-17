@@ -1,0 +1,80 @@
+<div class="columns">
+  <div class="column col-1">
+    <button
+      class="btn btn-link column col-6"
+      [sTooltip]="'Save'"
+      [sTooltipDirection]="'bottom'"
+      (click)="onSave()"
+    >
+      <img src="../../../../../assets/icons/save.png" />
+    </button>
+    <button
+      class="btn btn-link column col-6"
+      [sTooltip]="'Load'"
+      [sTooltipDirection]="'bottom'"
+      (click)="onLoad()"
+    >
+      <img src="../../../../../assets/icons/load.png" />
+    </button>
+  </div>
+  <s-divider [vertical]="true"></s-divider>
+  <div class="column col-1">
+    <button
+      class="btn btn-link column col-6"
+      [sTooltip]="'Clear'"
+      [sTooltipDirection]="'bottom'"
+      (click)="onClear()"
+    >
+      <img src="../../../../../assets/icons/clean.png" />
+    </button>
+    <button
+      class="btn btn-link column col-6"
+      [sTooltip]="'Delete'"
+      [sTooltipDirection]="'bottom'"
+      [disabled]="!canvas.selected"
+      (click)="onRemove()"
+    >
+      <img src="../../../../../assets/icons/delete.png" />
+    </button>
+  </div>
+  <div class="column col-1">
+    <button
+      class="btn btn-link column col-6"
+      [sTooltip]="'Send to back'"
+      [sTooltipDirection]="'bottom'"
+      [disabled]="!canvas.selected"
+      (click)="onSendToBack()"
+    >
+      <img src="../../../../../assets/icons/send-to-back.png" />
+    </button>
+    <button
+      class="btn btn-link column col-6"
+      [sTooltip]="'Bring to front'"
+      [sTooltipDirection]="'bottom'"
+      [disabled]="!canvas.selected"
+      (click)="onBringToFront()"
+    >
+      <img src="../../../../../assets/icons/bring-to-front.png" />
+    </button>
+  </div>
+  <div class="column col-1">
+    <button
+      class="btn btn-link column col-6"
+      [sTooltip]="'Clone'"
+      [sTooltipDirection]="'bottom'"
+      [disabled]="!canvas.selected || canvas.selected.type == 'group'"
+      (click)="onClone()"
+    >
+      <img src="../../../../../assets/icons/clone.png" />
+    </button>
+    <button
+      class="btn btn-link column col-6"
+      [sTooltip]="'Clear selection'"
+      [sTooltipDirection]="'bottom'"
+      [disabled]="!canvas.selected"
+      (click)="onCleanSelect()"
+    >
+      <img src="../../../../../assets/icons/unselect.png" />
+    </button>
+  </div>
+</div>

@@ -6,10 +6,10 @@
     ></s-dropdown-button>
     <s-menu>
       <s-menu-item>
-        <a (click)="rasterize()">Export to image</a>
+        <a (click)="onExport()">Export to image</a>
       </s-menu-item>
       <s-menu-item>
-        <a (click)="rasterizeSVG()">Export to SVG</a>
+        <a (click)="onExportSVG()">Export to SVG</a>
       </s-menu-item>
     </s-menu>
   </s-dropdown>
@@ -24,173 +24,12 @@
         </s-tab-item-header>
         <s-tab-item-body>
           <!-- Header -->
+          <app-canvas-header [canvas]="canvas"></app-canvas-header>
           <div class="columns">
-            <div class="column col-1">
-              <button
-                class="btn btn-link column col-6"
-                [sTooltip]="'Save'"
-                [sTooltipDirection]="'bottom'"
-                (click)="saveCanvasToJSON()"
-              >
-                <img src="../../../../../assets/icons/save.png" />
-              </button>
-              <button
-                class="btn btn-link column col-6"
-                [sTooltip]="'Load'"
-                [sTooltipDirection]="'bottom'"
-                (click)="loadCanvasFromJSON()"
-              >
-                <img src="../../../../../assets/icons/load.png" />
-              </button>
-            </div>
-            <s-divider [vertical]="true"></s-divider>
-            <div class="column col-1">
-              <button
-                class="btn btn-link column col-6"
-                [sTooltip]="'Clear'"
-                [sTooltipDirection]="'bottom'"
-                (click)="confirmClear()"
-              >
-                <img src="../../../../../assets/icons/clean.png" />
-              </button>
-              <button
-                class="btn btn-link column col-6"
-                [sTooltip]="'Delete'"
-                [sTooltipDirection]="'bottom'"
-                [disabled]="!canvas.selected"
-                (click)="removeSelected()"
-              >
-                <img src="../../../../../assets/icons/delete.png" />
-              </button>
-            </div>
-            <div class="column col-1">
-              <button
-                class="btn btn-link column col-6"
-                [sTooltip]="'Send to back'"
-                [sTooltipDirection]="'bottom'"
-                [disabled]="!canvas.selected"
-                (click)="sendToBack()"
-              >
-                <img src="../../../../../assets/icons/send-to-back.png" />
-              </button>
-              <button
-                class="btn btn-link column col-6"
-                [sTooltip]="'Bring to front'"
-                [sTooltipDirection]="'bottom'"
-                [disabled]="!canvas.selected"
-                (click)="bringToFront()"
-              >
-                <img src="../../../../../assets/icons/bring-to-front.png" />
-              </button>
-            </div>
-            <div class="column col-1">
-              <button
-                class="btn btn-link column col-6"
-                [sTooltip]="'Clone'"
-                [sTooltipDirection]="'bottom'"
-                [disabled]="!canvas.selected || canvas.selected.type == 'group'"
-                (click)="clone()"
-              >
-                <img src="../../../../../assets/icons/clone.png" />
-              </button>
-              <button
-                class="btn btn-link column col-6"
-                [sTooltip]="'Clear selection'"
-                [sTooltipDirection]="'bottom'"
-                [disabled]="!canvas.selected"
-                (click)="cleanSelect()"
-              >
-                <img src="../../../../../assets/icons/unselect.png" />
-              </button>
-            </div>
-          </div>
-          <div class="columns">
-            <section class="col-1 tool-menu column">
-              <div class="columns">
-                <div class="column col-12">
-                  <button
-                    class="btn btn-link column col-6"
-                    [sTooltip]="'Add line'"
-                    [sTooltipDirection]="'bottom'"
-                    (click)="onDrawMenuClick('move')"
-                  >
-                    <div
-                      [sBadge]
-                      class="activate-badge"
-                      *ngIf="!canvas.drawing"
-                    ></div>
-                    <img src="../../../../../assets/icons/cursor.png" />
-                  </button>
-                  <button
-                    class="btn btn-link column col-6"
-                    [sTooltip]="'Brush'"
-                    [sTooltipDirection]="'bottom'"
-                    (click)="onDrawMenuClick('brush')"
-                  >
-                    <div
-                      [sBadge]
-                      class="activate-badge"
-                      *ngIf="canvas.drawing"
-                    ></div>
-                    <img src="../../../../../assets/icons/paint-brush.png" />
-                  </button>
-                </div>
-                <div class="column col-12">
-                  <button
-                    class="btn btn-link column col-6"
-                    [sTooltip]="'Add rectangle'"
-                    [sTooltipDirection]="'bottom'"
-                    (click)="onDrawMenuClick('rectangle')"
-                  >
-                    <img src="../../../../../assets/icons/rectangle.png" />
-                  </button>
-                  <button
-                    class="btn btn-link column col-6"
-                    [sTooltip]="'Add circle'"
-                    [sTooltipDirection]="'bottom'"
-                    (click)="onDrawMenuClick('circle')"
-                  >
-                    <img src="../../../../../assets/icons/circle.png" />
-                  </button>
-                </div>
-                <div class="column col-12">
-                  <button
-                    class="btn btn-link column col-6"
-                    [sTooltip]="'Add triangle'"
-                    [sTooltipDirection]="'bottom'"
-                    (click)="onDrawMenuClick('triangle')"
-                  >
-                    <img src="../../../../../assets/icons/triangle.png" />
-                  </button>
-                  <button
-                    class="btn btn-link column col-6"
-                    [sTooltip]="'Add square'"
-                    [sTooltipDirection]="'bottom'"
-                    (click)="onDrawMenuClick('square')"
-                  >
-                    <img src="../../../../../assets/icons/square.png" />
-                  </button>
-                </div>
-                <div class="column col-12">
-                  <button
-                    class="btn btn-link column col-6"
-                    [sTooltip]="'Add line'"
-                    [sTooltipDirection]="'bottom'"
-                    (click)="onDrawMenuClick('line')"
-                  >
-                    <img src="../../../../../assets/icons/line.png" />
-                  </button>
-                  <button
-                    class="btn btn-link column col-6"
-                    [sTooltip]="'Add text'"
-                    [sTooltipDirection]="'bottom'"
-                    (click)="onDrawMenuClick('text')"
-                  >
-                    <img src="../../../../../assets/icons/text.png" />
-                  </button>
-                </div>
-              </div>
-            </section>
+            <app-canvas-draw-menu
+              class="column col-1"
+              [canvas]="canvas"
+            ></app-canvas-draw-menu>
             <section>
               <s-divider [vertical]="true"></s-divider>
             </section>
@@ -199,336 +38,21 @@
               cdkDropList
               #canvasContainer="cdkDropList"
               [cdkDropListData]="canvasItems"
-              (cdkDropListDropped)="drop($event)"
+              (cdkDropListDropped)="onDrop($event)"
             >
               <jdr-fabricjs-editor class="editor" #canvas></jdr-fabricjs-editor>
             </section>
             <section>
               <s-divider [vertical]="true"></s-divider>
             </section>
-            <section class="col-2 column">
-              <!-- Brush -->
-              <section class="column" *ngIf="canvas.drawing">
-                <div>Width</div>
-                <s-slider
-                  name="slider"
-                  [(ngModel)]="canvas.props.brushWidth"
-                  [min]="0"
-                  [max]="250"
-                  (change)="onBrushWidthChange()"
-                >
-                </s-slider>
-                <div>Color</div>
-                <input
-                  type="text"
-                  class="form-input"
-                  [cpPosition]="'bottom'"
-                  [(colorPicker)]="canvas.props.brushColor"
-                  [style.background]="canvas.props.brushColor"
-                  [value]="canvas.props.brushColor"
-                  (colorPickerChange)="onBrushColorChange()"
-                />
-                <div>Shadow color</div>
-                <input
-                  type="text"
-                  class="form-input"
-                  [cpPosition]="'bottom'"
-                  [(colorPicker)]="canvas.props.brushShadowColor"
-                  [style.background]="canvas.props.brushShadowColor"
-                  [value]="canvas.props.brushShadowColor"
-                  (colorPickerChange)="onBrushShadowChange()"
-                />
-                <div>Shadow width</div>
-                <s-slider
-                  name="slider"
-                  [(ngModel)]="canvas.props.brushShadowWidth"
-                  [min]="0"
-                  [max]="100"
-                  (change)="onBrushShadowChange()"
-                >
-                </s-slider>
-              </section>
-              <s-accordion
-                [arrow]="true"
-                id="demo-accordion-group-1"
-                *ngIf="!canvas.drawing"
-              >
-                <s-accordion-header>
-                  Custom
-                </s-accordion-header>
-                <s-accordion-body>
-                  <!-- groups -->
-                  <section
-                    class="column"
-                    *ngIf="canvas.selected && canvas.selected.type == 'group'"
-                  >
-                    Group Selected
-                  </section>
-
-                  <!-- none -->
-                  <section class="column" *ngIf="!canvas.selected">
-                    No items selected
-                  </section>
-
-                  <!-- no group -->
-                  <section
-                    class="column"
-                    *ngIf="canvas.selected && canvas.selected.type != 'group'"
-                  >
-                    <div>Opacity</div>
-                    <s-slider
-                      name="slider"
-                      [(ngModel)]="canvas.props.opacity"
-                      (change)="setOpacity()"
-                      [min]="0"
-                      [max]="100"
-                    >
-                    </s-slider>
-                  </section>
-
-                  <!-- Text and Figure Fill -->
-                  <section
-                    class="column"
-                    *ngIf="
-                      (canvas.selected && canvas.textEditor) ||
-                      (canvas.selected && canvas.figureEditor)
-                    "
-                  >
-                    <div>Fill</div>
-                    <input
-                      type="text"
-                      class="form-input"
-                      [cpPosition]="'bottom'"
-                      [(colorPicker)]="canvas.props.fill"
-                      [style.background]="canvas.props.fill"
-                      [value]="canvas.props.fill"
-                      (colorPickerChange)="setFill()"
-                    />
-                  </section>
-
-                  <!-- Text -->
-                  <div *ngIf="canvas.selected && canvas.textEditor">
-                    <!-- Font family -->
-                    <section class="column">
-                      <div>Font family</div>
-                      <div>
-                        <s-select
-                          name="selectValue"
-                          [enabled]="true"
-                          [(ngModel)]="this.canvas.props.fontFamily"
-                          [items]="fonts"
-                          (change)="setFontFamily()"
-                        >
-                        </s-select>
-                      </div>
-                    </section>
-
-                    <!-- Text align -->
-                    <section class="column">
-                      <div>Text Align</div>
-                      <div class="columns">
-                        <div class="column col-12">
-                          <button
-                            class="btn btn-link column"
-                            [sTooltip]="'Align left'"
-                            [sTooltipDirection]="'bottom'"
-                            (click)="setTextAlign('left')"
-                          >
-                            <div
-                              [sBadge]
-                              class="activate-badge"
-                              *ngIf="canvas.props.textAlign == 'left'"
-                            ></div>
-                            <img
-                              src="../../../../../assets/icons/text-align-left.png"
-                            />
-                          </button>
-                          <button
-                            class="btn btn-link column"
-                            [sTooltip]="'Align center'"
-                            [sTooltipDirection]="'bottom'"
-                            (click)="setTextAlign('center')"
-                          >
-                            <div
-                              [sBadge]
-                              class="activate-badge"
-                              *ngIf="canvas.props.textAlign == 'center'"
-                            ></div>
-                            <img
-                              src="../../../../../assets/icons/text-align-center.png"
-                            />
-                          </button>
-                          <button
-                            class="btn btn-link column"
-                            [sTooltip]="'Align left'"
-                            [sTooltipDirection]="'bottom'"
-                            (click)="setTextAlign('right')"
-                          >
-                            <div
-                              [sBadge]
-                              class="activate-badge"
-                              *ngIf="canvas.props.textAlign == 'right'"
-                            ></div>
-                            <img
-                              src="../../../../../assets/icons/text-align-right.png"
-                            />
-                          </button>
-                          <button
-                            class="btn btn-link column"
-                            [sTooltip]="'Justify'"
-                            [sTooltipDirection]="'bottom'"
-                            (click)="setTextAlign('justify')"
-                          >
-                            <div
-                              [sBadge]
-                              class="activate-badge"
-                              *ngIf="canvas.props.textAlign == 'justify'"
-                            ></div>
-                            <img
-                              src="../../../../../assets/icons/text-align-justify.png"
-                            />
-                          </button>
-                        </div>
-                      </div>
-                    </section>
-
-                    <!-- Style -->
-                    <section class="column">
-                      <div>Style</div>
-                      <div class="columns">
-                        <div class="column col-12">
-                          <button
-                            class="btn btn-link column"
-                            [sTooltip]="'Bold'"
-                            [sTooltipDirection]="'bottom'"
-                            (click)="setBold()"
-                          >
-                            <div
-                              [sBadge]
-                              class="activate-badge"
-                              *ngIf="canvas.props.fontWeight"
-                            ></div>
-                            <img src="../../../../../assets/icons/bold.png" />
-                          </button>
-                          <button
-                            class="btn btn-link column"
-                            [sTooltip]="'Italic'"
-                            [sTooltipDirection]="'bottom'"
-                            (click)="setFontStyle()"
-                          >
-                            <div
-                              [sBadge]
-                              class="activate-badge"
-                              *ngIf="canvas.props.fontStyle"
-                            ></div>
-                            <img src="../../../../../assets/icons/italic.png" />
-                          </button>
-                          <button
-                            class="btn btn-link column"
-                            [sTooltip]="'Underline'"
-                            [sTooltipDirection]="'bottom'"
-                            (click)="setTextDecoration('underline')"
-                          >
-                            <div
-                              [sBadge]
-                              class="activate-badge"
-                              *ngIf="hasTextDecoration('underline')"
-                            ></div>
-                            <img
-                              src="../../../../../assets/icons/underline.png"
-                            />
-                          </button>
-                          <button
-                            class="btn btn-link column"
-                            [sTooltip]="'Line through'"
-                            [sTooltipDirection]="'bottom'"
-                            (click)="setTextDecoration('line-through')"
-                          >
-                            <div
-                              [sBadge]
-                              class="activate-badge"
-                              *ngIf="hasTextDecoration('line-through')"
-                            ></div>
-                            <img
-                              src="../../../../../assets/icons/line-through.png"
-                            />
-                          </button>
-                        </div>
-                      </div>
-                    </section>
-
-                    <!-- Font size -->
-                    <section class="column">
-                      <div>Font Size</div>
-                      <s-slider
-                        name="slider"
-                        [(ngModel)]="canvas.props.fontSize"
-                        (change)="setFontSize()"
-                        [min]="1"
-                        [max]="120"
-                      >
-                      </s-slider>
-                    </section>
-
-                    <!-- Line height -->
-                    <section class="column">
-                      <div>Line Height</div>
-                      <s-slider
-                        name="slider"
-                        [(ngModel)]="canvas.props.lineHeight"
-                        (change)="setLineHeight()"
-                        [min]="0"
-                        [max]="10"
-                      >
-                      </s-slider>
-                    </section>
-
-                    <!-- Char spacing -->
-                    <section class="column">
-                      <div>Char Spacing</div>
-                      <s-slider
-                        name="slider"
-                        [(ngModel)]="canvas.props.charSpacing"
-                        (change)="setCharSpacing()"
-                        [min]="-200"
-                        [max]="800"
-                      >
-                      </s-slider>
-                    </section>
-                  </div>
-                </s-accordion-body>
-              </s-accordion>
-              <s-accordion [arrow]="true" id="demo-accordion-group-2">
-                <s-accordion-header>
-                  Images
-                </s-accordion-header>
-                <s-accordion-body>
-                  <label class="btn btn-sm btn-action s-circle add-file-button">
-                    <input
-                      type="file"
-                      style="display: none;"
-                      (change)="readUrl($event)"
-                    />
-                    <i class="icon icon-plus"></i>
-                  </label>
-                  <section
-                    class="columns col-12 images-container"
-                    cdkDropList
-                    #imagesContainer="cdkDropList"
-                    [cdkDropListData]="images"
-                    [cdkDropListConnectedTo]="[canvasContainer]"
-                  >
-                    <div class="column col-6" *ngFor="let item of images">
-                      <img [src]="item.url" class="img-responsive" cdkDrag />
-                    </div>
-                  </section>
-                </s-accordion-body>
-              </s-accordion>
-            </section>
+            <app-canvas-advanced-menu
+              class="col-2 column"
+              [canvasContainer]="canvasContainer"
+              [canvas]="canvas"
+            ></app-canvas-advanced-menu>
           </div>
         </s-tab-item-body>
       </s-tab-item>
-
       <!-- Advanced -->
       <s-tab-item>
         <s-tab-item-header>
@@ -536,29 +60,6 @@
         </s-tab-item-header>
         <s-tab-item-body>
           <div class="columns">
-            <!-- Size -->
-            <section class="column col-12">
-              <h4>Size</h4>
-              <section class="column col-3">
-                <s-input
-                  [type]="'text'"
-                  [enabled]="true"
-                  [label]="'Width'"
-                  [(ngModel)]="canvas.size.width"
-                  (keyup)="changeSize()"
-                >
-                </s-input>
-                <s-input
-                  [type]="'text'"
-                  [enabled]="true"
-                  [label]="'Height'"
-                  [(ngModel)]="canvas.size.height"
-                  (keyup)="changeSize()"
-                >
-                </s-input>
-              </section>
-            </section>
-
             <!-- Background -->
             <section class="column col-12">
               <h4>Background</h4>
@@ -574,7 +75,7 @@
                   [(colorPicker)]="canvas.props.canvasFill"
                   [style.background]="canvas.props.canvasFill"
                   [value]="canvas.props.canvasFill"
-                  (colorPickerChange)="setCanvasFill()"
+                  (colorPickerChange)="onBackgroundFillChange()"
                 />
                 <label class="form-label" for="backgroundImage"
                   >Background image</label
@@ -585,7 +86,7 @@
                   type="text"
                   placeholder="http://example.jpg"
                   [(ngModel)]="canvas.props.canvasImage"
-                  (keyup)="setCanvasImage()"
+                  (keyup)="onBackgroundImageChange()"
                 />
               </section>
             </section>
@@ -598,7 +99,7 @@
                   name="renderToJson"
                   type="button"
                   class="btn btn-primary btn-sm"
-                  (click)="rasterizeJSON()"
+                  (click)="onExportJSON()"
                 >
                   Render to json
                 </button>

@@ -1,0 +1,37 @@
+<s-modal id="selectLocationModal" size="lg">
+  <s-modal-header (onClose)="onCloseModal($event)">
+    <h2 class="s-title">Select location</h2>
+  </s-modal-header>
+  <s-modal-body>
+    <s-scrollbar [contentClass]="'locations-container'">
+      <section class="columns locations-card-container">
+        <s-card
+          class="column col-3 col-xl-3 col-lg-3 col-sm-6 col-xs-6"
+          *ngFor="let item of items"
+          (click)="onSelectLocation(item)"
+          [ngClass]="{ selected: item === selectedLocation }"
+        >
+          <s-card-image [src]="item.src"></s-card-image>
+          <s-card-header [title]="item.name"> </s-card-header>
+        </s-card>
+      </section>
+    </s-scrollbar>
+  </s-modal-body>
+  <s-modal-footer>
+    <div class="divider"></div>
+    <div class="columns">
+      <div class="column col-12">
+        <button
+          class="btn btn-primary"
+          (click)="onCloseModal($event)"
+          [disabled]="!selectedLocation"
+        >
+          Save
+        </button>
+        <button class="btn btn-link" (click)="onCloseModal($event)">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </s-modal-footer>
+</s-modal>

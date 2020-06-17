@@ -21,10 +21,19 @@ import {
   SAutocompleteModule,
   SFormModule,
   SBadgeDirectiveModule,
+  SModalModule,
+  SCardModule,
+  SScrollbarModule,
 } from '@ngx-spectre/common';
 import { SaveToastComponent } from './components/save-toast/save-toast.component';
 import { StartWithPipe } from '../../shared/pipes/start-with.pipe';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { SelectLocationModalComponent } from './components/select-location-modal/select-location-modal.component';
+import { CanvasService } from './services/canvas.service';
+import { MediaService } from './services/media.service';
+import { CanvasHeaderComponent } from './components/canvas-header/canvas-header.component';
+import { CanvasDrawMenuComponent } from './components/canvas-draw-menu/canvas-draw-menu.component';
+import { CanvasAdvancedMenuComponent } from './components/canvas-advanced-menu/canvas-advanced-menu.component';
 
 @NgModule({
   imports: [
@@ -48,8 +57,18 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     SFormModule,
     SBadgeDirectiveModule,
     DragDropModule,
+    SModalModule,
+    SCardModule,
+    SScrollbarModule,
   ],
-  declarations: [EditComponent, SaveToastComponent],
-  providers: [SToastService, StartWithPipe],
+  declarations: [
+    EditComponent,
+    SaveToastComponent,
+    SelectLocationModalComponent,
+    CanvasHeaderComponent,
+    CanvasDrawMenuComponent,
+    CanvasAdvancedMenuComponent,
+  ],
+  providers: [SToastService, StartWithPipe, CanvasService, MediaService],
 })
 export class LocationsModule {}

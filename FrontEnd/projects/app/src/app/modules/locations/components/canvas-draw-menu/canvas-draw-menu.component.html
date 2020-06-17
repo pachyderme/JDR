@@ -1,0 +1,78 @@
+<section class="col-12 tool-menu">
+  <div class="columns">
+    <div class="column col-12">
+      <button
+        class="btn btn-link column col-6"
+        [sTooltip]="'Add line'"
+        [sTooltipDirection]="'bottom'"
+        (click)="onDrawMenuClick('move')"
+      >
+        <div [sBadge] class="activate-badge" *ngIf="!canvas.drawing"></div>
+        <img src="../../../../../assets/icons/cursor.png" />
+      </button>
+      <button
+        class="btn btn-link column col-6"
+        [sTooltip]="'Brush'"
+        [sTooltipDirection]="'bottom'"
+        (click)="onDrawMenuClick('brush')"
+      >
+        <div [sBadge] class="activate-badge" *ngIf="canvas.drawing"></div>
+        <img src="../../../../../assets/icons/paint-brush.png" />
+      </button>
+    </div>
+    <div class="column col-12">
+      <button
+        class="btn btn-link column col-6"
+        [sTooltip]="'Add rectangle'"
+        [sTooltipDirection]="'bottom'"
+        (click)="onDrawMenuClick('rectangle')"
+      >
+        <img src="../../../../../assets/icons/rectangle.png" />
+      </button>
+      <button
+        class="btn btn-link column col-6"
+        [sTooltip]="'Add circle'"
+        [sTooltipDirection]="'bottom'"
+        (click)="onDrawMenuClick('circle')"
+      >
+        <img src="../../../../../assets/icons/circle.png" />
+      </button>
+    </div>
+    <div class="column col-12">
+      <button
+        class="btn btn-link column col-6"
+        [sTooltip]="'Add triangle'"
+        [sTooltipDirection]="'bottom'"
+        (click)="onDrawMenuClick('triangle')"
+      >
+        <img src="../../../../../assets/icons/triangle.png" />
+      </button>
+      <button
+        class="btn btn-link column col-6"
+        [sTooltip]="'Add square'"
+        [sTooltipDirection]="'bottom'"
+        (click)="onDrawMenuClick('square')"
+      >
+        <img src="../../../../../assets/icons/square.png" />
+      </button>
+    </div>
+    <div class="column col-12">
+      <button
+        class="btn btn-link column col-6"
+        [sTooltip]="'Add line'"
+        [sTooltipDirection]="'bottom'"
+        (click)="onDrawMenuClick('line')"
+      >
+        <img src="../../../../../assets/icons/line.png" />
+      </button>
+      <button
+        class="btn btn-link column col-6"
+        [sTooltip]="'Add text'"
+        [sTooltipDirection]="'bottom'"
+        (click)="onDrawMenuClick('text')"
+      >
+        <img src="../../../../../assets/icons/text.png" />
+      </button>
+    </div>
+  </div>
+</section>
