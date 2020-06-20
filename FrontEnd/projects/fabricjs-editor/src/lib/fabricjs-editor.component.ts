@@ -34,10 +34,6 @@ export class FabricjsEditorComponent implements AfterViewInit {
 
   public textString: string;
   public url: string | ArrayBuffer = '';
-  public size: any = {
-    width: 500,
-    height: 800,
-  };
 
   public json: any;
   public textEditor = false;
@@ -224,12 +220,11 @@ export class FabricjsEditorComponent implements AfterViewInit {
 
   private onMouseMove(e: fabric.IEvent): void {
     if (this.drawing) {
-      const mouse = e.pointer;
       this.drawingMouseCursorForm.opacity = 1;
-      const canvasZoom = this.drawingMouseCanvas.getZoom();
+      let coords = this.canvas.getPointer(e.e, false);
       const form = this.drawingMouseCursorForm.set({
-        top: mouse.y / canvasZoom,
-        left: mouse.x / canvasZoom,
+        top: coords.y,
+        left: coords.x,
       });
       form.setCoords();
       this.drawingMouseCanvas.renderAll();
@@ -261,6 +256,11 @@ export class FabricjsEditorComponent implements AfterViewInit {
     const point = new fabric.Point(wheelEvent.offsetX, wheelEvent.offsetY);
     this.canvas.zoomToPoint(point, zoom);
 
+    if (this.drawingMouseCursorForm) {
+      this.drawingMouseCanvas.zoomToPoint(point, zoom);
+      this.drawingMouseCanvas.renderAll();
+    }
+
     e.e.preventDefault();
     e.e.stopPropagation();
   }
@@ -274,6 +274,10 @@ export class FabricjsEditorComponent implements AfterViewInit {
   public setDrawingMode(drawing: boolean = true): void {
     this.drawing = drawing;
     this.canvas.isDrawingMode = this.drawing;
+
+    if (this.drawingMouseCursorForm) {
+      this.drawingMouseCanvas.remove(this.drawingMouseCursorForm);
+    }
 
     if (drawing) {
       if (this.props.brushTextureImage) {
@@ -300,8 +304,6 @@ export class FabricjsEditorComponent implements AfterViewInit {
       });
 
       this.drawingMouseCanvas.add(this.drawingMouseCursorForm);
-    } else if (this.drawingMouseCursorForm) {
-      this.drawingMouseCanvas.remove(this.drawingMouseCursorForm);
     }
   }
 
