@@ -4,7 +4,7 @@
       class="btn btn-link column col-6"
       [sTooltip]="'Save'"
       [sTooltipDirection]="'bottom'"
-      (click)="onSave()"
+      (click)="onSaveClick()"
     >
       <img src="../../../../../assets/icons/save.png" />
     </button>
@@ -12,7 +12,7 @@
       class="btn btn-link column col-6"
       [sTooltip]="'Load'"
       [sTooltipDirection]="'bottom'"
-      (click)="onLoad()"
+      (click)="onLoadClick()"
     >
       <img src="../../../../../assets/icons/load.png" />
     </button>
@@ -23,7 +23,7 @@
       class="btn btn-link column col-6"
       [sTooltip]="'Clear'"
       [sTooltipDirection]="'bottom'"
-      (click)="onClear()"
+      (click)="onClearClick()"
     >
       <img src="../../../../../assets/icons/clean.png" />
     </button>
@@ -31,8 +31,8 @@
       class="btn btn-link column col-6"
       [sTooltip]="'Delete'"
       [sTooltipDirection]="'bottom'"
-      [disabled]="!canvas.selected"
-      (click)="onRemove()"
+      [disabled]="!hasSelectedObject()"
+      (click)="onRemoveClick()"
     >
       <img src="../../../../../assets/icons/delete.png" />
     </button>
@@ -42,8 +42,8 @@
       class="btn btn-link column col-6"
       [sTooltip]="'Send to back'"
       [sTooltipDirection]="'bottom'"
-      [disabled]="!canvas.selected"
-      (click)="onSendToBack()"
+      [disabled]="!hasSelectedObject()"
+      (click)="onSendToBackClick()"
     >
       <img src="../../../../../assets/icons/send-to-back.png" />
     </button>
@@ -51,8 +51,8 @@
       class="btn btn-link column col-6"
       [sTooltip]="'Bring to front'"
       [sTooltipDirection]="'bottom'"
-      [disabled]="!canvas.selected"
-      (click)="onBringToFront()"
+      [disabled]="!hasSelectedObject()"
+      (click)="onBringToFrontClick()"
     >
       <img src="../../../../../assets/icons/bring-to-front.png" />
     </button>
@@ -62,8 +62,8 @@
       class="btn btn-link column col-6"
       [sTooltip]="'Clone'"
       [sTooltipDirection]="'bottom'"
-      [disabled]="!canvas.selected || canvas.selected.type == 'group'"
-      (click)="onClone()"
+      [disabled]="!hasSelectedObject()"
+      (click)="onCloneClick()"
     >
       <img src="../../../../../assets/icons/clone.png" />
     </button>
@@ -71,8 +71,8 @@
       class="btn btn-link column col-6"
       [sTooltip]="'Clear selection'"
       [sTooltipDirection]="'bottom'"
-      [disabled]="!canvas.selected"
-      (click)="onCleanSelect()"
+      [disabled]="!hasSelectedObject()"
+      (click)="onCleanSelectClick()"
     >
       <img src="../../../../../assets/icons/unselect.png" />
     </button>

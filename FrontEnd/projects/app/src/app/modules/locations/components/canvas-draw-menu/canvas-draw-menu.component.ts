@@ -1,6 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { FabricjsEditorComponent } from 'projects/fabricjs-editor/src/public-api';
-import { CanvasService } from '../../services/canvas.service';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-canvas-draw-menu',
@@ -8,59 +6,43 @@ import { CanvasService } from '../../services/canvas.service';
   styleUrls: ['./canvas-draw-menu.component.scss'],
 })
 export class CanvasDrawMenuComponent implements OnInit {
-  @Input() canvas: FabricjsEditorComponent;
+  //#region Inputs
 
-  constructor(private canvasService: CanvasService) {}
+  @Input() drawing: boolean;
+
+  //#endregion
+
+  //#region Outputs
+
+  @Output() onDrawingChange: EventEmitter<boolean> = new EventEmitter<
+    boolean
+  >();
+
+  @Output() onAddFigureClick: EventEmitter<string> = new EventEmitter<string>();
+
+  @Output() onAddTextClick: EventEmitter<void> = new EventEmitter<void>();
+
+  //#endregion
+
+  constructor() {}
 
   ngOnInit() {}
 
-  public onDrawMenuClick(item: string): void {
-    this.selectMenuItem(item);
+  public onMoveClick(): void {
+    this.onDrawingChange.emit(false);
   }
 
-  private selectMenuItem(item: string): void {
-    switch (item) {
-      case 'brush':
-        this.selectBrush();
-        break;
-      case 'move':
-        this.selectMove();
-        break;
-      case 'line':
-      case 'square':
-      case 'triangle':
-      case 'circle':
-      case 'rectangle':
-        this.addFigure(item);
-        break;
-      case 'text':
-        this.addText();
-        break;
-    }
-
-    if (item !== 'brush') {
-      this.canvas.setDrawingMode(false);
-    }
+  public onBrushClick(): void {
+    this.onDrawingChange.emit(true);
   }
 
-  private addText(): void {
-    this.canvasService.addTextZone(this.canvas);
+  public onFigureClick(item: string): void {
+    this.onAddFigureClick.emit(item);
+    this.onDrawingChange.emit(false);
   }
 
-  private addFigure(form: string): void {
-    this.canvasService.addFigure(form, this.canvas);
-  }
-
-  private selectBrush(): void {
-    if (this.canvas.selected) {
-      this.canvasService.cleanSelect(this.canvas);
-      this.canvasService.setDrawingMode(true, this.canvas);
-    } else {
-      this.canvasService.setDrawingMode(!this.canvas.drawing, this.canvas);
-    }
-  }
-
-  private selectMove(): void {
-    this.canvasService.setDrawingMode(false, this.canvas);
+  public onTextClick(): void {
+    this.onAddTextClick.emit();
+    this.onDrawingChange.emit(false);
   }
 }

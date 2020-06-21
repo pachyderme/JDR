@@ -1,0 +1,40 @@
+<section class="column">
+  <div>Width</div>
+  <s-slider
+    name="slider"
+    [(ngModel)]="brush.width"
+    [min]="0"
+    [max]="250"
+    (change)="onRequestBrushWidthChange()"
+  >
+  </s-slider>
+  <div>Color</div>
+  <input
+    type="text"
+    class="form-input"
+    [cpPosition]="'bottom'"
+    [(colorPicker)]="brush.color"
+    [style.background]="brush.color"
+    [value]="brush.color"
+    (colorPickerChange)="onRequestBrushColorChange()"
+  />
+  <div>Shadow color</div>
+  <input
+    type="text"
+    class="form-input"
+    [cpPosition]="'bottom'"
+    [(colorPicker)]="brush.shadowColor"
+    [style.background]="brush.shadowColor"
+    [value]="brush.shadowColor"
+    (colorPickerChange)="onRequestBrushShadowColorChange()"
+  />
+  <div>Shadow width</div>
+  <s-slider
+    name="slider"
+    [(ngModel)]="brush.shadowWidth"
+    [min]="0"
+    [max]="100"
+    (change)="onRequestBrushShadowWidthChange()"
+  >
+  </s-slider>
+</section>

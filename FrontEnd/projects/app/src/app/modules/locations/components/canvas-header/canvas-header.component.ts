@@ -1,70 +1,81 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FabricjsEditorComponent } from 'projects/fabricjs-editor/src/public-api';
 import { CanvasService } from '../../services/canvas.service';
-import { SToastService, SToastConfig } from '@ngx-spectre/common';
-import { SaveToastComponent } from '../save-toast/save-toast.component';
 import { Key } from 'ts-keycode-enum';
+import { IEditableObject } from 'projects/fabricjs-editor/src/lib/models/IEditableObject';
 
 @Component({
   selector: 'app-canvas-header',
   templateUrl: './canvas-header.component.html',
   styleUrls: ['./canvas-header.component.scss'],
 })
-export class CanvasHeaderComponent implements OnInit {
-  @Input() canvas: FabricjsEditorComponent;
+export class CanvasHeaderComponent {
+  //#region Inputs
 
-  constructor(
-    private canvasService: CanvasService,
-    private sToastService: SToastService
-  ) {}
+  private _selectedObject: IEditableObject;
 
-  ngOnInit() {
-    this.initListerners();
-  }
-
-  public onSave(): void {
-    this.canvasService.save(this.canvas);
-    const toastConfig = new SToastConfig('bottom', 'right', 3000);
-    this.sToastService.showFromComponent(SaveToastComponent, toastConfig);
-  }
-
-  public onLoad(): void {
-    this.canvasService.loadCanvasFromJSON(this.canvas);
-  }
-
-  public onClear(): void {
-    this.canvasService.confirmClear(this.canvas);
-  }
-
-  public onRemove(): void {
-    this.canvasService.removeSelected(this.canvas);
-  }
-
-  public onSendToBack(): void {
-    this.canvasService.sendToBack(this.canvas);
-  }
-
-  public onBringToFront(): void {
-    this.canvasService.bringToFront(this.canvas);
-  }
-
-  public onClone(): void {
-    this.canvasService.clone(this.canvas);
-  }
-
-  public onCleanSelect(): void {
-    this.canvasService.cleanSelect(this.canvas);
-  }
-
-  public onKeyDown(event: KeyboardEvent): void {
-    switch (event.keyCode) {
-      case Key.Delete:
-        this.canvasService.removeSelected(this.canvas);
-        break;
+  @Input() public set selectedObject(value: IEditableObject) {
+    if (value) {
+      this._selectedObject = JSON.parse(JSON.stringify(value));
+    } else {
+      this._selectedObject = null;
     }
   }
 
-  private initListerners(): void {
-    document.addEventListener('keydown', this.onKeyDown.bind(this));
+  public get selectedObject(): IEditableObject {
+    return this._selectedObject;
+  }
+
+  //#endregion
+
+  //#region Outputs
+
+  @Output() onSave: EventEmitter<void> = new EventEmitter<void>();
+  @Output() onLoad: EventEmitter<void> = new EventEmitter<void>();
+  @Output() onClear: EventEmitter<void> = new EventEmitter<void>();
+  @Output() onRemove: EventEmitter<void> = new EventEmitter<void>();
+  @Output() onSendToBack: EventEmitter<void> = new EventEmitter<void>();
+  @Output() onBringToFront: EventEmitter<void> = new EventEmitter<void>();
+  @Output() onClone: EventEmitter<void> = new EventEmitter<void>();
+  @Output() onCleanSelect: EventEmitter<void> = new EventEmitter<void>();
+
+  //#endregion
+
+  constructor() {}
+
+  public onSaveClick(): void {
+    this.onSave.emit();
+  }
+
+  public onLoadClick(): void {
+    this.onLoad.emit();
+  }
+
+  public onClearClick(): void {
+    this.onClear.emit();
+  }
+
+  public onRemoveClick(): void {
+    this.onRemove.emit();
+  }
+
+  public onSendToBackClick(): void {
+    this.onSendToBack.emit();
+  }
+
+  public onBringToFrontClick(): void {
+    this.onBringToFront.emit();
+  }
+
+  public onCloneClick(): void {
+    this.onClone.emit();
+  }
+
+  public onCleanSelectClick(): void {
+    this.onCleanSelect.emit();
+  }
+
+  public hasSelectedObject(): boolean {
+    return this.selectedObject != null;
   }
 }

@@ -34,6 +34,8 @@ import { MediaService } from './services/media.service';
 import { CanvasHeaderComponent } from './components/canvas-header/canvas-header.component';
 import { CanvasDrawMenuComponent } from './components/canvas-draw-menu/canvas-draw-menu.component';
 import { CanvasAdvancedMenuComponent } from './components/canvas-advanced-menu/canvas-advanced-menu.component';
+import { CanvasAdvancedTextMenuComponent } from './components/canvas-advanced-text-menu/canvas-advanced-text-menu.component';
+import { CanvasAdvancedBrushMenuComponent } from './components/canvas-advanced-brush-menu/canvas-advanced-brush-menu.component';
 
 @NgModule({
   imports: [
@@ -68,6 +70,8 @@ import { CanvasAdvancedMenuComponent } from './components/canvas-advanced-menu/c
     CanvasHeaderComponent,
     CanvasDrawMenuComponent,
     CanvasAdvancedMenuComponent,
+    CanvasAdvancedTextMenuComponent,
+    CanvasAdvancedBrushMenuComponent,
   ],
   providers: [SToastService, StartWithPipe, CanvasService, MediaService],
 })

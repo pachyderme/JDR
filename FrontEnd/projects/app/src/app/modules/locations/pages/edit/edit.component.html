@@ -24,11 +24,24 @@
         </s-tab-item-header>
         <s-tab-item-body>
           <!-- Header -->
-          <app-canvas-header [canvas]="canvas"></app-canvas-header>
+          <app-canvas-header
+            [selectedObject]="selectedObject"
+            (onSave)="onSave()"
+            (onLoad)="onLoad()"
+            (onClear)="onClear()"
+            (onRemove)="onRemove()"
+            (onSendToBack)="onSendToBack()"
+            (onBringToFront)="onBringToFront()"
+            (onClone)="onClone()"
+            (onCleanSelect)="onCleanSelect()"
+          ></app-canvas-header>
           <div class="columns">
             <app-canvas-draw-menu
               class="column col-1"
-              [canvas]="canvas"
+              [drawing]="drawing"
+              (onDrawingChange)="onDrawingChange($event)"
+              (onAddFigureClick)="onAddFigure($event)"
+              (onAddTextClick)="onAddText()"
             ></app-canvas-draw-menu>
             <section>
               <s-divider [vertical]="true"></s-divider>
@@ -40,7 +53,14 @@
               [cdkDropListData]="canvasItems"
               (cdkDropListDropped)="onDrop($event)"
             >
-              <jdr-fabricjs-editor class="editor" #canvas></jdr-fabricjs-editor>
+              <jdr-fabricjs-editor
+                class="editor"
+                #canvas
+                (onSelectObject)="onSelectObject($event)"
+                (onSelectedObjectUpdated)="onSelectedObjectUpdated($event)"
+                [drawing]="drawing"
+                [brush]="brush"
+              ></jdr-fabricjs-editor>
             </section>
             <section>
               <s-divider [vertical]="true"></s-divider>
@@ -48,7 +68,24 @@
             <app-canvas-advanced-menu
               class="col-2 column"
               [canvasContainer]="canvasContainer"
-              [canvas]="canvas"
+              [selectedObject]="selectedObject"
+              [drawing]="drawing"
+              [brush]="brush"
+              (onBrushColorChange)="onBrushColorChange($event)"
+              (onBrushWidthChange)="onBrushWidthChange($event)"
+              (onBrushShadowColorChange)="onBrushShadowColorChange($event)"
+              (onBrushShadowWidthChange)="onBrushShadowWidthChange($event)"
+              (onOpacityChange)="onOpacityChange($event)"
+              (onFillChange)="onFillChange($event)"
+              (onBoldChange)="onBoldChange($event)"
+              (onCharSpacingChange)="onCharSpacingChange($event)"
+              (onFontFamilyChange)="onFontFamilyChange($event)"
+              (onFontSizeChange)="onFontSizeChange($event)"
+              (onItalicChange)="onItalicChange($event)"
+              (onLineHeightChange)="onLineHeightChange($event)"
+              (onTextAlignChange)="onTextAlignChange($event)"
+              (onUnderlineChange)="onUnderlineChange($event)"
+              (onLineThroughChange)="onLineThroughChange($event)"
             ></app-canvas-advanced-menu>
           </div>
         </s-tab-item-body>
@@ -72,10 +109,10 @@
                   name="backgroundColor"
                   type="text"
                   [cpPosition]="'bottom'"
-                  [(colorPicker)]="canvas.props.canvasFill"
-                  [style.background]="canvas.props.canvasFill"
-                  [value]="canvas.props.canvasFill"
-                  (colorPickerChange)="onBackgroundFillChange()"
+                  [(colorPicker)]="backgroundColor"
+                  [style.background]="backgroundColor"
+                  [value]="backgroundColor"
+                  (colorPickerChange)="onBackgroundColorChange()"
                 />
                 <label class="form-label" for="backgroundImage"
                   >Background image</label
@@ -85,7 +122,7 @@
                   name="backgroundImage"
                   type="text"
                   placeholder="http://example.jpg"
-                  [(ngModel)]="canvas.props.canvasImage"
+                  [(ngModel)]="backgroundImagePath"
                   (keyup)="onBackgroundImageChange()"
                 />
               </section>
@@ -103,7 +140,7 @@
                 >
                   Render to json
                 </button>
-                <pre>{{ canvas.json }}</pre>
+                <pre>{{ exportedJson }}</pre>
               </section>
             </section>
           </div>

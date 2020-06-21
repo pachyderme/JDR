@@ -1,11 +1,19 @@
-import { Component, OnInit, Input, ElementRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  ElementRef,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 import { FabricjsEditorComponent } from 'projects/fabricjs-editor/src/public-api';
-import { CanvasService } from '../../services/canvas.service';
 import { SelectLocationModalComponent } from '../select-location-modal/select-location-modal.component';
 import { SModalService } from '@ngx-spectre/common';
-import { Select } from '../../../scenarios/models/select';
 import { Media } from '../../models/media';
 import { MediaService } from '../../services/media.service';
+import { IEditableObject } from 'projects/fabricjs-editor/src/lib/models/IEditableObject';
+import { Brush } from 'projects/fabricjs-editor/src/lib/models/Brush';
+import { EditableObjectTypes } from 'projects/fabricjs-editor/src/lib/models/EditableObjectTypes';
 
 @Component({
   selector: 'app-canvas-advanced-menu',
@@ -13,21 +21,80 @@ import { MediaService } from '../../services/media.service';
   styleUrls: ['./canvas-advanced-menu.component.scss'],
 })
 export class CanvasAdvancedMenuComponent implements OnInit {
-  @Input() canvas: FabricjsEditorComponent;
-  @Input() canvasContainer: ElementRef;
+  //#region Inputs
 
-  public fonts: Select[] = [];
+  @Input() drawing: boolean;
+  @Input() canvasContainer: ElementRef;
+  @Input() brush: Brush;
+
+  //#region SelectedObject
+
+  private _selectedObject: IEditableObject;
+
+  @Input() public set selectedObject(value: IEditableObject) {
+    if (value) {
+      this._selectedObject = JSON.parse(JSON.stringify(value));
+    } else {
+      this._selectedObject = null;
+    }
+  }
+
+  public get selectedObject(): IEditableObject {
+    return this._selectedObject;
+  }
+
+  //#endregion
+
+  //#endregion
+
+  //#region Outputs
+
+  @Output() onOpacityChange: EventEmitter<number> = new EventEmitter<number>();
+  @Output() onFillChange: EventEmitter<string> = new EventEmitter<string>();
+  @Output() onFontFamilyChange: EventEmitter<string> = new EventEmitter<
+    string
+  >();
+  @Output() onTextAlignChange: EventEmitter<string> = new EventEmitter<
+    string
+  >();
+  @Output() onBoldChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() onItalicChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() onUnderlineChange: EventEmitter<boolean> = new EventEmitter<
+    boolean
+  >();
+  @Output() onLineThroughChange: EventEmitter<boolean> = new EventEmitter<
+    boolean
+  >();
+  @Output() onFontSizeChange: EventEmitter<number> = new EventEmitter<number>();
+  @Output() onLineHeightChange: EventEmitter<number> = new EventEmitter<
+    number
+  >();
+  @Output() onCharSpacingChange: EventEmitter<number> = new EventEmitter<
+    number
+  >();
+  @Output() onBrushShadowColorChange: EventEmitter<string> = new EventEmitter<
+    string
+  >();
+  @Output() onBrushShadowWidthChange: EventEmitter<number> = new EventEmitter<
+    number
+  >();
+  @Output() onBrushWidthChange: EventEmitter<number> = new EventEmitter<
+    number
+  >();
+  @Output() onBrushColorChange: EventEmitter<string> = new EventEmitter<
+    string
+  >();
+
+  //#endregion
 
   public images: Media[] = [];
 
   constructor(
-    private canvasService: CanvasService,
     private modalService: SModalService,
     private mediaService: MediaService
   ) {}
 
   ngOnInit() {
-    this.fonts = this.canvasService.getFonts();
     this.images = this.mediaService.get();
   }
 
@@ -39,63 +106,89 @@ export class CanvasAdvancedMenuComponent implements OnInit {
     console.log(event);
   }
 
-  public onBrushShadowChange(): void {
-    this.canvasService.changeBrushShadow(this.canvas);
-  }
-
-  public onBrushWidthChange(): void {
-    this.canvasService.changeBrushWidth(this.canvas);
-  }
-
-  public onBrushColorChange(): void {
-    this.canvasService.changeBrushColor(this.canvas);
-  }
-
   public onUploadImage(event: any): void {
     console.log('TODO : Upload Image');
   }
 
-  public onOpacityChange(): void {
-    this.canvasService.setOpacity(this.canvas);
+  public onRequestOpacityChange(): void {
+    this.onOpacityChange.emit(this.selectedObject.opacity);
   }
 
-  public onFillChange(): void {
-    this.canvasService.setFill(this.canvas);
+  public onRequestFillChange(): void {
+    this.onFillChange.emit(this.selectedObject.fill);
   }
 
-  public onFontFamilyChange(): void {
-    this.canvasService.setFontFamily(this.canvas);
+  public onRequestBrushShadowColorChange(value: string): void {
+    this.onBrushShadowColorChange.emit(value);
   }
 
-  public onAlignText(value: string): void {
-    this.canvasService.setTextAlign(value, this.canvas);
+  public onRequestBrushShadowWidthChange(value: number): void {
+    this.onBrushShadowWidthChange.emit(value);
   }
 
-  public onBold(): void {
-    this.canvasService.setBold(this.canvas);
+  public onRequestBrushWidthChange(value: number): void {
+    this.onBrushWidthChange.emit(value);
   }
 
-  public onFontStyle(): void {
-    this.canvasService.setFontStyle(this.canvas);
+  public onRequestBrushColorChange(value: string): void {
+    this.onBrushColorChange.emit(value);
   }
 
-  public onTextDecoration(value: string): void {
-    this.canvasService.setTextDecoration(value, this.canvas);
+  public onRequestFontFamilyChange(value: string): void {
+    this.onFontFamilyChange.emit(value);
   }
 
-  public onFontSizeChange(): void {
-    this.canvasService.setFontSize(this.canvas);
+  public onRequestTextAlign(value: string): void {
+    this.onTextAlignChange.emit(value);
   }
 
-  public onLineHeightChange(): void {
-    this.canvasService.setLineHeight(this.canvas);
+  public onRequestBold(value: boolean): void {
+    this.onBoldChange.emit(value);
   }
 
-  public onCharSpacingChange(): void {
-    this.canvasService.setCharSpacing(this.canvas);
+  public onRequestItalic(value: boolean): void {
+    this.onItalicChange.emit(value);
+  }
+
+  public onRequestUnderline(value: boolean): void {
+    this.onUnderlineChange.emit(value);
+  }
+
+  public onRequestLineThrough(value: boolean): void {
+    this.onLineThroughChange.emit(value);
+  }
+
+  public onRequestFontSizeChange(value: number): void {
+    this.onFontSizeChange.emit(value);
+  }
+
+  public onRequestLineHeightChange(value: number): void {
+    this.onLineHeightChange.emit(value);
+  }
+
+  public onRequestCharSpacingChange(value: number): void {
+    this.onCharSpacingChange.emit(value);
   }
 
   public onUploadFile(event: any): void {
     // TODO
+  }
+
+  public hasSelectedObject(): boolean {
+    return this.selectedObject != null;
+  }
+
+  public hasSelectedTextObject(): boolean {
+    return (
+      this.selectedObject != null &&
+      this.selectedObject.type === EditableObjectTypes.TEXT
+    );
+  }
+
+  public hasSelectedFigureObject(): boolean {
+    return (
+      this.selectedObject != null &&
+      this.selectedObject.type === EditableObjectTypes.FIGURE
+    );
   }
 }

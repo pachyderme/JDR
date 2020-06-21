@@ -1,5 +1,5 @@
 <section class="col-12">
-  <section class="column" *ngIf="canvas.selected && !canvas.drawing">
+  <section class="column" *ngIf="hasSelectedObject() && !drawing">
     <button class="btn" (click)="onSelectLocationClick($event)">
       <i class="icon icon-link"></i>
       Link to location
@@ -7,80 +7,33 @@
   </section>
 
   <!-- Brush -->
-  <section class="column" *ngIf="canvas.drawing">
-    <div>Width</div>
-    <s-slider
-      name="slider"
-      [(ngModel)]="canvas.props.brushWidth"
-      [min]="0"
-      [max]="250"
-      (change)="onBrushWidthChange()"
-    >
-    </s-slider>
-    <div>Color</div>
-    <input
-      type="text"
-      class="form-input"
-      [cpPosition]="'bottom'"
-      [(colorPicker)]="canvas.props.brushColor"
-      [style.background]="canvas.props.brushColor"
-      [value]="canvas.props.brushColor"
-      (colorPickerChange)="onBrushColorChange()"
-    />
-    <div>Shadow color</div>
-    <input
-      type="text"
-      class="form-input"
-      [cpPosition]="'bottom'"
-      [(colorPicker)]="canvas.props.brushShadowColor"
-      [style.background]="canvas.props.brushShadowColor"
-      [value]="canvas.props.brushShadowColor"
-      (colorPickerChange)="onBrushShadowChange()"
-    />
-    <div>Shadow width</div>
-    <s-slider
-      name="slider"
-      [(ngModel)]="canvas.props.brushShadowWidth"
-      [min]="0"
-      [max]="100"
-      (change)="onBrushShadowChange()"
-    >
-    </s-slider>
-  </section>
+  <app-canvas-advanced-brush-menu
+    *ngIf="drawing"
+    [brush]="brush"
+    (onBrushColorChange)="onRequestBrushColorChange($event)"
+    (onBrushWidthChange)="onRequestBrushWidthChange($event)"
+    (onBrushShadowColorChange)="onRequestBrushShadowColorChange($event)"
+    (onBrushShadowWidthChange)="onRequestBrushShadowWidthChange($event)"
+  ></app-canvas-advanced-brush-menu>
 
   <!-- Object selected -->
-  <s-accordion
-    [arrow]="true"
-    id="demo-accordion-group-1"
-    *ngIf="!canvas.drawing"
-  >
+  <s-accordion [arrow]="true" id="demo-accordion-group-1" *ngIf="!drawing">
     <s-accordion-header>
       Custom
     </s-accordion-header>
     <s-accordion-body>
-      <!-- groups -->
-      <section
-        class="column"
-        *ngIf="canvas.selected && canvas.selected.type == 'group'"
-      >
-        Group Selected
-      </section>
-
       <!-- none -->
-      <section class="column" *ngIf="!canvas.selected">
+      <section class="column" *ngIf="!hasSelectedObject()">
         No items selected
       </section>
 
       <!-- no group -->
-      <section
-        class="column"
-        *ngIf="canvas.selected && canvas.selected.type != 'group'"
-      >
+      <section class="column" *ngIf="hasSelectedObject()">
         <div>Opacity</div>
         <s-slider
           name="slider"
-          [(ngModel)]="canvas.props.opacity"
-          (change)="onOpacityChange()"
+          [(ngModel)]="selectedObject.opacity"
+          (change)="onRequestOpacityChange()"
           [min]="0"
           [max]="100"
         >
@@ -90,201 +43,34 @@
       <!-- Text and Figure Fill -->
       <section
         class="column"
-        *ngIf="
-          (canvas.selected && canvas.textEditor) ||
-          (canvas.selected && canvas.figureEditor)
-        "
+        *ngIf="hasSelectedTextObject() || hasSelectedFigureObject()"
       >
         <div>Fill</div>
         <input
           type="text"
           class="form-input"
           [cpPosition]="'bottom'"
-          [(colorPicker)]="canvas.props.fill"
-          [style.background]="canvas.props.fill"
-          [value]="canvas.props.fill"
-          (colorPickerChange)="onFillChange()"
+          [(colorPicker)]="selectedObject.fill"
+          [style.background]="selectedObject.fill"
+          [value]="selectedObject.fill"
+          (colorPickerChange)="onRequestFillChange()"
         />
       </section>
 
       <!-- Text -->
-      <div *ngIf="canvas.selected && canvas.textEditor">
-        <!-- Font family -->
-        <section class="column">
-          <div>Font family</div>
-          <div>
-            <s-select
-              name="selectValue"
-              [enabled]="true"
-              [(ngModel)]="this.canvas.props.fontFamily"
-              [items]="fonts"
-              (change)="onFontFamilyChange()"
-            >
-            </s-select>
-          </div>
-        </section>
-
-        <!-- Text align -->
-        <section class="column">
-          <div>Text Align</div>
-          <div class="columns">
-            <div class="column col-12">
-              <button
-                class="btn btn-link column"
-                [sTooltip]="'Align left'"
-                [sTooltipDirection]="'bottom'"
-                (click)="onAlignText('left')"
-              >
-                <div
-                  [sBadge]
-                  class="activate-badge"
-                  *ngIf="canvas.props.textAlign == 'left'"
-                ></div>
-                <img src="../../../../../assets/icons/text-align-left.png" />
-              </button>
-              <button
-                class="btn btn-link column"
-                [sTooltip]="'Align center'"
-                [sTooltipDirection]="'bottom'"
-                (click)="onAlignText('center')"
-              >
-                <div
-                  [sBadge]
-                  class="activate-badge"
-                  *ngIf="canvas.props.textAlign == 'center'"
-                ></div>
-                <img src="../../../../../assets/icons/text-align-center.png" />
-              </button>
-              <button
-                class="btn btn-link column"
-                [sTooltip]="'Align left'"
-                [sTooltipDirection]="'bottom'"
-                (click)="onAlignText('right')"
-              >
-                <div
-                  [sBadge]
-                  class="activate-badge"
-                  *ngIf="canvas.props.textAlign == 'right'"
-                ></div>
-                <img src="../../../../../assets/icons/text-align-right.png" />
-              </button>
-              <button
-                class="btn btn-link column"
-                [sTooltip]="'Justify'"
-                [sTooltipDirection]="'bottom'"
-                (click)="onAlignText('justify')"
-              >
-                <div
-                  [sBadge]
-                  class="activate-badge"
-                  *ngIf="canvas.props.textAlign == 'justify'"
-                ></div>
-                <img src="../../../../../assets/icons/text-align-justify.png" />
-              </button>
-            </div>
-          </div>
-        </section>
-
-        <!-- Style -->
-        <section class="column">
-          <div>Style</div>
-          <div class="columns">
-            <div class="column col-12">
-              <button
-                class="btn btn-link column"
-                [sTooltip]="'Bold'"
-                [sTooltipDirection]="'bottom'"
-                (click)="onBold()"
-              >
-                <div
-                  [sBadge]
-                  class="activate-badge"
-                  *ngIf="canvas.props.fontWeight"
-                ></div>
-                <img src="../../../../../assets/icons/bold.png" />
-              </button>
-              <button
-                class="btn btn-link column"
-                [sTooltip]="'Italic'"
-                [sTooltipDirection]="'bottom'"
-                (click)="onFontStyle()"
-              >
-                <div
-                  [sBadge]
-                  class="activate-badge"
-                  *ngIf="canvas.props.fontStyle"
-                ></div>
-                <img src="../../../../../assets/icons/italic.png" />
-              </button>
-              <button
-                class="btn btn-link column"
-                [sTooltip]="'Underline'"
-                [sTooltipDirection]="'bottom'"
-                (click)="onTextDecoration('underline')"
-              >
-                <div
-                  [sBadge]
-                  class="activate-badge"
-                  *ngIf="onTextDecoration('underline')"
-                ></div>
-                <img src="../../../../../assets/icons/underline.png" />
-              </button>
-              <button
-                class="btn btn-link column"
-                [sTooltip]="'Line through'"
-                [sTooltipDirection]="'bottom'"
-                (click)="onTextDecoration('line-through')"
-              >
-                <div
-                  [sBadge]
-                  class="activate-badge"
-                  *ngIf="onTextDecoration('line-through')"
-                ></div>
-                <img src="../../../../../assets/icons/line-through.png" />
-              </button>
-            </div>
-          </div>
-        </section>
-
-        <!-- Font size -->
-        <section class="column">
-          <div>Font Size</div>
-          <s-slider
-            name="slider"
-            [(ngModel)]="canvas.props.fontSize"
-            (change)="onFontSizeChange()"
-            [min]="1"
-            [max]="120"
-          >
-          </s-slider>
-        </section>
-
-        <!-- Line height -->
-        <section class="column">
-          <div>Line Height</div>
-          <s-slider
-            name="slider"
-            [(ngModel)]="canvas.props.lineHeight"
-            (change)="onLineHeightChange()"
-            [min]="0"
-            [max]="10"
-          >
-          </s-slider>
-        </section>
-
-        <!-- Char spacing -->
-        <section class="column">
-          <div>Char Spacing</div>
-          <s-slider
-            name="slider"
-            [(ngModel)]="canvas.props.charSpacing"
-            (change)="onCharSpacingChange()"
-            [min]="-200"
-            [max]="800"
-          >
-          </s-slider>
-        </section>
-      </div>
+      <app-canvas-advanced-text-menu
+        [selectedObject]="selectedObject"
+        (onBoldChange)="onRequestBold($event)"
+        (onCharSpacingChange)="onRequestCharSpacingChange($event)"
+        (onFontFamilyChange)="onRequestFontFamilyChange($event)"
+        (onFontSizeChange)="onRequestFontSizeChange($event)"
+        (onItalicChange)="onRequestItalic($event)"
+        (onLineHeightChange)="onRequestLineHeightChange($event)"
+        (onTextAlignChange)="onRequestTextAlign($event)"
+        (onUnderlineChange)="onRequestUnderline($event)"
+        (onLineThroughChange)="onRequestLineThrough($event)"
+        *ngIf="hasSelectedTextObject()"
+      ></app-canvas-advanced-text-menu>
     </s-accordion-body>
   </s-accordion>
 

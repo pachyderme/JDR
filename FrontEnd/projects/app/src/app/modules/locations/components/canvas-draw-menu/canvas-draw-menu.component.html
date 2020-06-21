@@ -5,18 +5,18 @@
         class="btn btn-link column col-6"
         [sTooltip]="'Add line'"
         [sTooltipDirection]="'bottom'"
-        (click)="onDrawMenuClick('move')"
+        (click)="onMoveClick()"
       >
-        <div [sBadge] class="activate-badge" *ngIf="!canvas.drawing"></div>
+        <div [sBadge] class="activate-badge" *ngIf="!drawing"></div>
         <img src="../../../../../assets/icons/cursor.png" />
       </button>
       <button
         class="btn btn-link column col-6"
         [sTooltip]="'Brush'"
         [sTooltipDirection]="'bottom'"
-        (click)="onDrawMenuClick('brush')"
+        (click)="onBrushClick()"
       >
-        <div [sBadge] class="activate-badge" *ngIf="canvas.drawing"></div>
+        <div [sBadge] class="activate-badge" *ngIf="drawing"></div>
         <img src="../../../../../assets/icons/paint-brush.png" />
       </button>
     </div>
@@ -25,7 +25,7 @@
         class="btn btn-link column col-6"
         [sTooltip]="'Add rectangle'"
         [sTooltipDirection]="'bottom'"
-        (click)="onDrawMenuClick('rectangle')"
+        (click)="onFigureClick('rectangle')"
       >
         <img src="../../../../../assets/icons/rectangle.png" />
       </button>
@@ -33,7 +33,7 @@
         class="btn btn-link column col-6"
         [sTooltip]="'Add circle'"
         [sTooltipDirection]="'bottom'"
-        (click)="onDrawMenuClick('circle')"
+        (click)="onFigureClick('circle')"
       >
         <img src="../../../../../assets/icons/circle.png" />
       </button>
@@ -43,7 +43,7 @@
         class="btn btn-link column col-6"
         [sTooltip]="'Add triangle'"
         [sTooltipDirection]="'bottom'"
-        (click)="onDrawMenuClick('triangle')"
+        (click)="onFigureClick('triangle')"
       >
         <img src="../../../../../assets/icons/triangle.png" />
       </button>
@@ -51,7 +51,7 @@
         class="btn btn-link column col-6"
         [sTooltip]="'Add square'"
         [sTooltipDirection]="'bottom'"
-        (click)="onDrawMenuClick('square')"
+        (click)="onFigureClick('square')"
       >
         <img src="../../../../../assets/icons/square.png" />
       </button>
@@ -61,7 +61,7 @@
         class="btn btn-link column col-6"
         [sTooltip]="'Add line'"
         [sTooltipDirection]="'bottom'"
-        (click)="onDrawMenuClick('line')"
+        (click)="onFigureClick('line')"
       >
         <img src="../../../../../assets/icons/line.png" />
       </button>
@@ -69,7 +69,7 @@
         class="btn btn-link column col-6"
         [sTooltip]="'Add text'"
         [sTooltipDirection]="'bottom'"
-        (click)="onDrawMenuClick('text')"
+        (click)="onTextClick()"
       >
         <img src="../../../../../assets/icons/text.png" />
       </button>

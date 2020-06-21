@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Select } from '../../scenarios/models/select';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { FabricjsEditorComponent } from 'projects/fabricjs-editor/src/public-api';
+import { IEditableObject } from 'projects/fabricjs-editor/src/lib/models/IEditableObject';
 
 @Injectable({
   providedIn: 'root',
@@ -78,50 +79,55 @@ export class CanvasService {
     ];
   }
 
-  public changeBrushShadow(canvas: FabricjsEditorComponent): void {
-    canvas.changeBrushShadow();
+  //#region Add
+
+  public addTextZone(text: string, canvas: FabricjsEditorComponent): void {
+    canvas.addText(text);
   }
 
-  public changeBrushWidth(canvas: FabricjsEditorComponent): void {
-    canvas.changeBrushWidth();
-  }
-
-  public changeBrushColor(canvas: FabricjsEditorComponent): void {
-    canvas.changeBrushColor();
-  }
-
-  public addTextZone(canvas: FabricjsEditorComponent): void {
-    canvas.textString = 'My text';
-    canvas.addText();
-  }
-
-  public addFigure(figure, canvas: FabricjsEditorComponent): void {
+  public addFigure(figure: string, canvas: FabricjsEditorComponent): void {
     canvas.addFigure(figure);
-  }
-
-  public exportToBase64(canvas: FabricjsEditorComponent): void {
-    canvas.exportToBase64();
-  }
-
-  public exportToSVG(canvas: FabricjsEditorComponent): void {
-    canvas.exportToSVG();
   }
 
   public addImage(url: string, canvas: FabricjsEditorComponent): void {
     canvas.addImageOnCanvas(url);
   }
 
-  public loadCanvasFromJSON(canvas: FabricjsEditorComponent): void {
-    canvas.loadCanvasFromJSON();
+  //#endregion
+
+  //#region Export
+
+  public exportToBase64(canvas: FabricjsEditorComponent): string {
+    return canvas.exportToBase64();
   }
 
-  public confirmClear(canvas: FabricjsEditorComponent): void {
-    canvas.confirmClear();
+  public exportToSVG(canvas: FabricjsEditorComponent): string {
+    return canvas.exportToSVG();
+  }
+
+  public exportToJSON(canvas: FabricjsEditorComponent): string {
+    return canvas.exportToJSON();
+  }
+
+  //#endregion
+
+  //#region State (save / load ...)
+
+  public load(canvas: FabricjsEditorComponent): void {
+    canvas.loadCanvasFromJSON();
   }
 
   public save(canvas: FabricjsEditorComponent): void {
     canvas.saveCanvasToJSON();
   }
+
+  public clear(canvas: FabricjsEditorComponent): void {
+    canvas.clear();
+  }
+
+  //#endregion
+
+  //#region Selection
 
   public removeSelected(canvas: FabricjsEditorComponent): void {
     canvas.removeSelected();
@@ -143,70 +149,116 @@ export class CanvasService {
     canvas.cleanSelect();
   }
 
-  public setBackgroundFill(canvas: FabricjsEditorComponent): void {
-    canvas.setBackgroundColor();
+  //#endregion
+
+  //#region Background
+
+  public setBackgroundColor(
+    color: string,
+    canvas: FabricjsEditorComponent
+  ): void {
+    canvas.setBackgroundColor(color);
   }
 
-  public setBackgroundImage(canvas: FabricjsEditorComponent): void {
-    canvas.setBackgroundImage();
+  public setBackgroundImage(
+    url: string,
+    canvas: FabricjsEditorComponent
+  ): void {
+    canvas.setBackgroundImage(url);
   }
 
-  public setId(canvas: FabricjsEditorComponent): void {
-    canvas.setId();
+  //#endregion
+
+  //#region Object properties
+
+  //#region Setters
+
+  public setBrushWidth(width: number, canvas: FabricjsEditorComponent): void {
+    canvas.setBrushWidth(width);
   }
 
-  public setOpacity(canvas: FabricjsEditorComponent): void {
-    canvas.setOpacity();
+  public setBrushColor(color: string, canvas: FabricjsEditorComponent): void {
+    canvas.setBrushColor(color);
   }
 
-  public setFill(canvas: FabricjsEditorComponent): void {
-    canvas.setFill();
+  public setId(id: string, canvas: FabricjsEditorComponent): void {
+    canvas.setId(id);
   }
 
-  public setFontFamily(canvas: FabricjsEditorComponent): void {
-    canvas.setFontFamily();
+  public setOpacity(opacity: number, canvas: FabricjsEditorComponent): void {
+    canvas.setOpacity(opacity);
   }
 
-  public setTextAlign(value: any, canvas: FabricjsEditorComponent): void {
+  public setFill(color: string, canvas: FabricjsEditorComponent): void {
+    canvas.setFill(color);
+  }
+
+  public setFontFamily(
+    fontFamily: string,
+    canvas: FabricjsEditorComponent
+  ): void {
+    canvas.setFontFamily(fontFamily);
+  }
+
+  public setTextAlign(value: string, canvas: FabricjsEditorComponent): void {
     canvas.setTextAlign(value);
   }
 
-  public setBold(canvas: FabricjsEditorComponent): void {
-    canvas.setBold();
+  public setBold(value: boolean, canvas: FabricjsEditorComponent): void {
+    canvas.setBold(value);
   }
 
-  public setFontStyle(canvas: FabricjsEditorComponent): void {
-    canvas.setFontStyle();
+  public setItalic(italic: boolean, canvas: FabricjsEditorComponent): void {
+    canvas.setFontStyle(italic);
   }
 
-  public hasTextDecoration(
-    value: any,
+  public setUnderline(value: boolean, canvas: FabricjsEditorComponent): void {
+    canvas.setUnderline(value);
+  }
+
+  public setLinThrough(value: boolean, canvas: FabricjsEditorComponent): void {
+    canvas.setLineThrough(value);
+  }
+
+  public setFontSize(size: number, canvas: FabricjsEditorComponent): void {
+    canvas.setFontSize(size);
+  }
+
+  public setLineHeight(height: number, canvas: FabricjsEditorComponent): void {
+    canvas.setLineHeight(height);
+  }
+
+  public setCharSpacing(
+    spacing: number,
     canvas: FabricjsEditorComponent
-  ): boolean {
-    return canvas.hasTextDecoration(value);
-  }
-
-  public setTextDecoration(value: any, canvas: FabricjsEditorComponent): void {
-    canvas.setTextDecoration(value);
-  }
-
-  public setFontSize(canvas: FabricjsEditorComponent): void {
-    canvas.setFontSize();
-  }
-
-  public setLineHeight(canvas: FabricjsEditorComponent): void {
-    canvas.setLineHeight();
-  }
-
-  public setCharSpacing(canvas: FabricjsEditorComponent): void {
-    canvas.setCharSpacing();
-  }
-
-  public exportToJSON(canvas: FabricjsEditorComponent): void {
-    canvas.exportToJSON();
+  ): void {
+    canvas.setCharSpacing(spacing);
   }
 
   public setDrawingMode(value: boolean, canvas: FabricjsEditorComponent): void {
     canvas.setDrawingMode(value);
   }
+
+  //#endregion
+
+  //#region Getters
+
+  public getSelectedObject(canvas: FabricjsEditorComponent): IEditableObject {
+    return canvas.getSelectedObject();
+  }
+
+  //#endregion
+
+  //#region Utilities
+
+  public hasTextDecoration(
+    value: string,
+    canvas: FabricjsEditorComponent
+  ): boolean {
+    return canvas.hasTextDecoration(value);
+  }
+
+  //#endregion
+
+  //#endregion
 }
