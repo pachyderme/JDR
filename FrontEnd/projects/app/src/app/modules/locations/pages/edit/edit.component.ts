@@ -167,11 +167,11 @@ export class EditComponent implements OnInit, AfterViewInit {
   }
 
   public onSelectObject(selectedObject: IEditableObject): void {
-    this.selectedObject = { ...selectedObject };
+    this.selectedObject = selectedObject ? { ...selectedObject } : null;
   }
 
   public onSelectedObjectUpdated(selectedObject: IEditableObject): void {
-    this.selectedObject = { ...selectedObject };
+    this.selectedObject = selectedObject ? { ...selectedObject } : null;
   }
 
   public onBrushColorChange(value: string): void {
