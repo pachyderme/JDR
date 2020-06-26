@@ -18,6 +18,15 @@
     [value]="brush.color"
     (colorPickerChange)="onRequestBrushColorChange()"
   />
+  <label class="form-label" for="url">Texture</label>
+  <input
+    class="col-12"
+    name="url"
+    type="text"
+    placeholder="http://example.jpg"
+    [(ngModel)]="brush.textureImagePath"
+    (keyup)="onRequestTextureChange()"
+  />
   <div>Shadow color</div>
   <input
     type="text"

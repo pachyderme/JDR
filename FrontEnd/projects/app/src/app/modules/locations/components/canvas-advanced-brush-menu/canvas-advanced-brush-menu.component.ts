@@ -1,27 +1,23 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { Brush } from 'projects/fabricjs-editor/src/lib/models/Brush';
 
 @Component({
   selector: 'app-canvas-advanced-brush-menu',
   templateUrl: './canvas-advanced-brush-menu.component.html',
   styleUrls: ['./canvas-advanced-brush-menu.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CanvasAdvancedBrushMenuComponent implements OnInit {
   //#region Inputs
 
-  private _brush: Brush;
-
-  @Input() public set brush(value: Brush) {
-    if (value) {
-      this._brush = JSON.parse(JSON.stringify(value));
-    } else {
-      this._brush = null;
-    }
-  }
-
-  public get brush(): Brush {
-    return this._brush;
-  }
+  @Input() brush: Brush;
 
   //#endregion
 
@@ -39,6 +35,7 @@ export class CanvasAdvancedBrushMenuComponent implements OnInit {
   @Output() onBrushColorChange: EventEmitter<string> = new EventEmitter<
     string
   >();
+  @Output() onTextureChange: EventEmitter<string> = new EventEmitter<string>();
 
   //#endregion
 
@@ -60,5 +57,9 @@ export class CanvasAdvancedBrushMenuComponent implements OnInit {
 
   public onRequestBrushColorChange(): void {
     this.onBrushColorChange.emit(this.brush.color);
+  }
+
+  public onRequestTextureChange(): void {
+    this.onTextureChange.emit(this.brush.textureImagePath);
   }
 }

@@ -3,4 +3,5 @@ export enum EditableObjectTypes {
   FIGURE,
   TEXT,
   IMAGE,
+  PATH,
 }

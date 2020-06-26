@@ -6,6 +6,7 @@ import {
   Output,
   EventEmitter,
   Input,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { fabric } from 'fabric';
 import { IEditableObject } from './models/IEditableObject';
@@ -13,11 +14,15 @@ import { Text } from './models/Text';
 import { Figure } from './models/Figure';
 import { Brush } from './models/Brush';
 import { Image as EditableImage } from './models/Image';
+import { Path as EditablePath } from './models/Path';
+import { EditableObjectTypes } from './models/EditableObjectTypes';
+import { Path } from 'fabric/fabric-impl';
 
 @Component({
   selector: 'jdr-fabricjs-editor',
   templateUrl: './fabricjs-editor.component.html',
   styleUrls: ['./fabricjs-editor.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FabricjsEditorComponent implements AfterViewInit {
   //#region ViewChild
@@ -69,7 +74,6 @@ export class FabricjsEditorComponent implements AfterViewInit {
   @Input() public set drawing(value: boolean) {
     this._drawing = value;
     if (this.canvas) {
-      this.cleanSelect();
       this.setDrawingMode(value);
     }
   }
@@ -83,7 +87,7 @@ export class FabricjsEditorComponent implements AfterViewInit {
   //#endregion
 
   private canvas: fabric.Canvas;
-  private selectedEditableObject: IEditableObject;
+  private selectedObject: IEditableObject;
   private drawingMouseCanvas: fabric.StaticCanvas;
   private drawingMouseCursorForm: fabric.Circle;
   private lastDrawedForm: fabric.Path;
@@ -155,12 +159,14 @@ export class FabricjsEditorComponent implements AfterViewInit {
   }
 
   private onSelectionCleared(e: fabric.IEvent): void {
-    this.selectedEditableObject = null;
+    this.selectedObject = null;
     this.onSelectObject.emit(null);
   }
 
-  private onSelection(e: fabric.IEvent): void {
-    const selectedObject = e.target as fabric.Object;
+  private onSelection(e?: fabric.IEvent): void {
+    const selectedObject = e
+      ? (e.target as fabric.Object)
+      : this.canvas.getActiveObject();
     selectedObject.hasRotatingPoint = true;
     selectedObject.transparentCorners = false;
     selectedObject.borderDashArray = [3, 3];
@@ -173,8 +179,8 @@ export class FabricjsEditorComponent implements AfterViewInit {
     const editableObject = this.getSelectedEditableObject(selectedObject);
 
     if (editableObject) {
-      this.selectedEditableObject = editableObject;
-      this.onSelectObject.emit(this.selectedEditableObject);
+      this.selectedObject = editableObject;
+      this.onSelectObject.emit(this.selectedObject);
     }
   }
 
@@ -482,6 +488,7 @@ export class FabricjsEditorComponent implements AfterViewInit {
         });
         break;
     }
+
     this.extend(add, this.randomId());
     this.canvas.add(add);
     this.selectItemAfterAdded(add);
@@ -497,9 +504,9 @@ export class FabricjsEditorComponent implements AfterViewInit {
     this.canvas?.discardActiveObject().renderAll();
   }
 
-  public selectItemAfterAdded(obj): void {
+  public selectItemAfterAdded(obj: fabric.Object): void {
     this.canvas.discardActiveObject().renderAll();
-    this.canvas.setActiveObject(obj);
+    this.canvas.setActiveObject(obj, { e: obj } as any);
   }
 
   public clone(): void {
@@ -597,8 +604,6 @@ export class FabricjsEditorComponent implements AfterViewInit {
     }
 
     if (selectedObject.type !== 'group' && selectedObject) {
-      this.getId();
-
       switch (selectedObject.type) {
         case 'rect':
         case 'circle':
@@ -628,6 +633,11 @@ export class FabricjsEditorComponent implements AfterViewInit {
           image.url = this.getUrl();
           image.opacity = this.getOpacity();
           result = image;
+          break;
+        case 'path':
+          const path = new EditablePath();
+          path.opacity = this.getOpacity();
+          result = path;
           break;
       }
     }
@@ -944,7 +954,7 @@ export class FabricjsEditorComponent implements AfterViewInit {
   }
 
   public getSelectedObject(): IEditableObject {
-    return this.selectedEditableObject;
+    return this.selectedObject;
   }
 
   //#endregion
