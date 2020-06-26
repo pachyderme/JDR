@@ -12,6 +12,7 @@ import { IEditableObject } from './models/IEditableObject';
 import { Text } from './models/Text';
 import { Figure } from './models/Figure';
 import { Brush } from './models/Brush';
+import { Image as EditableImage } from './models/Image';
 
 @Component({
   selector: 'jdr-fabricjs-editor',
@@ -623,6 +624,10 @@ export class FabricjsEditorComponent implements AfterViewInit {
           result = text;
           break;
         case 'image':
+          const image = new EditableImage();
+          image.url = this.getUrl();
+          image.opacity = this.getOpacity();
+          result = image;
           break;
       }
     }
@@ -660,6 +665,10 @@ export class FabricjsEditorComponent implements AfterViewInit {
 
   public getOpacity(): number {
     return this.getActiveStyle('opacity', null) * 100;
+  }
+
+  public getUrl(): string {
+    return (this.canvas.getActiveObject() as fabric.Image).getSrc();
   }
 
   public getFill(): string {
@@ -826,6 +835,12 @@ export class FabricjsEditorComponent implements AfterViewInit {
 
   public setFill(color: string): void {
     this.setActiveStyle('fill', color, null);
+  }
+
+  public setUrl(url: string): void {
+    (this.canvas.getActiveObject() as fabric.Image).setSrc(url, () => {
+      this.canvas.renderAll();
+    });
   }
 
   public setLineHeight(height: number): void {

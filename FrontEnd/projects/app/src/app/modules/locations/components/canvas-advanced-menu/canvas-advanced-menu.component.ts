@@ -5,8 +5,8 @@ import {
   ElementRef,
   Output,
   EventEmitter,
+  ChangeDetectionStrategy,
 } from '@angular/core';
-import { FabricjsEditorComponent } from 'projects/fabricjs-editor/src/public-api';
 import { SelectLocationModalComponent } from '../select-location-modal/select-location-modal.component';
 import { SModalService } from '@ngx-spectre/common';
 import { Media } from '../../models/media';
@@ -19,6 +19,7 @@ import { EditableObjectTypes } from 'projects/fabricjs-editor/src/lib/models/Edi
   selector: 'app-canvas-advanced-menu',
   templateUrl: './canvas-advanced-menu.component.html',
   styleUrls: ['./canvas-advanced-menu.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CanvasAdvancedMenuComponent implements OnInit {
   //#region Inputs
@@ -26,24 +27,7 @@ export class CanvasAdvancedMenuComponent implements OnInit {
   @Input() drawing: boolean;
   @Input() canvasContainer: ElementRef;
   @Input() brush: Brush;
-
-  //#region SelectedObject
-
-  private _selectedObject: IEditableObject;
-
-  @Input() public set selectedObject(value: IEditableObject) {
-    if (value) {
-      this._selectedObject = JSON.parse(JSON.stringify(value));
-    } else {
-      this._selectedObject = null;
-    }
-  }
-
-  public get selectedObject(): IEditableObject {
-    return this._selectedObject;
-  }
-
-  //#endregion
+  @Input() selectedObject: IEditableObject;
 
   //#endregion
 
@@ -51,6 +35,7 @@ export class CanvasAdvancedMenuComponent implements OnInit {
 
   @Output() onOpacityChange: EventEmitter<number> = new EventEmitter<number>();
   @Output() onFillChange: EventEmitter<string> = new EventEmitter<string>();
+  @Output() onUrlChange: EventEmitter<string> = new EventEmitter<string>();
   @Output() onFontFamilyChange: EventEmitter<string> = new EventEmitter<
     string
   >();
@@ -116,6 +101,10 @@ export class CanvasAdvancedMenuComponent implements OnInit {
 
   public onRequestFillChange(): void {
     this.onFillChange.emit(this.selectedObject.fill);
+  }
+
+  public onRequestUrlChange(value: string): void {
+    this.onUrlChange.emit(value);
   }
 
   public onRequestBrushShadowColorChange(value: string): void {
@@ -189,6 +178,13 @@ export class CanvasAdvancedMenuComponent implements OnInit {
     return (
       this.selectedObject != null &&
       this.selectedObject.type === EditableObjectTypes.FIGURE
+    );
+  }
+
+  public hasSelectedImageObject(): boolean {
+    return (
+      this.selectedObject != null &&
+      this.selectedObject.type === EditableObjectTypes.IMAGE
     );
   }
 }

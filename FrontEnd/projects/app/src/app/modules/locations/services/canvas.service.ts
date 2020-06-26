@@ -193,6 +193,10 @@ export class CanvasService {
     canvas.setFill(color);
   }
 
+  public setUrl(url: string, canvas: FabricjsEditorComponent): void {
+    canvas.setUrl(url);
+  }
+
   public setFontFamily(
     fontFamily: string,
     canvas: FabricjsEditorComponent

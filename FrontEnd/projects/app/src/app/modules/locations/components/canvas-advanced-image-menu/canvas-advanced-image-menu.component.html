@@ -1,0 +1,11 @@
+<section class="column">
+  <label class="form-label" for="url">Source</label>
+  <input
+    class="col-12"
+    name="url"
+    type="text"
+    placeholder="http://example.jpg"
+    [(ngModel)]="selectedObject.url"
+    (keyup)="onRequestUrlChange()"
+  />
+</section>

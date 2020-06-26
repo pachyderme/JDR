@@ -36,6 +36,7 @@ import { CanvasDrawMenuComponent } from './components/canvas-draw-menu/canvas-dr
 import { CanvasAdvancedMenuComponent } from './components/canvas-advanced-menu/canvas-advanced-menu.component';
 import { CanvasAdvancedTextMenuComponent } from './components/canvas-advanced-text-menu/canvas-advanced-text-menu.component';
 import { CanvasAdvancedBrushMenuComponent } from './components/canvas-advanced-brush-menu/canvas-advanced-brush-menu.component';
+import { CanvasAdvancedImageMenuComponent } from './components/canvas-advanced-image-menu/canvas-advanced-image-menu.component';
 
 @NgModule({
   imports: [
@@ -72,6 +73,7 @@ import { CanvasAdvancedBrushMenuComponent } from './components/canvas-advanced-b
     CanvasAdvancedMenuComponent,
     CanvasAdvancedTextMenuComponent,
     CanvasAdvancedBrushMenuComponent,
+    CanvasAdvancedImageMenuComponent,
   ],
   providers: [SToastService, StartWithPipe, CanvasService, MediaService],
 })

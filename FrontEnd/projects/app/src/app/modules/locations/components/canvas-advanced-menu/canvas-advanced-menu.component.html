@@ -57,6 +57,13 @@
         />
       </section>
 
+      <!-- Image -->
+      <app-canvas-advanced-image-menu
+        [selectedObject]="selectedObject"
+        (onUrlChange)="onRequestUrlChange($event)"
+        *ngIf="hasSelectedImageObject()"
+      ></app-canvas-advanced-image-menu>
+
       <!-- Text -->
       <app-canvas-advanced-text-menu
         [selectedObject]="selectedObject"

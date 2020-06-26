@@ -1,4 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { Text } from 'projects/fabricjs-editor/src/lib/models/Text';
 import { Select } from '../../../scenarios/models/select';
 import { CanvasService } from '../../services/canvas.service';
@@ -7,23 +14,12 @@ import { CanvasService } from '../../services/canvas.service';
   selector: 'app-canvas-advanced-text-menu',
   templateUrl: './canvas-advanced-text-menu.component.html',
   styleUrls: ['./canvas-advanced-text-menu.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CanvasAdvancedTextMenuComponent implements OnInit {
   public fonts: Select[] = [];
 
-  private _selectedObject: Text;
-
-  @Input() public set selectedObject(value: Text) {
-    if (value) {
-      this._selectedObject = JSON.parse(JSON.stringify(value));
-    } else {
-      this._selectedObject = null;
-    }
-  }
-
-  public get selectedObject(): Text {
-    return this._selectedObject;
-  }
+  @Input() selectedObject: Text;
 
   @Output() onFontFamilyChange: EventEmitter<string> = new EventEmitter<
     string

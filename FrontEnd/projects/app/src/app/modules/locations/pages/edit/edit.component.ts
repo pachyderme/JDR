@@ -167,11 +167,11 @@ export class EditComponent implements OnInit, AfterViewInit {
   }
 
   public onSelectObject(selectedObject: IEditableObject): void {
-    this.selectedObject = selectedObject;
+    this.selectedObject = { ...selectedObject };
   }
 
   public onSelectedObjectUpdated(selectedObject: IEditableObject): void {
-    this.selectedObject = selectedObject;
+    this.selectedObject = { ...selectedObject };
   }
 
   public onBrushColorChange(value: string): void {
@@ -196,6 +196,10 @@ export class EditComponent implements OnInit, AfterViewInit {
 
   public onFillChange(value: string): void {
     this.canvasService.setFill(value, this.canvas);
+  }
+
+  public onUrlChange(value: string): void {
+    this.canvasService.setUrl(value, this.canvas);
   }
 
   public onFontFamilyChange(value: string): void {

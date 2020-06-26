@@ -1,30 +1,22 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FabricjsEditorComponent } from 'projects/fabricjs-editor/src/public-api';
-import { CanvasService } from '../../services/canvas.service';
-import { Key } from 'ts-keycode-enum';
+import {
+  Component,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+  Input,
+} from '@angular/core';
 import { IEditableObject } from 'projects/fabricjs-editor/src/lib/models/IEditableObject';
 
 @Component({
   selector: 'app-canvas-header',
   templateUrl: './canvas-header.component.html',
   styleUrls: ['./canvas-header.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CanvasHeaderComponent {
   //#region Inputs
 
-  private _selectedObject: IEditableObject;
-
-  @Input() public set selectedObject(value: IEditableObject) {
-    if (value) {
-      this._selectedObject = JSON.parse(JSON.stringify(value));
-    } else {
-      this._selectedObject = null;
-    }
-  }
-
-  public get selectedObject(): IEditableObject {
-    return this._selectedObject;
-  }
+  @Input() selectedObject: IEditableObject;
 
   //#endregion
 
