@@ -36,13 +36,19 @@
             (onCleanSelect)="onCleanSelect()"
           ></app-canvas-header>
           <div class="columns">
-            <app-canvas-draw-menu
-              class="column col-1"
-              [drawing]="drawing"
-              (onDrawingChange)="onDrawingChange($event)"
-              (onAddFigureClick)="onAddFigure($event)"
-              (onAddTextClick)="onAddText()"
-            ></app-canvas-draw-menu>
+            <section class="colmun col-1">
+              <section class="col-12">
+                <s-divider></s-divider>
+              </section>
+              <app-canvas-draw-menu
+                class="col-12"
+                [drawing]="drawing"
+                (onDrawingChange)="onDrawingChange($event)"
+                (onAddFigureClick)="onAddFigure($event)"
+                (onAddTextClick)="onAddText()"
+                (onAddMarkerClick)="onAddMarker()"
+              ></app-canvas-draw-menu>
+            </section>
             <section>
               <s-divider [vertical]="true"></s-divider>
             </section>
@@ -87,6 +93,8 @@
               (onTextAlignChange)="onTextAlignChange($event)"
               (onUnderlineChange)="onUnderlineChange($event)"
               (onLineThroughChange)="onLineThroughChange($event)"
+              (onLocationSelected)="onLocationSelected($event)"
+              (onPoiOptionsChanged)="onPoiOptionsChanged($event)"
             ></app-canvas-advanced-menu>
           </div>
         </s-tab-item-body>

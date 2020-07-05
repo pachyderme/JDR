@@ -15,6 +15,8 @@ import { Brush } from 'projects/fabricjs-editor/src/lib/models/Brush';
 import { SToastConfig, SToastService } from '@ngx-spectre/common';
 import { SaveToastComponent } from '../../components/save-toast/save-toast.component';
 import { Key } from 'ts-keycode-enum';
+import { EditableObjectTypes } from 'projects/fabricjs-editor/src/lib/models/EditableObjectTypes';
+import { POI } from '../../models/POI';
 
 @Component({
   selector: 'app-edit',
@@ -139,6 +141,14 @@ export class EditComponent implements OnInit, AfterViewInit {
     this.canvasService.addTextZone('My text', this.canvas);
   }
 
+  public onAddMarker(): void {
+    this.canvasService.addImage(
+      '../../../../../assets/icons/marker.png',
+      this.canvas,
+      EditableObjectTypes.MARKER
+    );
+  }
+
   /**
    * TODO : Move to FabricJsEditor
    */
@@ -238,11 +248,35 @@ export class EditComponent implements OnInit, AfterViewInit {
     this.canvasService.setCharSpacing(value, this.canvas);
   }
 
+  public onLocationSelected(value: Location): void {
+    this.setCustomDataToCurrentObject('location', value);
+    this.canvasService.setCustomData(this.selectedObject.data, this.canvas);
+  }
+
+  public onPoiOptionsChanged(value: POI): void {
+    this.setCustomDataToCurrentObject('POI', value);
+    this.canvasService.setCustomData(this.selectedObject.data, this.canvas);
+  }
+
   //#endregion
 
   //#endregion
 
   //#region Private
+
+  private setCustomDataToCurrentObject(key: string, value: any): void {
+    let map: Map<string, any>;
+
+    if (this.selectedObject.data) {
+      map = new Map<string, any>(this.selectedObject.data);
+    } else {
+      map = new Map<string, any>();
+    }
+
+    map.set(key, value);
+
+    this.selectedObject = { ...this.selectedObject, data: map };
+  }
 
   private initListerners(): void {
     document.addEventListener('mousemove', (e: MouseEvent) => {

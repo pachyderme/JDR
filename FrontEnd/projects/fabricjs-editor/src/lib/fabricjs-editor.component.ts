@@ -17,6 +17,8 @@ import { Image as EditableImage } from './models/Image';
 import { Path as EditablePath } from './models/Path';
 import { EditableObjectTypes } from './models/EditableObjectTypes';
 import { Path } from 'fabric/fabric-impl';
+import { never } from 'rxjs';
+import { Marker } from './models/Marker';
 
 @Component({
   selector: 'jdr-fabricjs-editor',
@@ -110,6 +112,7 @@ export class FabricjsEditorComponent implements AfterViewInit {
       selection: true,
       selectionBorderColor: '#DDD',
       selectionColor: 'rgba(200, 200, 200, 0.25)',
+      includeDefaultValues: true,
     });
   }
 
@@ -402,6 +405,7 @@ export class FabricjsEditorComponent implements AfterViewInit {
 
   public addImageOnCanvas(
     url: string,
+    customType: EditableObjectTypes = EditableObjectTypes.IMAGE,
     top: number = 10,
     left: number = 10,
     width?: number,
@@ -433,7 +437,14 @@ export class FabricjsEditorComponent implements AfterViewInit {
         if (height) {
           image.scaleToHeight(height);
         }
-        this.extend(image, this.randomId());
+
+        if (customType !== EditableObjectTypes.IMAGE) {
+          this.extend(image, this.randomId());
+          const map = new Map<string, any>();
+          map.set('type', customType);
+          image.data = map;
+        }
+
         this.canvas.add(image);
         this.selectItemAfterAdded(image);
       });
@@ -603,8 +614,14 @@ export class FabricjsEditorComponent implements AfterViewInit {
       selectedObject = object;
     }
 
-    if (selectedObject.type !== 'group' && selectedObject) {
-      switch (selectedObject.type) {
+    let type: string | EditableObjectTypes = selectedObject.type;
+
+    if (type == 'image' && selectedObject.data) {
+      type = (selectedObject.data as Map<string, any>).get('type');
+    }
+
+    if (type !== 'group' && selectedObject) {
+      switch (type) {
         case 'rect':
         case 'circle':
         case 'triangle':
@@ -639,8 +656,15 @@ export class FabricjsEditorComponent implements AfterViewInit {
           path.opacity = this.getOpacity();
           result = path;
           break;
+        case EditableObjectTypes.MARKER:
+          const marker = new Marker();
+          marker.opacity = this.getOpacity();
+          result = marker;
+          break;
       }
     }
+
+    result.data = this.getCustomData();
 
     return result;
   }
@@ -727,6 +751,10 @@ export class FabricjsEditorComponent implements AfterViewInit {
 
   public getFontFamily(): string {
     return this.getActiveProp('fontFamily');
+  }
+
+  public getCustomData(): any {
+    return this.getActiveProp('data');
   }
 
   //#endregion
@@ -905,6 +933,10 @@ export class FabricjsEditorComponent implements AfterViewInit {
     this.setActiveProp('fontFamily', fontFamily);
   }
 
+  public setCustomData(value: any): void {
+    this.setActiveProp('data', value);
+  }
+
   //#endregion
 
   //#endregion
@@ -970,7 +1002,7 @@ export class FabricjsEditorComponent implements AfterViewInit {
   }
 
   public exportToJSON(): string {
-    return JSON.stringify(this.canvas, null, 2);
+    return JSON.stringify(this.canvas.toJSON(), null, 2);
   }
 
   //#endregion

@@ -14,6 +14,9 @@ import { MediaService } from '../../services/media.service';
 import { IEditableObject } from 'projects/fabricjs-editor/src/lib/models/IEditableObject';
 import { Brush } from 'projects/fabricjs-editor/src/lib/models/Brush';
 import { EditableObjectTypes } from 'projects/fabricjs-editor/src/lib/models/EditableObjectTypes';
+import { Location } from '../../models/location';
+import { POI } from '../../models/POI';
+import { PoiOptionsModalComponent } from '../poi-options-modal/poi-options-modal.component';
 
 @Component({
   selector: 'app-canvas-advanced-menu',
@@ -27,7 +30,21 @@ export class CanvasAdvancedMenuComponent implements OnInit {
   @Input() drawing: boolean;
   @Input() canvasContainer: ElementRef;
   @Input() brush: Brush;
-  @Input() selectedObject: IEditableObject;
+  private _selectedObject: IEditableObject;
+
+  @Input()
+  public set selectedObject(value: IEditableObject) {
+    this._selectedObject = value;
+
+    if (value && value.data) {
+      this.poi = this.getSelectedObjectPoi();
+      this.location = this.getCurrentLocation();
+    }
+  }
+
+  public get selectedObject(): IEditableObject {
+    return this._selectedObject;
+  }
 
   //#endregion
 
@@ -69,9 +86,16 @@ export class CanvasAdvancedMenuComponent implements OnInit {
   @Output() onBrushColorChange: EventEmitter<string> = new EventEmitter<
     string
   >();
+  @Output() onLocationSelected: EventEmitter<Location> = new EventEmitter<
+    Location
+  >();
+
+  @Output() onPoiOptionsChanged: EventEmitter<POI> = new EventEmitter<POI>();
 
   //#endregion
 
+  public poi: POI;
+  public location: Location;
   public images: Media[] = [];
 
   constructor(
@@ -87,8 +111,16 @@ export class CanvasAdvancedMenuComponent implements OnInit {
     this.modalService.open(SelectLocationModalComponent.id);
   }
 
-  public onSelectLocationModalClose(event: any): void {
-    console.log(event);
+  public onSelectLocationModalClose(value: Location): void {
+    this.onLocationSelected.emit(value);
+  }
+
+  public onEditPoiOptionsClick(event: MouseEvent): void {
+    this.modalService.open(PoiOptionsModalComponent.id);
+  }
+
+  public onEditPoiOptionsModalClose(value: POI): void {
+    this.onPoiOptionsChanged.emit(value);
   }
 
   public onUploadImage(event: any): void {
@@ -186,5 +218,24 @@ export class CanvasAdvancedMenuComponent implements OnInit {
       this.selectedObject != null &&
       this.selectedObject.type === EditableObjectTypes.IMAGE
     );
+  }
+
+  public hasSelectedMarkerObject(): boolean {
+    return (
+      this.selectedObject != null &&
+      this.selectedObject.type === EditableObjectTypes.MARKER
+    );
+  }
+
+  public canLinkToLocation(): boolean {
+    return this.selectedObject.type !== EditableObjectTypes.MARKER;
+  }
+
+  private getCurrentLocation(): Location {
+    return this.selectedObject?.data?.get('location');
+  }
+
+  private getSelectedObjectPoi(): POI {
+    return this.selectedObject?.data?.get('POI');
   }
 }

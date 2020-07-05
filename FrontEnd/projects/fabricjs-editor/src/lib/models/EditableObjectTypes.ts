@@ -4,4 +4,5 @@ export enum EditableObjectTypes {
   TEXT,
   IMAGE,
   PATH,
+  MARKER,
 }

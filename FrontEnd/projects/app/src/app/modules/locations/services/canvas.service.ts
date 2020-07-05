@@ -3,6 +3,7 @@ import { Select } from '../../scenarios/models/select';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { FabricjsEditorComponent } from 'projects/fabricjs-editor/src/public-api';
 import { IEditableObject } from 'projects/fabricjs-editor/src/lib/models/IEditableObject';
+import { EditableObjectTypes } from 'projects/fabricjs-editor/src/lib/models/EditableObjectTypes';
 
 @Injectable({
   providedIn: 'root',
@@ -89,8 +90,12 @@ export class CanvasService {
     canvas.addFigure(figure);
   }
 
-  public addImage(url: string, canvas: FabricjsEditorComponent): void {
-    canvas.addImageOnCanvas(url);
+  public addImage(
+    url: string,
+    canvas: FabricjsEditorComponent,
+    customType: EditableObjectTypes = EditableObjectTypes.IMAGE
+  ): void {
+    canvas.addImageOnCanvas(url, customType);
   }
 
   //#endregion
@@ -241,6 +246,13 @@ export class CanvasService {
 
   public setDrawingMode(value: boolean, canvas: FabricjsEditorComponent): void {
     canvas.setDrawingMode(value);
+  }
+
+  public setCustomData(
+    value: Map<string, any>,
+    canvas: FabricjsEditorComponent
+  ): void {
+    canvas.setCustomData(value);
   }
 
   //#endregion

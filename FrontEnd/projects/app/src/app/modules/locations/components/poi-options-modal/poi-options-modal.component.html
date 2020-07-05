@@ -1,0 +1,59 @@
+<s-modal id="poiOptionsModal" size="lg" (onOpen)="onOpen()">
+  <s-modal-header (onClose)="onCloseModal($event)">
+    <h2 class="s-title">Point of interest</h2>
+  </s-modal-header>
+  <s-modal-body>
+    <s-scrollbar [contentClass]="'locations-container'">
+      <form
+        *ngIf="baseForm"
+        [formGroup]="baseForm"
+        class="container"
+        (ngSubmit)="onBaseFormSubmit()"
+      >
+        <s-input
+          name="name"
+          [label]="'Name'"
+          [type]="'text'"
+          [enabled]="true"
+          formControlName="name"
+          [placeholder]="'Tower of dumbs'"
+        >
+        </s-input>
+        <s-input
+          name="src"
+          [label]="'Icon'"
+          [type]="'text'"
+          [enabled]="true"
+          formControlName="src"
+          [placeholder]="'https://site/myimage.png'"
+        >
+        </s-input>
+        <s-textarea
+          name="summary"
+          [label]="'Summary'"
+          [enabled]="true"
+          formControlName="summary"
+          [placeholder]="'The tower for ...'"
+        >
+        </s-textarea>
+      </form>
+    </s-scrollbar>
+  </s-modal-body>
+  <s-modal-footer>
+    <div class="divider"></div>
+    <div class="columns">
+      <div class="column col-12">
+        <button
+          class="btn btn-primary"
+          (click)="onBaseFormSubmit()"
+          [disabled]="false"
+        >
+          Save
+        </button>
+        <button class="btn btn-link" (click)="onCloseModal($event)">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </s-modal-footer>
+</s-modal>

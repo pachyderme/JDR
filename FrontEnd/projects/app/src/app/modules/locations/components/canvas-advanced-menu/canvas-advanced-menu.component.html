@@ -1,9 +1,32 @@
 <section class="col-12">
   <section class="column" *ngIf="hasSelectedObject() && !drawing">
-    <button class="btn" (click)="onSelectLocationClick($event)">
-      <i class="icon icon-link"></i>
-      Link to location
-    </button>
+    <section *ngIf="canLinkToLocation()">
+      <button class="btn" (click)="onSelectLocationClick($event)">
+        <i class="icon icon-link"></i>
+        Link to location
+      </button>
+      <div *ngIf="location">
+        <s-card class="column col-12">
+          <s-card-image
+            [src]="location?.src"
+            *ngIf="location?.src"
+          ></s-card-image>
+          <s-card-header [title]="location?.name"> </s-card-header>
+        </s-card>
+      </div>
+    </section>
+    <section *ngIf="hasSelectedMarkerObject()">
+      <button class="btn" (click)="onEditPoiOptionsClick($event)">
+        <i class="icon icon-edit"></i>
+        Edit options
+      </button>
+      <div *ngIf="poi">
+        <s-card class="column col-12">
+          <s-card-image [src]="poi?.src" *ngIf="poi?.src"></s-card-image>
+          <s-card-header [title]="poi?.name"> </s-card-header>
+        </s-card>
+      </div>
+    </section>
   </section>
 
   <!-- Brush -->
@@ -110,5 +133,11 @@
   </s-accordion>
 </section>
 <app-select-location-modal
+  [item]="location"
   (onClose)="onSelectLocationModalClose($event)"
 ></app-select-location-modal>
+
+<app-poi-options-modal
+  [item]="poi"
+  (onClose)="onEditPoiOptionsModalClose($event)"
+></app-poi-options-modal>

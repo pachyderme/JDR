@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { LocationsRoutingModule } from './locations-routing.module';
 import { FabricjsEditorModule } from 'projects/fabricjs-editor/src/public-api';
 import { EditComponent } from './pages/edit/edit.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { OverlayModule } from '@angular/cdk/overlay';
 
@@ -37,6 +37,8 @@ import { CanvasAdvancedMenuComponent } from './components/canvas-advanced-menu/c
 import { CanvasAdvancedTextMenuComponent } from './components/canvas-advanced-text-menu/canvas-advanced-text-menu.component';
 import { CanvasAdvancedBrushMenuComponent } from './components/canvas-advanced-brush-menu/canvas-advanced-brush-menu.component';
 import { CanvasAdvancedImageMenuComponent } from './components/canvas-advanced-image-menu/canvas-advanced-image-menu.component';
+import { PoiOptionsModalComponent } from './components/poi-options-modal/poi-options-modal.component';
+import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
 
 @NgModule({
   imports: [
@@ -63,11 +65,14 @@ import { CanvasAdvancedImageMenuComponent } from './components/canvas-advanced-i
     SModalModule,
     SCardModule,
     SScrollbarModule,
+    ReactiveFormsModule,
+    RxReactiveFormsModule,
   ],
   declarations: [
     EditComponent,
     SaveToastComponent,
     SelectLocationModalComponent,
+    PoiOptionsModalComponent,
     CanvasHeaderComponent,
     CanvasDrawMenuComponent,
     CanvasAdvancedMenuComponent,

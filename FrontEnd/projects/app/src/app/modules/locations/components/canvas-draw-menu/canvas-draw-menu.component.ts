@@ -22,6 +22,8 @@ export class CanvasDrawMenuComponent implements OnInit {
 
   @Output() onAddTextClick: EventEmitter<void> = new EventEmitter<void>();
 
+  @Output() onAddMarkerClick: EventEmitter<void> = new EventEmitter<void>();
+
   //#endregion
 
   constructor() {}
@@ -43,6 +45,11 @@ export class CanvasDrawMenuComponent implements OnInit {
 
   public onTextClick(): void {
     this.onAddTextClick.emit();
+    this.onDrawingChange.emit(false);
+  }
+
+  public onMarkerClick(): void {
+    this.onAddMarkerClick.emit();
     this.onDrawingChange.emit(false);
   }
 }

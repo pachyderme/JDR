@@ -20,6 +20,9 @@
         <img src="../../../../../assets/icons/paint-brush.png" />
       </button>
     </div>
+    <section class="colmun col-12">
+      <s-divider></s-divider>
+    </section>
     <div class="column col-12">
       <button
         class="btn btn-link column col-6"
@@ -72,6 +75,19 @@
         (click)="onTextClick()"
       >
         <img src="../../../../../assets/icons/text.png" />
+      </button>
+    </div>
+    <section class="colmun col-12">
+      <s-divider></s-divider>
+    </section>
+    <div class="column col-12">
+      <button
+        class="btn btn-link column col-6"
+        [sTooltip]="'Add marker'"
+        [sTooltipDirection]="'bottom'"
+        (click)="onMarkerClick()"
+      >
+        <img src="../../../../../assets/icons/marker.png" />
       </button>
     </div>
   </div>

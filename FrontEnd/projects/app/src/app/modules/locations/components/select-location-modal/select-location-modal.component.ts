@@ -1,5 +1,6 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { SModalService } from '@ngx-spectre/common';
+import { Location } from '../../models/Location';
 
 @Component({
   selector: 'app-select-location-modal',
@@ -9,9 +10,10 @@ import { SModalService } from '@ngx-spectre/common';
 export class SelectLocationModalComponent implements OnInit {
   public static id: string = 'selectLocationModal';
 
-  public selectedLocation: any;
+  @Input('item')
+  public selectedLocation: Location;
 
-  public items: any[] = [];
+  public items: Location[] = [];
 
   private text: string =
     'To make a contribution to the world by making tools for the mind that advance humankind.';
@@ -23,41 +25,49 @@ export class SelectLocationModalComponent implements OnInit {
   ngOnInit() {
     this.items = [
       {
+        id: 1,
         src: 'https://picsum.photos/300/150',
         name: 'City 1',
         description: this.text,
       },
       {
+        id: 2,
         src: 'https://picsum.photos/300/150',
         name: 'City 2',
         description: this.text,
       },
       {
+        id: 3,
         src: 'https://picsum.photos/300/150',
         name: 'City 3',
         description: this.text,
       },
       {
+        id: 4,
         src: 'https://picsum.photos/300/150',
         name: 'City 4',
         description: this.text,
       },
       {
+        id: 5,
         src: 'https://picsum.photos/300/150',
         name: 'City 5',
         description: this.text,
       },
       {
+        id: 6,
         src: 'https://picsum.photos/300/150',
         name: 'City 6',
         description: this.text,
       },
       {
+        id: 7,
         src: 'https://picsum.photos/300/150',
         name: 'City 7',
         description: this.text,
       },
       {
+        id: 8,
         src: 'https://picsum.photos/300/150',
         name: 'City 8',
         description: this.text,
