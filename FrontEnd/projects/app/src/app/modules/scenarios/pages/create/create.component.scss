@@ -1,3 +1,36 @@
+@import "../../../../../../../../node_modules/@ngx-spectre/common/assets/variables";
+
 .submit-button-container {
   text-align: center;
+}
+
+.form-container {
+  width: calc(100% + 2rem);
+  padding-right: 2rem;
+  height: calc(100% + 1rem);
+  background-image: url("../../../../../assets/img/workflow.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: bottom -100px right -285px;
+
+  ::ng-deep .card:hover {
+    box-shadow: 0 0.25rem 1rem rgba(48, 55, 66, 0.15);
+  }
+
+  ::ng-deep .card {
+    cursor: auto !important;
+  }
+
+  @supports not (-moz-appearance: none) {
+    /* Add non-firefox CSS code here */
+
+    ::ng-deep .card {
+      backdrop-filter: blur(25px);
+      background: rgba($light-color-rgb, 0.85);
+    }
+  }
+}
+
+.container {
+  height: auto;
 }

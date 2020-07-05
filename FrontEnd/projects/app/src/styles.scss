@@ -8,6 +8,17 @@ body {
   overflow: hidden;
 }
 
+.ps-content {
+  height: 100%;
+  .container {
+    height: 100%;
+  }
+}
+
+perfect-scrollbar[fxflex] > .ps {
+  height: 100% !important;
+}
+
 .docs-nav {
   padding-left: 1rem;
 
@@ -34,7 +45,8 @@ header {
   position: sticky;
   top: 0;
   z-index: 1;
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
 }
 
 s-tab-item,
@@ -115,7 +127,6 @@ s-panel-body {
     position: sticky;
     top: 0;
     z-index: 99;
-    background-color: white;
     padding-top: 1rem;
 
     .s-title {
@@ -137,4 +148,23 @@ canvas {
   display: inline-block;
   position: absolute !important;
   right: 0;
+}
+
+@supports not (-moz-appearance: none) {
+  /* Add non-firefox CSS code here */
+
+  .modal.modal-lg .modal-overlay {
+    animation: test 0.2s ease-in 1 forwards;
+    background: rgba(255, 255, 255, 0.85) !important;
+  }
+
+  @keyframes test {
+    0% {
+      backdrop-filter: blur(0px);
+    }
+
+    100% {
+      backdrop-filter: blur(50px);
+    }
+  }
 }

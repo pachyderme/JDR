@@ -26,6 +26,8 @@
           <!-- Header -->
           <app-canvas-header
             [selectedObject]="selectedObject"
+            [canUndo]="canUndo"
+            [canRedo]="canRedo"
             (onSave)="onSave()"
             (onLoad)="onLoad()"
             (onClear)="onClear()"
@@ -34,6 +36,8 @@
             (onBringToFront)="onBringToFront()"
             (onClone)="onClone()"
             (onCleanSelect)="onCleanSelect()"
+            (onUndo)="onUndo()"
+            (onRedo)="onRedo()"
           ></app-canvas-header>
           <div class="columns">
             <section class="colmun col-1">
@@ -64,6 +68,8 @@
                 #canvas
                 (onSelectObject)="onSelectObject($event)"
                 (onSelectedObjectUpdated)="onSelectedObjectUpdated($event)"
+                (onCanUndoChange)="onCanUndoChange($event)"
+                (onCanRedoChange)="onCanRedoChange($event)"
                 [drawing]="drawing"
                 [brush]="brush"
               ></jdr-fabricjs-editor>

@@ -16,9 +16,11 @@ import { Brush } from './models/Brush';
 import { Image as EditableImage } from './models/Image';
 import { Path as EditablePath } from './models/Path';
 import { EditableObjectTypes } from './models/EditableObjectTypes';
-import { Path } from 'fabric/fabric-impl';
-import { never } from 'rxjs';
 import { Marker } from './models/Marker';
+import { CommandsService } from './services/CommandsService';
+import { RemoveCommand } from './models/commands/RemoveCommand';
+import { AddCommand } from './models/commands/AddCommand';
+import { ModifiedCommand } from './models/commands/ModifiedCommand';
 
 @Component({
   selector: 'jdr-fabricjs-editor',
@@ -43,6 +45,14 @@ export class FabricjsEditorComponent implements AfterViewInit {
   @Output() onSelectedObjectUpdated: EventEmitter<
     IEditableObject
   > = new EventEmitter<IEditableObject>();
+
+  @Output() onCanUndoChange: EventEmitter<boolean> = new EventEmitter<
+    boolean
+  >();
+
+  @Output() onCanRedoChange: EventEmitter<boolean> = new EventEmitter<
+    boolean
+  >();
 
   //#endregion
 
@@ -95,7 +105,7 @@ export class FabricjsEditorComponent implements AfterViewInit {
   private lastDrawedForm: fabric.Path;
   private lastDrawedStroke: fabric.Path;
 
-  constructor() {}
+  constructor(private commandsService: CommandsService) {}
 
   //#region Initializations
 
@@ -135,7 +145,8 @@ export class FabricjsEditorComponent implements AfterViewInit {
   private initializeEvents(): void {
     this.canvas.on({
       'object:moving': (e) => {},
-      'object:modified': (e) => {},
+      'object:moved': (e) => {},
+      'object:modified': this.onObjectModified.bind(this),
       'selection:updated': this.onSelectionUpdated.bind(this),
       'selection:created': this.onSelectionCreated.bind(this),
       'selection:cleared': this.onSelectionCleared.bind(this),
@@ -150,6 +161,35 @@ export class FabricjsEditorComponent implements AfterViewInit {
   //#endregion
 
   //#region Events
+
+  //#region Objets
+
+  private onObjectModified(e: fabric.IEvent): void {
+    const current = {
+      angle: e.target.angle,
+      flipX: e.target.flipX,
+      flipY: e.target.flipY,
+      originX: e.target.originX,
+      originY: e.target.originY,
+      scaleX: e.target.scaleX,
+      scaleY: e.target.scaleY,
+      skewX: e.target.skewX,
+      skewY: e.target.skewY,
+      left: e.target.left,
+      top: e.target.top,
+    };
+
+    const command = new ModifiedCommand(
+      this.canvas,
+      e.target,
+      current,
+      e.transform.original
+    );
+    this.commandsService.insert(command);
+    this.updateUndoRedo();
+  }
+
+  //#endregion
 
   //#region Selection
 
@@ -398,7 +438,7 @@ export class FabricjsEditorComponent implements AfterViewInit {
       });
 
       this.extend(textArea, this.randomId());
-      this.canvas.add(textArea);
+      this.add(textArea);
       this.selectItemAfterAdded(textArea);
     }
   }
@@ -445,7 +485,7 @@ export class FabricjsEditorComponent implements AfterViewInit {
           image.data = map;
         }
 
-        this.canvas.add(image);
+        this.add(image);
         this.selectItemAfterAdded(image);
       });
     }
@@ -501,7 +541,7 @@ export class FabricjsEditorComponent implements AfterViewInit {
     }
 
     this.extend(add, this.randomId());
-    this.canvas.add(add);
+    this.add(add);
     this.selectItemAfterAdded(add);
   }
 
@@ -545,7 +585,7 @@ export class FabricjsEditorComponent implements AfterViewInit {
       }
       if (clone) {
         clone.set({ left: 10, top: 10 });
-        this.canvas.add(clone);
+        this.add(clone);
         this.selectItemAfterAdded(clone);
       }
     }
@@ -553,20 +593,9 @@ export class FabricjsEditorComponent implements AfterViewInit {
 
   public removeSelected(): void {
     const activeObject = this.canvas.getActiveObject();
-    const activeGroup = this.canvas.getActiveObjects();
-
-    if (activeObject) {
-      this.canvas.remove(activeObject);
-      // this.textString = '';
-    }
-
-    if (activeGroup) {
-      this.canvas.discardActiveObject();
-      const self = this;
-      activeGroup.forEach((object) => {
-        self.canvas.remove(object);
-      });
-    }
+    const command = new RemoveCommand(this.canvas, activeObject);
+    this.commandsService.insert(command);
+    this.updateUndoRedo();
   }
 
   public bringToFront(): void {
@@ -1049,6 +1078,40 @@ export class FabricjsEditorComponent implements AfterViewInit {
     const pointer = this.canvas.getPointer(point, false);
 
     this.addImageOnCanvas(url, pointer.y, pointer.x, width, height);
+  }
+
+  //#endregion
+
+  //#region undo / redo
+
+  public add(object: fabric.Object): void {
+    this.commandsService.insert(new AddCommand(this.canvas, object));
+    this.updateUndoRedo();
+  }
+
+  public undo(): void {
+    this.commandsService.undo();
+    this.updateUndoRedo();
+  }
+
+  public redo(): void {
+    this.commandsService.redo();
+    this.updateUndoRedo();
+  }
+
+  private updateUndoRedo(): void {
+    this.canUndoChanged();
+    this.canRedoChanged();
+  }
+
+  private canUndoChanged(): void {
+    const canUndo = this.commandsService.canUndo();
+    this.onCanUndoChange.emit(canUndo);
+  }
+
+  private canRedoChanged(): void {
+    const canRedo = this.commandsService.canRedo();
+    this.onCanRedoChange.emit(canRedo);
   }
 
   //#endregion

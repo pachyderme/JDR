@@ -18,6 +18,10 @@ export class CanvasHeaderComponent {
 
   @Input() selectedObject: IEditableObject;
 
+  @Input() canUndo: boolean;
+
+  @Input() canRedo: boolean;
+
   //#endregion
 
   //#region Outputs
@@ -30,6 +34,8 @@ export class CanvasHeaderComponent {
   @Output() onBringToFront: EventEmitter<void> = new EventEmitter<void>();
   @Output() onClone: EventEmitter<void> = new EventEmitter<void>();
   @Output() onCleanSelect: EventEmitter<void> = new EventEmitter<void>();
+  @Output() onUndo: EventEmitter<void> = new EventEmitter<void>();
+  @Output() onRedo: EventEmitter<void> = new EventEmitter<void>();
 
   //#endregion
 
@@ -65,6 +71,14 @@ export class CanvasHeaderComponent {
 
   public onCleanSelectClick(): void {
     this.onCleanSelect.emit();
+  }
+
+  public onUndoClick(): void {
+    this.onUndo.emit();
+  }
+
+  public onRedoClick(): void {
+    this.onRedo.emit();
   }
 
   public hasSelectedObject(): boolean {

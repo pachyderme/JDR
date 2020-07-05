@@ -277,4 +277,16 @@ export class CanvasService {
   //#endregion
 
   //#endregion
+
+  //#region undo / redo
+
+  public undo(canvas: FabricjsEditorComponent): void {
+    canvas.undo();
+  }
+
+  public redo(canvas: FabricjsEditorComponent): void {
+    canvas.redo();
+  }
+
+  //#endregion
 }

@@ -77,4 +77,25 @@
       <img src="../../../../../assets/icons/unselect.png" />
     </button>
   </div>
+  <s-divider [vertical]="true"></s-divider>
+  <div class="column col-1">
+    <button
+      class="btn btn-link column col-6"
+      [sTooltip]="'Undo'"
+      [sTooltipDirection]="'bottom'"
+      [disabled]="!canUndo"
+      (click)="onUndoClick()"
+    >
+      <img src="../../../../../assets/icons/undo.png" />
+    </button>
+    <button
+      class="btn btn-link column col-6"
+      [sTooltip]="'Redo'"
+      [sTooltipDirection]="'bottom'"
+      [disabled]="!canRedo"
+      (click)="onRedoClick()"
+    >
+      <img src="../../../../../assets/icons/redo.png" />
+    </button>
+  </div>
 </div>

@@ -37,6 +37,8 @@ export class EditComponent implements OnInit, AfterViewInit {
   public backgroundImagePath: string;
   public backgroundColor: string;
   public drawing: boolean = false;
+  public canUndo: boolean = false;
+  public canRedo: boolean = false;
 
   public exportedJson: string;
 
@@ -71,6 +73,17 @@ export class EditComponent implements OnInit, AfterViewInit {
       case Key.Delete:
         this.canvasService.removeSelected(this.canvas);
         break;
+    }
+
+    if (event.ctrlKey) {
+      switch (event.keyCode) {
+        case Key.Z:
+          this.onUndo();
+          break;
+        case Key.Y:
+          this.onRedo();
+          break;
+      }
     }
   }
 
@@ -127,6 +140,22 @@ export class EditComponent implements OnInit, AfterViewInit {
 
   public onCleanSelect(): void {
     this.canvasService.cleanSelect(this.canvas);
+  }
+
+  public onUndo(): void {
+    this.canvasService.undo(this.canvas);
+  }
+
+  public onRedo(): void {
+    this.canvasService.redo(this.canvas);
+  }
+
+  public onCanUndoChange(canUndo: boolean): void {
+    this.canUndo = canUndo;
+  }
+
+  public onCanRedoChange(canRedo: boolean): void {
+    this.canRedo = canRedo;
   }
 
   public onDrawingChange(value: boolean): void {
