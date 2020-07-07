@@ -1,3 +1,34 @@
-<p>
-  list works!
-</p>
+<header class="page-title">
+  <h1 class="s-title">Characters</h1>
+  <button class="btn btn-action s-circle float-right" routerLink="../create">
+    <i class="icon icon-plus"></i>
+  </button>
+  <div class="divider"></div>
+</header>
+<div class="container characters-list-container">
+  <section class="columns">
+    <s-card
+      class="column col-3 col-xl-4 col-lg-6 col-sm-6 col-xs-6"
+      *ngFor="let item of items"
+    >
+      <s-card-image [src]="item.src"></s-card-image>
+      <s-card-header [title]="item.name"> </s-card-header>
+      <s-card-footer>
+        <button class="btn btn-link" (click)="onEditClick(item)">Edit</button>
+        <s-dropdown [right]="true">
+          <s-dropdown-button [displayArrow]="false"
+            ><i class="icon icon-more-vert"></i
+          ></s-dropdown-button>
+          <s-menu>
+            <s-menu-item>
+              <a>Share</a>
+            </s-menu-item>
+            <s-menu-item>
+              <a>Delete</a>
+            </s-menu-item>
+          </s-menu>
+        </s-dropdown>
+      </s-card-footer>
+    </s-card>
+  </section>
+</div>

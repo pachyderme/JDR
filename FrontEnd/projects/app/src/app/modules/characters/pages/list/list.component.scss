@@ -1,0 +1,13 @@
+.characters-list-container {
+  ::ng-deep .card-image img {
+    margin: 1rem auto;
+    height: 200px;
+  }
+
+  ::ng-deep .card-footer {
+    text-align: right;
+    .menu {
+      text-align: left;
+    }
+  }
+}

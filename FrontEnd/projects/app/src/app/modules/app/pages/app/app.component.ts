@@ -11,7 +11,7 @@ export class AppComponent {
 
   public constructor(private themingService: SThemingService) {
     const theme = new SThemeConfiguration();
-    theme.primaryColor = '#CF2900';
+    theme.primaryColor = '#0078D4';
     this.themingService.update(theme);
   }
 }
