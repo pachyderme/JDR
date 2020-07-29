@@ -1,4 +1,4 @@
-<header class="page-title">
+<header class="page-title container">
   <h1 class="s-title">Your scenarios</h1>
   <button class="btn btn-action s-circle float-right" routerLink="../create">
     <i class="icon icon-plus"></i>
@@ -8,7 +8,7 @@
 <div class="container scenarios-list-container">
   <section class="columns">
     <s-card
-      class="column col-6 col-xl-6 col-lg-6 col-sm-12 col-xs-12"
+      class="column col-4 col-xl-4 col-lg-6 col-sm-12 col-xs-12"
       *ngFor="let item of items"
     >
       <s-card-image [src]="item.src"></s-card-image>

@@ -1,0 +1,58 @@
+@import "../../../../../../../../node_modules/@ngx-spectre/common/assets/variables";
+
+.user-profile-menu {
+  text-align: right;
+
+  ::ng-deep .menu {
+    margin-right: 4em;
+    backdrop-filter: blur(25px);
+    background-color: rgba(255, 255, 255, 0.75);
+    padding: 0;
+    min-width: 300px !important;
+  }
+
+  .user-profile-thumbnail {
+    text-align: center;
+    padding: 1em;
+    ::ng-deep .avatar {
+      font-size: 1.8rem;
+      height: 5rem;
+      width: 5rem;
+
+      .avatar-presence {
+        width: 0.8em;
+        height: 0.8em;
+      }
+    }
+
+    .summary {
+      margin-top: 1em;
+
+      .btn {
+        margin-top: 2em;
+        background-color: transparent;
+        border-radius: 100px;
+        width: 150px;
+      }
+      .btn:hover {
+        background-color: rgba($primary-color-rgb, 0.85) !important;
+        color: $light-color !important;
+        font-weight: 400 !important;
+      }
+    }
+  }
+
+  .user-profile-actions {
+    a {
+      color: $gray-color-light !important;
+    }
+
+    a:hover {
+      color: $primary-color !important;
+    }
+  }
+
+  .user-profile-dropdown {
+    cursor: pointer;
+  }
+}

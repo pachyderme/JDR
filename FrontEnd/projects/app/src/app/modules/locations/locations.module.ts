@@ -39,6 +39,8 @@ import { CanvasAdvancedBrushMenuComponent } from './components/canvas-advanced-b
 import { CanvasAdvancedImageMenuComponent } from './components/canvas-advanced-image-menu/canvas-advanced-image-menu.component';
 import { PoiOptionsModalComponent } from './components/poi-options-modal/poi-options-modal.component';
 import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
+import { ListComponent } from './pages/list/list.component';
+import { CreateComponent } from './pages/create/create.component';
 
 @NgModule({
   imports: [
@@ -67,9 +69,12 @@ import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
     SScrollbarModule,
     ReactiveFormsModule,
     RxReactiveFormsModule,
+    SCardModule,
   ],
   declarations: [
     EditComponent,
+    ListComponent,
+    CreateComponent,
     SaveToastComponent,
     SelectLocationModalComponent,
     PoiOptionsModalComponent,

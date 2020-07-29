@@ -1,0 +1,21 @@
+@import "../../../../../../../../node_modules/@ngx-spectre/common/assets/variables";
+@import "../../../../../../../../node_modules/@ngx-spectre/common/assets/mixins";
+
+.tiles-container {
+  padding: 1rem;
+
+  ::ng-deep s-tile-content {
+    max-width: 100%;
+  }
+
+  ::ng-deep .menu {
+    box-shadow: 0 0.25rem (0.25rem + 0.05rem) * 2 rgba($dark-color-rgb, 0.3) !important;
+    background: $bg-color-light !important;
+  }
+}
+
+.general-buttons-container {
+  button {
+    width: 100%;
+  }
+}

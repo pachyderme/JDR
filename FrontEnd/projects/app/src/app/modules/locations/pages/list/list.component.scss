@@ -1,7 +1,8 @@
-.characters-list-container {
-  ::ng-deep .card-image img {
-    margin: 1rem auto;
-    height: 200px;
+.scenarios-list-container {
+  ::ng-deep .card .card-image:last-child img {
+    height: 250px;
+    width: 100%;
+    object-fit: cover;
   }
 
   ::ng-deep .card-footer {

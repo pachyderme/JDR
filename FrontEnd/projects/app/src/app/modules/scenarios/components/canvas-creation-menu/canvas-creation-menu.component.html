@@ -1,0 +1,89 @@
+<section class="col-12">
+  <section class="columns col-12 general-buttons-container">
+    <div class="column">
+      <button class="btn" (click)="onAddEmptyNodeClick($event)">
+        Add empty node
+      </button>
+    </div>
+    <div class="column">
+      <button class="btn" (click)="onAddTextClick($event)">
+        Add text
+      </button>
+    </div>
+  </section>
+  <s-accordion [arrow]="true" id="scenario-accordion-group-1">
+    <s-accordion-header>
+      Locations
+    </s-accordion-header>
+    <s-accordion-body>
+      <section class="columns tiles-container">
+        <s-tile
+          *ngFor="let item of locations"
+          [compact]="true"
+          class="col-6 col-lg-12"
+          [sTooltip]="item.name"
+          [sTooltipDirection]="'top'"
+        >
+          <s-tile-content (click)="onLocationClick(item)">
+            <s-tile-title>
+              {{ item.name }}
+            </s-tile-title>
+            <s-tile-subtitle class="text-gray text-ellipsis">
+              {{ item.comment }}
+            </s-tile-subtitle>
+          </s-tile-content>
+          <s-tile-action>
+            <s-dropdown>
+              <s-dropdown-button [displayArrow]="false">
+                <i class="icon icon-more-vert"></i>
+              </s-dropdown-button>
+              <s-menu>
+                <s-menu-item>
+                  <a (click)="onLocationEditClick(item.id)">Edit</a>
+                </s-menu-item>
+              </s-menu>
+            </s-dropdown>
+          </s-tile-action>
+        </s-tile>
+      </section>
+    </s-accordion-body>
+  </s-accordion>
+
+  <s-accordion [arrow]="true" id="scenario-accordion-group-2">
+    <s-accordion-header>
+      Ressources
+    </s-accordion-header>
+    <s-accordion-body>
+      <section class="columns tiles-container">
+        <s-tile
+          *ngFor="let item of ressources"
+          [compact]="true"
+          class="col-6"
+          [sTooltip]="item.name"
+          [sTooltipDirection]="'top'"
+        >
+          <s-tile-content (click)="onRessourceClick(item)">
+            <s-tile-title>
+              {{ item.name }}
+            </s-tile-title>
+            <s-tile-subtitle class="text-gray text-ellipsis">
+              {{ item.comment }}
+            </s-tile-subtitle>
+          </s-tile-content>
+          <s-tile-action>
+            <s-dropdown>
+              <s-dropdown-button [displayArrow]="false">
+                <i class="icon icon-more-vert"></i>
+              </s-dropdown-button>
+              <s-menu>
+                <s-menu-item>
+                  <a (click)="onRessourceEditClick(item.id)">Edit</a>
+                </s-menu-item>
+              </s-menu>
+            </s-dropdown>
+          </s-tile-action>
+        </s-tile>
+      </section>
+    </s-accordion-body>
+  </s-accordion>
+</section>

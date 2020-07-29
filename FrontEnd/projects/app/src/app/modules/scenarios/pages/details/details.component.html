@@ -1,9 +1,43 @@
-<header class="page-title">
+<header class="page-title container">
   <h1 class="s-title">Editing : {{ scenario.name }}</h1>
   <div class="divider"></div>
 </header>
 <div class="container">
   <s-tabs>
+    <s-tab-item>
+      <s-tab-item-header>
+        Design
+      </s-tab-item-header>
+      <s-tab-item-body>
+        <div class="columns">
+          <section class="col-8 column editor-container">
+            <jdr-fabricjs-editor
+              class="editor"
+              #canvas
+              (onSelectObject)="onSelectObject($event)"
+              (onSelectedObjectUpdated)="onSelectedObjectUpdated($event)"
+              (onCanUndoChange)="onCanUndoChange($event)"
+              (onCanRedoChange)="onCanRedoChange($event)"
+              [drawing]="false"
+            ></jdr-fabricjs-editor>
+          </section>
+          <section>
+            <s-divider [vertical]="true"></s-divider>
+          </section>
+          <app-canvas-creation-menu
+            class="col-3 column"
+            [locations]="scenario.locations"
+            [ressources]="scenario.ressources"
+            (locationClick)="onAddLocation($event)"
+            (locationEditClick)="onLocationEditClick($event)"
+            (ressourceClick)="onAddRessource($event)"
+            (ressourceEditClick)="onRessourceEditClick($event)"
+            (addEmptyNodeClick)="onAddEmptyNode()"
+            (addTextClick)="onAddText()"
+          ></app-canvas-creation-menu>
+        </div>
+      </s-tab-item-body>
+    </s-tab-item>
     <s-tab-item>
       <s-tab-item-header>
         Summary
@@ -118,14 +152,6 @@
           </div>
         </form>
         <pre>{{ summaryForm.value | json }}</pre>
-      </s-tab-item-body>
-    </s-tab-item>
-    <s-tab-item>
-      <s-tab-item-header>
-        Design
-      </s-tab-item-header>
-      <s-tab-item-body>
-        tab2
       </s-tab-item-body>
     </s-tab-item>
     <s-tab-item>
@@ -255,7 +281,7 @@
                   </s-dropdown-button>
                   <s-menu>
                     <s-menu-item>
-                      <a>Edit</a>
+                      <a (click)="onRessourceEditClick(item.id)">Edit</a>
                     </s-menu-item>
                     <s-menu-item>
                       <a>Delete</a>

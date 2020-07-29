@@ -1,0 +1,43 @@
+<section class="user-profile-menu">
+  <s-dropdown [right]="true">
+    <s-dropdown-button [displayArrow]="false"
+      ><s-avatar
+        class="user-profile-dropdown"
+        [initials]="'PB'"
+        [size]="'lg'"
+        [status]="'online'"
+        [mainImage]="'../../../../../assets/img/avatar.png'"
+      >
+      </s-avatar
+    ></s-dropdown-button>
+    <s-menu>
+      <section class="user-profile-actions">
+        <a
+          routerLink="/report-bugs"
+          class="btn btn-link"
+          routerLinkActive="active"
+          ><i class="icon icon-mail"></i
+        ></a>
+        <a routerLink="/settings" class="btn btn-link" routerLinkActive="active"
+          ><i class="icon icon-shutdown"></i
+        ></a>
+      </section>
+      <section class="user-profile-thumbnail">
+        <s-avatar
+          class="user-profile-dropdown"
+          [initials]="'PB'"
+          [size]="'lg'"
+          [status]="'online'"
+          [mainImage]="'../../../../../assets/img/avatar.png'"
+        ></s-avatar>
+        <div class="summary">
+          <h5>Pachyderme</h5>
+          <div>bouvetpierre49@gmail.com</div>
+          <a class="btn" routerLink="/user-settings" routerLinkActive="active"
+            >Settings</a
+          >
+        </div>
+      </section>
+    </s-menu>
+  </s-dropdown>
+</section>

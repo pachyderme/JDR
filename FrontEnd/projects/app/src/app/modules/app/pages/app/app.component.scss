@@ -18,8 +18,60 @@ content .container {
   padding-bottom: 2rem;
 }
 
+.desktop-menu {
+  display: none;
+}
+
 @media (min-width: $off-canvas-breakpoint) {
   content .container {
     padding: 0 1rem 1rem 1rem;
   }
+
+  ::ng-deep .off-canvas.off-canvas-sidebar-show .off-canvas-sidebar {
+    display: none;
+  }
+
+  .desktop-menu {
+    display: block;
+    position: relative;
+    width: 100%;
+    padding: 0.5em 1em;
+
+    .menu-item {
+      line-height: 3em;
+      vertical-align: middle;
+      text-align: center;
+    }
+
+    .logo,
+    .logo a {
+      background-color: $primary-color;
+      color: $light-color;
+      transition: background-color ease-in 0.15s, color ease-in 0.15s;
+    }
+
+    .logo:hover,
+    .logo:hover a {
+      color: $primary-color;
+      background-color: $light-color;
+    }
+
+    .logo {
+      padding: 0.5em;
+      text-align: center;
+
+      a:hover {
+        text-decoration: none;
+      }
+
+      h2 {
+        font-size: 1.5em;
+        margin: 0;
+      }
+    }
+  }
+}
+
+.columns {
+  margin: 0;
 }

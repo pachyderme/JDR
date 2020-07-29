@@ -1,0 +1,48 @@
+@import "../../../../../../../../node_modules/@ngx-spectre/common/assets/variables";
+
+.columns {
+  margin: 0;
+}
+
+.page {
+  margin-top: -4em;
+}
+
+.left-container {
+  background-image: radial-gradient(
+    circle 732px at 96.2% 89.9%,
+    rgba(70, 66, 159, 1) 0%,
+    rgba(187, 43, 107, 1) 92%
+  );
+
+  height: 100vh;
+  display: table;
+  text-align: center;
+
+  div {
+    display: table-cell;
+    vertical-align: middle;
+    font-size: 4em;
+    color: $light-color;
+  }
+}
+
+.form {
+  .form-container {
+    margin: 0 auto;
+  }
+  .form-data {
+    height: 70vh;
+    padding: 0 1em 0 1em;
+  }
+}
+
+@media (max-width: 960px) {
+  .left-container {
+    display: none;
+  }
+
+  .form {
+    height: 100vh;
+  }
+}

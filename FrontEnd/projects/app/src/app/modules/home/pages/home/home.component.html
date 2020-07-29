@@ -1,5 +1,52 @@
-<div class="container">
-  <p>
-    home works!
-  </p>
+<div class="columns home-page">
+  <section class="col-4 col-lg-12 confirm-container">
+    <div class="overlay">
+      <button
+        class="btn btn-primary text-uppercase btn-themed"
+        *ngIf="selectedItem"
+      >
+        Apply
+      </button>
+    </div>
+  </section>
+  <section class="col-8 col-lg-12 form columns">
+    <h3 class="form-title col-12 text-uppercase">Choose your universe</h3>
+    <s-scrollbar
+      class="col-8 col-xl-12 col-lg-12 col-sm-12 col-xs-12 form-univers-container"
+    >
+      <div class="form-univers col-12">
+        <s-tile
+          *ngFor="let item of items"
+          class="col-12 column"
+          (click)="onUniversClick(item)"
+          [ngClass]="{ selected: selectedItem === item }"
+        >
+          <s-tile-icon>
+            <img
+              src="{{ item.src }}"
+              class="img-responsive univers-img"
+              alt="..."
+            />
+          </s-tile-icon>
+          <s-tile-content>
+            <s-tile-title>
+              <div class="univers-label">
+                {{ item.label }}
+              </div>
+            </s-tile-title>
+            <s-tile-subtitle class="text-gray">
+              {{ item.description }}
+            </s-tile-subtitle>
+          </s-tile-content>
+        </s-tile>
+      </div>
+    </s-scrollbar>
+  </section>
+  <section class="col-4 col-lg-12 confirm-container-mobile">
+    <div class="overlay">
+      <button class="btn btn-primary text-uppercase" *ngIf="selectedItem">
+        Apply
+      </button>
+    </div>
+  </section>
 </div>

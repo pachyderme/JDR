@@ -1,0 +1,98 @@
+@import "../../../../../../../../node_modules/@ngx-spectre/common/assets/variables";
+
+.columns {
+  margin: 0;
+}
+
+.home-page {
+  margin-top: -4em;
+}
+
+.confirm-container,
+.confirm-container-mobile {
+  background-image: url(../../../../../assets/img/home_choose.svg);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  height: 100vh;
+  display: table;
+
+  .overlay {
+    width: 100%;
+    height: 100%;
+    background-color: rgba($light-color-rgb, 0.5);
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+  }
+}
+
+.confirm-container-mobile {
+  display: none;
+}
+
+.form {
+  background-color: #0084e9;
+  background-image: linear-gradient(230deg, #0084e9 0%, #2af598 100%);
+
+  .form-title {
+    color: $light-color;
+    font-size: 4em;
+    display: block;
+    text-align: center;
+    height: 20vh;
+    line-height: 20vh;
+    margin: 0;
+  }
+
+  .form-univers-container {
+    margin: 0 auto;
+  }
+  .form-univers {
+    height: 70vh;
+    padding: 0 1em 0 1em;
+
+    ::ng-deep .tile {
+      background-color: rgba($light-color-rgb, 0.85);
+      backdrop-filter: blur(50px);
+      border-radius: 10px;
+      transition: background-color ease-in 0.25s, color ease-in 0.25s, box-shadow ease-in 0.25s;
+    }
+
+    ::ng-deep .selected .tile {
+      background-color: rgba($success-color-rgb, 0.85);
+      color: $light-color;
+      box-shadow: 0 0.25rem 1rem rgba(48, 55, 66, 0.15);
+    }
+
+    .univers-img {
+      max-height: 8em;
+      width: 10em;
+    }
+
+    .univers-label {
+      font-size: 1.5em;
+    }
+  }
+}
+
+@media (max-width: 960px) {
+  .confirm-container {
+    display: none;
+  }
+
+  .confirm-container-mobile {
+    display: block;
+    background: none;
+    height: 150px;
+
+    .overlay {
+      display: block;
+      margin-top: 1em;
+    }
+  }
+
+  .form {
+    height: 100vh;
+  }
+}

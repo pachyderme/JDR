@@ -17,9 +17,14 @@ import {
   STileModule,
   SNavModule,
   SDividerModule,
+  SAccordionModule,
+  STooltipDirectiveModule,
 } from '@ngx-spectre/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StartWithPipe } from '../../shared/pipes/start-with.pipe';
+import { FabricjsEditorModule } from 'projects/fabricjs-editor/src/public-api';
+import { CanvasService } from '../locations/services/canvas.service';
+import { CanvasCreationMenuComponent } from './components/canvas-creation-menu/canvas-creation-menu.component';
 
 @NgModule({
   imports: [
@@ -38,8 +43,16 @@ import { StartWithPipe } from '../../shared/pipes/start-with.pipe';
     STileModule,
     SNavModule,
     SDividerModule,
+    FabricjsEditorModule,
+    SAccordionModule,
+    STooltipDirectiveModule,
   ],
-  declarations: [ListComponent, DetailsComponent, CreateComponent],
-  providers: [StartWithPipe],
+  declarations: [
+    ListComponent,
+    DetailsComponent,
+    CreateComponent,
+    CanvasCreationMenuComponent,
+  ],
+  providers: [StartWithPipe, CanvasService],
 })
 export class ScenariosModule {}

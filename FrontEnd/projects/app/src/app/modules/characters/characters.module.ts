@@ -4,7 +4,13 @@ import { ListComponent } from './pages/list/list.component';
 import { DetailsComponent } from './pages/details/details.component';
 import { CreateComponent } from './pages/create/create.component';
 import { CharactersRoutingModule } from './characters-routing.module';
-import { SCardModule, SDropdownModule, SMenuModule } from '@ngx-spectre/common';
+import {
+  SCardModule,
+  SDropdownModule,
+  SMenuModule,
+  SThemingService,
+  CommonModule as SCommonModule,
+} from '@ngx-spectre/common';
 import { CharactersService } from './services/characters.service';
 
 @NgModule({
@@ -14,8 +20,9 @@ import { CharactersService } from './services/characters.service';
     SCardModule,
     SDropdownModule,
     SMenuModule,
+    SCommonModule,
   ],
   declarations: [ListComponent, DetailsComponent, CreateComponent],
-  providers: [CharactersService],
+  providers: [CharactersService, SThemingService],
 })
 export class CharactersModule {}
