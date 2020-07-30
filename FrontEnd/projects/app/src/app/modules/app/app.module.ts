@@ -11,6 +11,26 @@ import {
 } from '@ngx-spectre/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UserModule } from '../user/user.module';
+import {
+  NgxUiLoaderModule,
+  NgxUiLoaderRouterModule,
+  NgxUiLoaderHttpModule,
+  NgxUiLoaderConfig,
+} from 'ngx-ui-loader';
+
+const ngxUiLoaderConfig: NgxUiLoaderConfig = {
+  fgsSize: 50,
+  fgsColor: '#0EB7EF',
+  fgsType: 'double-bounce',
+  logoUrl: '../../../assets/img/logo_centered.png',
+  logoSize: 150,
+  logoPosition: 'center-center',
+  overlayColor: 'rgba(255, 255, 255, 0.75)',
+  pbColor: '#0EB7EF',
+  pbDirection: 'ltr',
+  pbThickness: 3,
+  hasProgressBar: true,
+};
 
 @NgModule({
   declarations: [AppComponent],
@@ -21,6 +41,9 @@ import { UserModule } from '../user/user.module';
     CommonModule,
     SDropdownModule,
     UserModule,
+    NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
+    NgxUiLoaderRouterModule,
+    NgxUiLoaderHttpModule,
   ],
   providers: [SThemingService],
   bootstrap: [AppComponent],

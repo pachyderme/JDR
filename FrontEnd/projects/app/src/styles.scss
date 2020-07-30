@@ -47,6 +47,10 @@ body {
   }
 }
 
+.ngx-overlay {
+  backdrop-filter: blur(40px);
+}
+
 a {
   transition: color ease 0.25s, font-weight ease 0.25s;
 }
