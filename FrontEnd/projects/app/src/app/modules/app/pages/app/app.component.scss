@@ -36,6 +36,7 @@ content .container {
     position: relative;
     width: 100%;
     padding: 0.5em 1em;
+    height: 64px;
 
     .menu-item {
       line-height: 3em;
@@ -44,16 +45,17 @@ content .container {
     }
 
     .logo,
-    .logo a {
-      background-color: $primary-color;
-      color: $light-color;
+    .logo a,
+    .log a:active {
+      background-color: $primary-color !important;
+      color: $light-color !important;
       transition: background-color ease-in 0.15s, color ease-in 0.15s;
     }
 
     .logo:hover,
     .logo:hover a {
-      color: $primary-color;
-      background-color: $light-color;
+      color: $primary-color !important;
+      background-color: $light-color !important;
     }
 
     .logo {
