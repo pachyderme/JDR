@@ -12,6 +12,9 @@ import {
   CommonModule as SCommonModule,
 } from '@ngx-spectre/common';
 import { CharactersService } from './services/characters.service';
+import { CharacterResolver } from './resolvers/character.resolver';
+import { CharactersResolver } from './resolvers/characters.resolver';
+import { RouteDataService } from '../../shared/services/route-data.service';
 
 @NgModule({
   imports: [
@@ -23,6 +26,6 @@ import { CharactersService } from './services/characters.service';
     SCommonModule,
   ],
   declarations: [ListComponent, DetailsComponent, CreateComponent],
-  providers: [CharactersService, SThemingService],
+  providers: [SThemingService, CharacterResolver, CharactersResolver],
 })
 export class CharactersModule {}
