@@ -5,7 +5,7 @@ import {
 } from '@angular/router';
 import { Observable } from 'rxjs';
 import { CharactersService } from '../services/characters.service';
-import { Character } from '../models/Character';
+import { Character } from '../models/character';
 import { Injectable } from '@angular/core';
 
 @Injectable()

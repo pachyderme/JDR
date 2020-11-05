@@ -8,6 +8,8 @@ import { StartWithPipe } from 'projects/app/src/app/shared/pipes/start-with.pipe
 import { IEditableObject } from 'projects/fabricjs-editor/src/lib/models/IEditableObject';
 import { CanvasService } from '../../../locations/services/canvas.service';
 import { FabricjsEditorComponent } from 'projects/fabricjs-editor/src/public-api';
+import { Scenario } from '../../models/scenario';
+import { RouteDataService } from 'projects/app/src/app/shared/services/route-data.service';
 
 @Component({
   selector: 'app-details',
@@ -15,6 +17,8 @@ import { FabricjsEditorComponent } from 'projects/fabricjs-editor/src/public-api
   styleUrls: ['./details.component.scss'],
 })
 export class DetailsComponent implements OnInit, AfterViewInit {
+
+  public item: Scenario;
   public scenario: any;
   public summaryForm: FormGroup;
 
@@ -33,19 +37,18 @@ export class DetailsComponent implements OnInit, AfterViewInit {
     private charactersService: CharactersService,
     private templatesService: TemplatesService,
     private router: Router,
-    private canvasService: CanvasService
+    private canvasService: CanvasService,
+    private routeDataService: RouteDataService
   ) {}
 
   ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('id');
+    this.item = this.routeDataService.getItem(this.route);
 
     this.universes = this.universService.get();
     this.characters = this.charactersService.get();
     this.templates = this.templatesService.get();
 
     this.scenario = {
-      id,
-      name: `Scenario (${id})`,
       universe: {
         label: "Star wars - The Great Sith's war",
         initials: 'SW',
@@ -108,6 +111,8 @@ export class DetailsComponent implements OnInit, AfterViewInit {
       ],
     };
 
+    this.scenario = {...this.scenario, ...this.item};
+
     this.summaryForm = this.formBuilder.group({
       name: [this.scenario.name],
       summary: [this.scenario.summary],
@@ -117,6 +122,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
       characters: [this.scenario.characters],
       template: [this.scenario.template],
     });
+
   }
 
   public ngAfterViewInit(): void {}

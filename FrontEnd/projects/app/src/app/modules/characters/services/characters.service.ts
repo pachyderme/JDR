@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Character } from '../models/Character';
+import { Character } from '../models/character';
 import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CharactersService {
-  private characters: Character[] = [
+  private items: Character[] = [
     {
       id: 1,
       name: 'Anakin Skywalker',
@@ -64,12 +64,12 @@ export class CharactersService {
   constructor() {}
 
   public get(id: number): Observable<Character> {
-    const result = this.characters.find((item) => item.id === id);
+    const result = this.items.find((item) => item.id === id);
 
     return of(result);
   }
 
   public list(): Observable<Character[]> {
-    return of(this.characters);
+    return of(this.items);
   }
 }

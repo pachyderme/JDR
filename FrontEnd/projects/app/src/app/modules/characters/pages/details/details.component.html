@@ -1,5 +1,86 @@
-<p>
-  details works!
-</p>
+<header class="page-title container">
+  <h1 class="s-title">Editing : {{ item.name }}</h1>
+  <div class="divider"></div>
+</header>
+<div class="container">
+  <form [formGroup]="mainForm" class="container">
+  <s-tabs>
+    <s-tab-item>
+      <s-tab-item-header>
+        Summary
+      </s-tab-item-header>
+      <s-tab-item-body>
+          <div class="columns">
+            <div class="form-group column col-6">
+              <s-input
+                [label]="'Nom'"
+                [type]="'text'"
+                [enabled]="true"
+                formControlName="name"
+                [placeholder]="'R2D2...'"
+              >
+              </s-input>
+              <s-textarea
+                [label]="'Biography'"
+                [enabled]="true"
+                formControlName="biography"
+                [placeholder]="'Once upon a time...'"
+              >
+              </s-textarea>
+            </div>
+            <div class="form-group column col-6">
+              <s-input
+              [label]="'Image Url'"
+              [type]="'text'"
+              [enabled]="true"
+              formControlName="src"
+              [placeholder]="'https://static.wikia.nocookie.net/frstarwars/images/0/0c/R2-D2.png/revision/latest?cb=20161110201414'"
+            ></s-input>
+            </div>
+          </div>
+      </s-tab-item-body>
+    </s-tab-item>
+    <s-tab-item>
+      <s-tab-item-header>
+        Characteristics
+      </s-tab-item-header>
+      <s-tab-item-body>
+        <div class="columns">
 
-{{ item | json }}
+        </div>
+      </s-tab-item-body>
+    </s-tab-item>
+    <s-tab-item>
+      <s-tab-item-header>
+        Skills
+      </s-tab-item-header>
+      <s-tab-item-body>
+        <div class="columns">
+
+        </div>
+      </s-tab-item-body>
+    </s-tab-item>
+    <s-tab-item>
+      <s-tab-item-header>
+        Talents
+      </s-tab-item-header>
+      <s-tab-item-body>
+        <div class="columns">
+
+        </div>
+      </s-tab-item-body>
+    </s-tab-item>
+    <s-tab-item>
+      <s-tab-item-header>
+        Items
+      </s-tab-item-header>
+      <s-tab-item-body>
+        <div class="columns">
+
+        </div>
+      </s-tab-item-body>
+    </s-tab-item>
+  </s-tabs>
+</form>
+</div>
+

@@ -11,10 +11,10 @@ import {
   SThemingService,
   CommonModule as SCommonModule,
 } from '@ngx-spectre/common';
-import { CharactersService } from './services/characters.service';
 import { CharacterResolver } from './resolvers/character.resolver';
 import { CharactersResolver } from './resolvers/characters.resolver';
-import { RouteDataService } from '../../shared/services/route-data.service';
+import { ReactiveFormsModule } from '@angular/forms';
+import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
 
 @NgModule({
   imports: [
@@ -24,6 +24,8 @@ import { RouteDataService } from '../../shared/services/route-data.service';
     SDropdownModule,
     SMenuModule,
     SCommonModule,
+    ReactiveFormsModule,
+    RxReactiveFormsModule
   ],
   declarations: [ListComponent, DetailsComponent, CreateComponent],
   providers: [SThemingService, CharacterResolver, CharactersResolver],

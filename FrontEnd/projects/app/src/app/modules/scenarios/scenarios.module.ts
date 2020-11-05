@@ -25,6 +25,8 @@ import { StartWithPipe } from '../../shared/pipes/start-with.pipe';
 import { FabricjsEditorModule } from 'projects/fabricjs-editor/src/public-api';
 import { CanvasService } from '../locations/services/canvas.service';
 import { CanvasCreationMenuComponent } from './components/canvas-creation-menu/canvas-creation-menu.component';
+import { ScenarioResolver } from './resolvers/scenario.resolver';
+import { ScenariosResolver } from './resolvers/scenarios.resolver';
 
 @NgModule({
   imports: [
@@ -53,6 +55,6 @@ import { CanvasCreationMenuComponent } from './components/canvas-creation-menu/c
     CreateComponent,
     CanvasCreationMenuComponent,
   ],
-  providers: [StartWithPipe, CanvasService],
+  providers: [StartWithPipe, CanvasService, ScenarioResolver, ScenariosResolver],
 })
 export class ScenariosModule {}

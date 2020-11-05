@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { RouteDataService } from 'projects/app/src/app/shared/services/route-data.service';
+import { Scenario } from '../../models/scenario';
 
 @Component({
   selector: 'app-list',
@@ -12,14 +14,12 @@ export class ListComponent implements OnInit {
   public text: string =
     'To make a contribution to the world by making tools for the mind that advance humankind.';
   public src: string = 'https://picsum.photos/900/500';
-  public items: any[] = [];
+  public items: Scenario[] = [];
 
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  constructor(private router: Router, private route: ActivatedRoute, private routeDataService: RouteDataService) {}
 
   ngOnInit() {
-    for (let i = 0; i < 4; i++) {
-      this.items.push({ src: this.getSrc(), id: i });
-    }
+    this.items = this.routeDataService.getItems(this.route);
   }
 
   public getTime(): string {

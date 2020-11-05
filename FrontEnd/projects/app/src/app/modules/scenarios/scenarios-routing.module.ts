@@ -3,7 +3,8 @@ import { NgModule } from '@angular/core';
 import { ListComponent } from './pages/list/list.component';
 import { DetailsComponent } from './pages/details/details.component';
 import { CreateComponent } from './pages/create/create.component';
-
+import { ScenariosResolver} from './resolvers/scenarios.resolver'
+import { ScenarioResolver } from './resolvers/scenario.resolver';
 const routes: Routes = [
   {
     path: '',
@@ -13,10 +14,16 @@ const routes: Routes = [
   {
     path: 'list',
     component: ListComponent,
+    resolve: {
+      items: ScenariosResolver,
+    },
   },
   {
     path: 'details/:id',
     component: DetailsComponent,
+    resolve: {
+      item: ScenarioResolver,
+    },
     data: {
       breadcrumb: 'Editing',
     },

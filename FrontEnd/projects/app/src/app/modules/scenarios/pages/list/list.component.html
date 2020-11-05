@@ -11,9 +11,9 @@
       class="column col-4 col-xl-4 col-lg-6 col-sm-12 col-xs-12"
       *ngFor="let item of items"
     >
-      <s-card-image [src]="item.src"></s-card-image>
-      <s-card-header [title]="title"> </s-card-header>
-      <s-card-body>{{ text }}</s-card-body>
+      <s-card-image [src]="item.imageUrl"></s-card-image>
+      <s-card-header [title]="item.name"> </s-card-header>
+      <s-card-body>{{ item.summary }}</s-card-body>
       <s-card-footer>
         <button class="btn btn-link" (click)="onEditClick(item)">Edit</button>
         <s-dropdown [right]="true">

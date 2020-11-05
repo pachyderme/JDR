@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Character } from '../../models/Character';
+import { Character } from '../../models/character';
 import { Router, ActivatedRoute } from '@angular/router';
 import { RouteDataService } from 'projects/app/src/app/shared/services/route-data.service';
 
