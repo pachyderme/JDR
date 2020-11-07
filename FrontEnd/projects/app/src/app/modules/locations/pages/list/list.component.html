@@ -12,8 +12,8 @@
       *ngFor="let item of items"
     >
       <s-card-image [src]="item.src"></s-card-image>
-      <s-card-header [title]="title"> </s-card-header>
-      <s-card-body>{{ text }}</s-card-body>
+      <s-card-header [title]="item.name"> </s-card-header>
+      <s-card-body *ngIf="item.description">{{ item.description }}</s-card-body>
       <s-card-footer>
         <button class="btn btn-link" (click)="onEditClick(item)">Edit</button>
         <s-dropdown [right]="true">

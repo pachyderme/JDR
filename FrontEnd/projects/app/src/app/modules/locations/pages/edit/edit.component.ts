@@ -17,6 +17,8 @@ import { SaveToastComponent } from '../../components/save-toast/save-toast.compo
 import { Key } from 'ts-keycode-enum';
 import { EditableObjectTypes } from 'projects/fabricjs-editor/src/lib/models/EditableObjectTypes';
 import { POI } from '../../models/POI';
+import { RouteDataService } from 'projects/app/src/app/shared/services/route-data.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-edit',
@@ -44,8 +46,9 @@ export class EditComponent implements OnInit, AfterViewInit {
 
   constructor(
     private canvasService: CanvasService,
-    private locationsService: LocationsService,
-    private sToastService: SToastService
+    private sToastService: SToastService,
+    private route: ActivatedRoute,
+    private routeDataService: RouteDataService
   ) {}
 
   //#region Public
@@ -53,7 +56,7 @@ export class EditComponent implements OnInit, AfterViewInit {
   //#region Initialization
 
   public ngOnInit(): void {
-    this.location = this.locationsService.get(1);
+    this.location = this.routeDataService.getItem(this.route);
     this.initListerners();
   }
 

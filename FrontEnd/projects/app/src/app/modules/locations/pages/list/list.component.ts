@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { RouteDataService } from 'projects/app/src/app/shared/services/route-data.service';
+import { Location } from '../../models/location';
 
 @Component({
   selector: 'app-list',
@@ -7,27 +9,12 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./list.component.scss'],
 })
 export class ListComponent implements OnInit {
-  public title: string = 'Card title';
-  public subtitle: string = 'Subtitle';
-  public text: string =
-    'To make a contribution to the world by making tools for the mind that advance humankind.';
-  public src: string = 'https://picsum.photos/900/500';
-  public items: any[] = [];
+  public items: Location[] = [];
 
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  constructor(private router: Router, private route: ActivatedRoute, private routeDataService: RouteDataService) {}
 
   ngOnInit() {
-    for (let i = 0; i < 4; i++) {
-      this.items.push({ src: this.getSrc(), id: i });
-    }
-  }
-
-  public getTime(): string {
-    return performance.now().toString();
-  }
-
-  public getSrc(): string {
-    return this.src + '?' + this.getTime();
+    this.items = this.routeDataService.getItems(this.route);
   }
 
   public onEditClick(item: any): void {

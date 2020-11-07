@@ -41,6 +41,8 @@ import { PoiOptionsModalComponent } from './components/poi-options-modal/poi-opt
 import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
 import { ListComponent } from './pages/list/list.component';
 import { CreateComponent } from './pages/create/create.component';
+import { LocationResolver } from './resolvers/location.resolver';
+import { LocationsResolver } from './resolvers/locations.resolver';
 
 @NgModule({
   imports: [
@@ -85,6 +87,6 @@ import { CreateComponent } from './pages/create/create.component';
     CanvasAdvancedBrushMenuComponent,
     CanvasAdvancedImageMenuComponent,
   ],
-  providers: [SToastService, StartWithPipe, CanvasService, MediaService],
+  providers: [SToastService, StartWithPipe, CanvasService, MediaService, LocationResolver, LocationsResolver],
 })
 export class LocationsModule {}
