@@ -7,9 +7,9 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { SModalService } from '@ngx-spectre/common';
-import { POI } from '../../models/POI';
 import { FormGroup } from '@angular/forms';
 import { RxFormBuilder } from '@rxweb/reactive-form-validators';
+import { POI } from '@core-api';
 
 @Component({
   selector: 'app-poi-options-modal',

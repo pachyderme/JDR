@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { ListComponent } from './pages/list/list.component';
 import { DetailsComponent } from './pages/details/details.component';
 import { CreateComponent } from './pages/create/create.component';
-import { CharactersResolver } from './resolvers/characters.resolver';
+import { CharactersResolver } from '@core-api';
 import { CharacterResolver } from './resolvers/character.resolver';
 
 const routes: Routes = [

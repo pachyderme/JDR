@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Location } from '../../../locations/models/location';
+import { Location } from '@core-api';
 
 @Component({
   selector: 'app-canvas-creation-menu',
@@ -7,7 +7,7 @@ import { Location } from '../../../locations/models/location';
   styleUrls: ['./canvas-creation-menu.component.scss'],
 })
 export class CanvasCreationMenuComponent implements OnInit {
-  @Input() locations: any[] = [];
+  @Input() locations: Location[] = [];
 
   @Input() ressources: any[] = [];
 

@@ -5,7 +5,7 @@ import {
   ChangeDetectionStrategy,
   Input,
 } from '@angular/core';
-import { IEditableObject } from 'projects/fabricjs-editor/src/lib/models/IEditableObject';
+import { IEditableObject } from '@fabricjs-editor';
 
 @Component({
   selector: 'app-canvas-header',

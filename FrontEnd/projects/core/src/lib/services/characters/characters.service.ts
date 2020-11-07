@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Character } from '../models/character';
+import { Character } from '../../models/public-api';
 import { Observable, of } from 'rxjs';
 
 @Injectable({

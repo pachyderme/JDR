@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { SThemingService, SThemeConfiguration } from '@ngx-spectre/common';
 
 @Component({
   selector: 'app-create',

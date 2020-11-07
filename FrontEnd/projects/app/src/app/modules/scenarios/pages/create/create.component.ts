@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { UniversService } from '../../services/univers.service';
-import { CharactersService } from '../../services/characters.service';
-import { TemplatesService } from '../../services/templates.service';
-import { StartWithPipe } from 'projects/app/src/app/shared/pipes/start-with.pipe';
+import { RouteDataService, StartWithPipe } from '@core-api';
 
 @Component({
   selector: 'app-create',
@@ -30,32 +27,29 @@ export class CreateComponent implements OnInit {
     private startWithPipe: StartWithPipe,
     private router: Router,
     private route: ActivatedRoute,
-    private universService: UniversService,
-    private charactersService: CharactersService,
-    private templatesService: TemplatesService
+    private routeDataService: RouteDataService
   ) {}
 
   ngOnInit() {
+    this.universes = this.routeDataService.get('univers', this.route);
+    this.characters = this.routeDataService.get('characters', this.route);
+    this.templates = this.routeDataService.get('templates', this.route);
+
     this.baseForm = this.formBuilder.group({
       name: [''],
       summary: [''],
       goal: [''],
     });
 
-    this.universes = this.universService.get();
-
     this.advanceForm = this.formBuilder.group({
       universe: [''],
       image: [''],
     });
 
-    this.characters = this.charactersService.get();
-
     this.charactersForm = this.formBuilder.group({
       characters: [''],
     });
 
-    this.templates = this.templatesService.get();
     this.templateForm = this.formBuilder.group({
       template: ['0'],
     });

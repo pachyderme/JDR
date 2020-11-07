@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { RouteDataService } from 'projects/app/src/app/shared/services/route-data.service';
+import { RouteDataService } from '@core-api';
 import { Scenario } from '../../models/scenario';
 
 @Component({
@@ -16,7 +16,11 @@ export class ListComponent implements OnInit {
   public src: string = 'https://picsum.photos/900/500';
   public items: Scenario[] = [];
 
-  constructor(private router: Router, private route: ActivatedRoute, private routeDataService: RouteDataService) {}
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private routeDataService: RouteDataService
+  ) {}
 
   ngOnInit() {
     this.items = this.routeDataService.getItems(this.route);

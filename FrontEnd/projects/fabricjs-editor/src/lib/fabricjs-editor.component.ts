@@ -9,18 +9,20 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { fabric } from 'fabric';
-import { IEditableObject } from './models/IEditableObject';
-import { Text } from './models/Text';
-import { Figure } from './models/Figure';
-import { Brush } from './models/Brush';
-import { Image as EditableImage } from './models/Image';
-import { Path as EditablePath } from './models/Path';
-import { EditableObjectTypes } from './models/EditableObjectTypes';
-import { Marker } from './models/Marker';
+import {
+  Figure,
+  Brush,
+  Text,
+  IEditableObject,
+  Image as EditableImage,
+  Path as EditablePath,
+  EditableObjectTypes,
+  Marker,
+  RemoveCommand,
+  AddCommand,
+  ModifiedCommand,
+} from './models/public-api';
 import { CommandsService } from './services/CommandsService';
-import { RemoveCommand } from './models/commands/RemoveCommand';
-import { AddCommand } from './models/commands/AddCommand';
-import { ModifiedCommand } from './models/commands/ModifiedCommand';
 
 @Component({
   selector: 'jdr-fabricjs-editor',

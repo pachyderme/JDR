@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Select } from '../../scenarios/models/select';
-import { CdkDragDrop } from '@angular/cdk/drag-drop';
-import { FabricjsEditorComponent } from 'projects/fabricjs-editor/src/public-api';
-import { IEditableObject } from 'projects/fabricjs-editor/src/lib/models/IEditableObject';
-import { EditableObjectTypes } from 'projects/fabricjs-editor/src/lib/models/EditableObjectTypes';
+import {
+  FabricjsEditorComponent,
+  IEditableObject,
+  EditableObjectTypes,
+} from '@fabricjs-editor';
 
 @Injectable({
   providedIn: 'root',

@@ -1,15 +1,10 @@
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { UniversService } from '../../services/univers.service';
-import { CharactersService } from '../../services/characters.service';
-import { TemplatesService } from '../../services/templates.service';
-import { StartWithPipe } from 'projects/app/src/app/shared/pipes/start-with.pipe';
-import { IEditableObject } from 'projects/fabricjs-editor/src/lib/models/IEditableObject';
+import { StartWithPipe, RouteDataService, Character } from '@core-api';
+import { IEditableObject, FabricjsEditorComponent } from '@fabricjs-editor';
 import { CanvasService } from '../../../locations/services/canvas.service';
-import { FabricjsEditorComponent } from 'projects/fabricjs-editor/src/public-api';
 import { Scenario } from '../../models/scenario';
-import { RouteDataService } from 'projects/app/src/app/shared/services/route-data.service';
 
 @Component({
   selector: 'app-details',
@@ -17,13 +12,12 @@ import { RouteDataService } from 'projects/app/src/app/shared/services/route-dat
   styleUrls: ['./details.component.scss'],
 })
 export class DetailsComponent implements OnInit, AfterViewInit {
-
   public item: Scenario;
   public scenario: any;
   public summaryForm: FormGroup;
 
   public universes: any[] = [];
-  public characters: any[] = [];
+  public characters: Character[] = [];
   public templates: any[] = [];
 
   public backgroundImagePath: string;
@@ -33,9 +27,6 @@ export class DetailsComponent implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private startWithPipe: StartWithPipe,
-    private universService: UniversService,
-    private charactersService: CharactersService,
-    private templatesService: TemplatesService,
     private router: Router,
     private canvasService: CanvasService,
     private routeDataService: RouteDataService
@@ -43,10 +34,9 @@ export class DetailsComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.item = this.routeDataService.getItem(this.route);
-
-    this.universes = this.universService.get();
-    this.characters = this.charactersService.get();
-    this.templates = this.templatesService.get();
+    this.universes = this.routeDataService.get('univers', this.route);
+    this.characters = this.routeDataService.get('characters', this.route);
+    this.templates = this.routeDataService.get('templates', this.route);
 
     this.scenario = {
       universe: {
@@ -111,7 +101,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
       ],
     };
 
-    this.scenario = {...this.scenario, ...this.item};
+    this.scenario = { ...this.scenario, ...this.item };
 
     this.summaryForm = this.formBuilder.group({
       name: [this.scenario.name],
@@ -122,7 +112,6 @@ export class DetailsComponent implements OnInit, AfterViewInit {
       characters: [this.scenario.characters],
       template: [this.scenario.template],
     });
-
   }
 
   public ngAfterViewInit(): void {}

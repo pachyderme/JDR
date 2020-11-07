@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { Location } from '../models/location';
+import { Location } from '../../models/locations/Location';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +16,7 @@ export class LocationsService {
     },
     {
       id: 2,
-      name: "Jeddhal : Jeddah City",
+      name: "Jeddah : Jeddah City",
       backgroundImage: '../../../../../assets/img/ground.jpg',
       src: "https://lumiere-a.akamaihd.net/v1/images/holy-city-of-jedha-main_a628115c.jpeg"
     },

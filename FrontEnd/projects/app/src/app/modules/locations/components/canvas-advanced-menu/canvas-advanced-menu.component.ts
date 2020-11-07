@@ -11,12 +11,9 @@ import { SelectLocationModalComponent } from '../select-location-modal/select-lo
 import { SModalService } from '@ngx-spectre/common';
 import { Media } from '../../models/media';
 import { MediaService } from '../../services/media.service';
-import { IEditableObject } from 'projects/fabricjs-editor/src/lib/models/IEditableObject';
-import { Brush } from 'projects/fabricjs-editor/src/lib/models/Brush';
-import { EditableObjectTypes } from 'projects/fabricjs-editor/src/lib/models/EditableObjectTypes';
-import { Location } from '../../models/location';
-import { POI } from '../../models/POI';
+import { IEditableObject, Brush, EditableObjectTypes } from '@fabricjs-editor';
 import { PoiOptionsModalComponent } from '../poi-options-modal/poi-options-modal.component';
+import { Location, POI } from '@core-api';
 
 @Component({
   selector: 'app-canvas-advanced-menu',

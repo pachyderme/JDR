@@ -4,9 +4,9 @@ import {
   RouterStateSnapshot,
 } from '@angular/router';
 import { Observable } from 'rxjs';
-import { CharactersService } from '../services/characters.service';
-import { Character } from '../models/character';
 import { Injectable } from '@angular/core';
+import { Character } from '../models/public-api';
+import { CharactersService } from '../services/public-api';
 
 @Injectable()
 export class CharactersResolver implements Resolve<Character[]> {

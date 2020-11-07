@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LocationsRoutingModule } from './locations-routing.module';
-import { FabricjsEditorModule } from 'projects/fabricjs-editor/src/public-api';
+import { FabricjsEditorModule } from '@fabricjs-editor';
 import { EditComponent } from './pages/edit/edit.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ColorPickerModule } from 'ngx-color-picker';
@@ -26,7 +26,7 @@ import {
   SScrollbarModule,
 } from '@ngx-spectre/common';
 import { SaveToastComponent } from './components/save-toast/save-toast.component';
-import { StartWithPipe } from '../../shared/pipes/start-with.pipe';
+import { StartWithPipe } from '@core-api';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { SelectLocationModalComponent } from './components/select-location-modal/select-location-modal.component';
 import { CanvasService } from './services/canvas.service';
@@ -87,6 +87,13 @@ import { LocationsResolver } from './resolvers/locations.resolver';
     CanvasAdvancedBrushMenuComponent,
     CanvasAdvancedImageMenuComponent,
   ],
-  providers: [SToastService, StartWithPipe, CanvasService, MediaService, LocationResolver, LocationsResolver],
+  providers: [
+    SToastService,
+    StartWithPipe,
+    CanvasService,
+    MediaService,
+    LocationResolver,
+    LocationsResolver,
+  ],
 })
 export class LocationsModule {}

@@ -6,7 +6,7 @@ import {
   EventEmitter,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import { Image } from 'projects/fabricjs-editor/src/lib/models/Image';
+import { Image } from '@fabricjs-editor';
 
 @Component({
   selector: 'app-canvas-advanced-image-menu',

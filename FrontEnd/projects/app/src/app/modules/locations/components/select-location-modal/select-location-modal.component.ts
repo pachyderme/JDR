@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Location } from '@core-api';
 import { SModalService } from '@ngx-spectre/common';
-import { Location } from '../../models/Location';
 
 @Component({
   selector: 'app-select-location-modal',

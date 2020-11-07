@@ -5,20 +5,19 @@ import {
   AfterViewInit,
   ElementRef,
 } from '@angular/core';
-import { FabricjsEditorComponent } from 'projects/fabricjs-editor/src/public-api';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
-import { Location } from '../../models/location';
 import { CanvasService } from '../../services/canvas.service';
-import { LocationsService } from '../../services/locations.service';
-import { IEditableObject } from 'projects/fabricjs-editor/src/lib/models/IEditableObject';
-import { Brush } from 'projects/fabricjs-editor/src/lib/models/Brush';
 import { SToastConfig, SToastService } from '@ngx-spectre/common';
 import { SaveToastComponent } from '../../components/save-toast/save-toast.component';
 import { Key } from 'ts-keycode-enum';
-import { EditableObjectTypes } from 'projects/fabricjs-editor/src/lib/models/EditableObjectTypes';
-import { POI } from '../../models/POI';
-import { RouteDataService } from 'projects/app/src/app/shared/services/route-data.service';
 import { ActivatedRoute } from '@angular/router';
+import {
+  FabricjsEditorComponent,
+  IEditableObject,
+  EditableObjectTypes,
+  Brush,
+} from '@fabricjs-editor';
+import { Location, POI, RouteDataService } from '@core-api';
 
 @Component({
   selector: 'app-edit',

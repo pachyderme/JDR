@@ -6,7 +6,7 @@ import {
   EventEmitter,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import { Text } from 'projects/fabricjs-editor/src/lib/models/Text';
+import { Text } from '@fabricjs-editor';
 import { Select } from '../../../scenarios/models/select';
 import { CanvasService } from '../../services/canvas.service';
 

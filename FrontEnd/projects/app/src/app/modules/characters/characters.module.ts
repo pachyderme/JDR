@@ -12,7 +12,7 @@ import {
   CommonModule as SCommonModule,
 } from '@ngx-spectre/common';
 import { CharacterResolver } from './resolvers/character.resolver';
-import { CharactersResolver } from './resolvers/characters.resolver';
+import { CharactersResolver } from '@core-api';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
 
@@ -25,7 +25,7 @@ import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
     SMenuModule,
     SCommonModule,
     ReactiveFormsModule,
-    RxReactiveFormsModule
+    RxReactiveFormsModule,
   ],
   declarations: [ListComponent, DetailsComponent, CreateComponent],
   providers: [SThemingService, CharacterResolver, CharactersResolver],

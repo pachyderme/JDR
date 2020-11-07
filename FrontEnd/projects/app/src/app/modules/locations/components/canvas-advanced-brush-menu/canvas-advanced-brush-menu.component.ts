@@ -6,7 +6,7 @@ import {
   EventEmitter,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import { Brush } from 'projects/fabricjs-editor/src/lib/models/Brush';
+import { Brush } from '@fabricjs-editor';
 
 @Component({
   selector: 'app-canvas-advanced-brush-menu',

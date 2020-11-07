@@ -1,5 +1,5 @@
-import { Character } from './Character';
-import { prop, model } from '@rxweb/reactive-form-validators';
+import { prop } from '@rxweb/reactive-form-validators';
+import { Character } from '../characters/character';
 
 export class POI {
   id: number;

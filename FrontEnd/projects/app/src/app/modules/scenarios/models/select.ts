@@ -1,4 +1,4 @@
 export class Select {
-  value: string;
+  value: string | number;
   displayValue: string;
 }

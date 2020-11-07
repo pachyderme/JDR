@@ -21,12 +21,14 @@ import {
   STooltipDirectiveModule,
 } from '@ngx-spectre/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { StartWithPipe } from '../../shared/pipes/start-with.pipe';
-import { FabricjsEditorModule } from 'projects/fabricjs-editor/src/public-api';
+import { CharactersResolver, StartWithPipe } from '@core-api';
+import { FabricjsEditorModule } from '@fabricjs-editor';
 import { CanvasService } from '../locations/services/canvas.service';
 import { CanvasCreationMenuComponent } from './components/canvas-creation-menu/canvas-creation-menu.component';
 import { ScenarioResolver } from './resolvers/scenario.resolver';
 import { ScenariosResolver } from './resolvers/scenarios.resolver';
+import { UniversResolver } from './resolvers/univers.resolver';
+import { TemplatesResolver } from './resolvers/templates.resolver';
 
 @NgModule({
   imports: [
@@ -55,6 +57,14 @@ import { ScenariosResolver } from './resolvers/scenarios.resolver';
     CreateComponent,
     CanvasCreationMenuComponent,
   ],
-  providers: [StartWithPipe, CanvasService, ScenarioResolver, ScenariosResolver],
+  providers: [
+    StartWithPipe,
+    CanvasService,
+    ScenarioResolver,
+    ScenariosResolver,
+    CharactersResolver,
+    UniversResolver,
+    TemplatesResolver,
+  ],
 })
 export class ScenariosModule {}

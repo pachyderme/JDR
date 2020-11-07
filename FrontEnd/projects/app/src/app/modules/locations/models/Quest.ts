@@ -1,4 +1,4 @@
-import { POI } from './POI';
+import { POI } from '@core-api';
 import { Player } from './Player';
 
 export class Quest {

@@ -16,10 +16,20 @@
       "dom"
     ],
     "paths": {
+      "@core-api": [
+        "projects/core/src/public-api"
+      ],
+      "@fabricjs-editor": [
+        "projects/fabricjs-editor/src/public-api"
+      ],
       "fabricjs-editor": [
         "dist/fabricjs-editor/fabricjs-editor",
         "dist/fabricjs-editor"
-      ]
+      ],
+      "core": [
+        "dist/core/core",
+        "dist/core"
+      ],
     }
   },
   "angularCompilerOptions": {

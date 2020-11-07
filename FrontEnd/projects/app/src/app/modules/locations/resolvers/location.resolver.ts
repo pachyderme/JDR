@@ -5,8 +5,7 @@ import {
 } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { Location } from '../models/location';
-import { LocationsService } from '../services/locations.service';
+import { Location, LocationsService } from '@core-api';
 
 @Injectable()
 export class LocationResolver implements Resolve<Location> {
