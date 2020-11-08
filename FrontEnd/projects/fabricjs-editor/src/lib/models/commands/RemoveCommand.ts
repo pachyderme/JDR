@@ -2,11 +2,8 @@ import { Command } from './Command';
 import { CommandTypes } from './CommandTypes';
 
 export class RemoveCommand extends Command {
-  protected object: fabric.Object;
-
-  public constructor(canvas: fabric.Canvas, object: fabric.Object) {
+  public constructor(canvas: fabric.Canvas, protected object: fabric.Object) {
     super(canvas);
-    this.object = object;
     this.type = CommandTypes.REMOVE_OBJECT;
   }
 

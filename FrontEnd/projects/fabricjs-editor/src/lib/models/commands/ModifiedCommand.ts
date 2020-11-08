@@ -2,20 +2,13 @@ import { Command } from './Command';
 import { CommandTypes } from './CommandTypes';
 
 export class ModifiedCommand extends Command {
-  protected object: fabric.Object;
-  protected transform: any;
-  protected original: any;
-
   public constructor(
     canvas: fabric.Canvas,
-    object: fabric.Object,
-    transform: any,
-    original: any
+    protected object: fabric.Object,
+    protected transform: any,
+    protected original: any
   ) {
     super(canvas);
-    this.object = object;
-    this.transform = transform;
-    this.original = original;
     this.type = CommandTypes.MODIFIED_OBJECT;
   }
 
