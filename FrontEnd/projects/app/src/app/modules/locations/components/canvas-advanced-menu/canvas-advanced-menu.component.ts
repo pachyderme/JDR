@@ -36,6 +36,9 @@ export class CanvasAdvancedMenuComponent implements OnInit {
     if (value && value.data) {
       this.poi = this.getSelectedObjectPoi();
       this.location = this.getCurrentLocation();
+    } else {
+      this.poi = null;
+      this.location = null;
     }
   }
 

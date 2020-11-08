@@ -21,6 +21,7 @@ import {
   RemoveCommand,
   AddCommand,
   ModifiedCommand,
+  UpdateShapeCommand,
 } from './models/public-api';
 import { CommandsService } from './services/CommandsService';
 
@@ -105,6 +106,7 @@ export class FabricjsEditorComponent implements AfterViewInit {
   private drawingMouseCanvas: fabric.StaticCanvas;
   private drawingMouseCursorForm: fabric.Circle;
   private lastDrawedForm: fabric.Path;
+  private lastDrawedFormGroup: fabric.Group;
   private lastDrawedStroke: fabric.Path;
 
   constructor(private commandsService: CommandsService) {}
@@ -240,7 +242,7 @@ export class FabricjsEditorComponent implements AfterViewInit {
 
     if (this.lastDrawedForm) {
       points = points.concat(this.lastDrawedForm.path);
-      this.canvas.remove(this.lastDrawedForm);
+      this.canvas.remove(this.lastDrawedFormGroup);
     }
 
     this.lastDrawedForm = currentPath;
@@ -276,10 +278,27 @@ export class FabricjsEditorComponent implements AfterViewInit {
       path.fill = 'rgba(0,0,0,0)';
 
       currentPath.shadow = null;
+      currentPath.selectable = false;
+      path.selectable = false;
 
-      this.canvas.add(path);
-      const index = this.canvas.getObjects().indexOf(currentPath) - 1;
-      this.canvas.moveTo(path, index);
+      const group = new fabric.Group([path, currentPath]);
+
+      this.canvas.remove(currentPath);
+
+      if (!this.lastDrawedFormGroup) {
+        this.add(group);
+      } else {
+        const tmpLastDrawedFormGroup = this.lastDrawedFormGroup;
+        const onAdded = (object: fabric.Group) => {
+          this.lastDrawedFormGroup = object;
+          this.lastDrawedForm = object.getObjects()[0] as fabric.Path;
+        };
+        this.update(tmpLastDrawedFormGroup, group, onAdded, onAdded);
+      }
+
+      this.sendToBack(group);
+
+      this.lastDrawedFormGroup = group;
     });
   }
 
@@ -615,8 +634,8 @@ export class FabricjsEditorComponent implements AfterViewInit {
     }
   }
 
-  public sendToBack(): void {
-    const activeObject = this.canvas.getActiveObject();
+  public sendToBack(object?: fabric.Object): void {
+    const activeObject = object ?? this.canvas.getActiveObject();
     const activeGroup = this.canvas.getActiveObjects();
 
     if (activeObject) {
@@ -1088,6 +1107,24 @@ export class FabricjsEditorComponent implements AfterViewInit {
 
   public add(object: fabric.Object): void {
     this.commandsService.insert(new AddCommand(this.canvas, object));
+    this.updateUndoRedo();
+  }
+
+  public update(
+    oldObject: fabric.Object,
+    newObject: fabric.Object,
+    onExecute?: (object: fabric.Object) => void,
+    onUnExecute?: (object: fabric.Object) => void
+  ): void {
+    this.commandsService.insert(
+      new UpdateShapeCommand(
+        this.canvas,
+        oldObject,
+        newObject,
+        onExecute,
+        onUnExecute
+      )
+    );
     this.updateUndoRedo();
   }
 

@@ -17,3 +17,4 @@ export * from './commands/ICommand';
 export * from './commands/ModifiedCommand';
 export * from './commands/RemoveCommand';
 export * from './commands/ModifiedCommand';
+export * from './commands/UpdateShapeCommand';

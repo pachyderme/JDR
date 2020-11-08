@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { Location } from '@core-api';
+import { Location, LocationsService } from '@core-api';
 import { SModalService } from '@ngx-spectre/common';
 
 @Component({
@@ -20,59 +20,13 @@ export class SelectLocationModalComponent implements OnInit {
 
   @Output() onClose: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor(private modalService: SModalService) {}
+  constructor(
+    private modalService: SModalService,
+    private locationsService: LocationsService
+  ) {}
 
   ngOnInit() {
-    this.items = [
-      {
-        id: 1,
-        src: 'https://picsum.photos/300/150',
-        name: 'City 1',
-        description: this.text,
-      },
-      {
-        id: 2,
-        src: 'https://picsum.photos/300/150',
-        name: 'City 2',
-        description: this.text,
-      },
-      {
-        id: 3,
-        src: 'https://picsum.photos/300/150',
-        name: 'City 3',
-        description: this.text,
-      },
-      {
-        id: 4,
-        src: 'https://picsum.photos/300/150',
-        name: 'City 4',
-        description: this.text,
-      },
-      {
-        id: 5,
-        src: 'https://picsum.photos/300/150',
-        name: 'City 5',
-        description: this.text,
-      },
-      {
-        id: 6,
-        src: 'https://picsum.photos/300/150',
-        name: 'City 6',
-        description: this.text,
-      },
-      {
-        id: 7,
-        src: 'https://picsum.photos/300/150',
-        name: 'City 7',
-        description: this.text,
-      },
-      {
-        id: 8,
-        src: 'https://picsum.photos/300/150',
-        name: 'City 8',
-        description: this.text,
-      },
-    ];
+    this.locationsService.list().subscribe((result) => (this.items = result));
   }
 
   public onCloseModal(event: MouseEvent): void {
