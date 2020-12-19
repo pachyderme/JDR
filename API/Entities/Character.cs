@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace API.Entities
 {
@@ -15,10 +16,13 @@ namespace API.Entities
         [StringLength(2)]
         public string Initials { get; set; }
 
-        public Character(string name, string initials)
-        {
-            Name = name;
-            Initials = initials;
-        }
+        public string Biography { get; set; }
+
+        public string ImageUrl { get; set; }
+
+        public User User { get; set; }
+        public int UserId { get; set; }
+
+        public List<ScenarioCharacter> ScenariosCharacter { get; set; }
     }
 }

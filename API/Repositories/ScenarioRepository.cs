@@ -1,6 +1,5 @@
 ﻿using API.Context;
 using API.Entities;
-using API.Entities.Scenario;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using System.Collections.Generic;
@@ -28,13 +27,13 @@ namespace API.Repositories
             return GetQuery().Single(x => x.Id == id);
         }
 
-        public IIncludableQueryable<Scenario, List<Character>> GetQuery()
+        public IIncludableQueryable<Scenario, List<ScenarioCharacter>> GetQuery()
         {
             return jdrDbContext
                  .Scenarios
                  .Include(x => x.Universe)
                  .Include(x => x.Template)
-                 .Include(x => x.Characters);
+                 .Include(x => x.ScenarioCharacters);
         }
     }
 }

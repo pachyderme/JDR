@@ -1,4 +1,4 @@
-﻿using API.Entities.Scenario;
+﻿using API.Entities;
 using GraphQL.Types;
 
 namespace API.GraphQL.Types

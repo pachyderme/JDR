@@ -69,17 +69,6 @@ namespace API
                     template: "{controller}/{action=Index}/{id?}");
             });
             app.UseHttpsRedirection();
-            InitializeMapper();
-        }
-
-        private static void InitializeMapper()
-        {
-            //Mapper.Initialize(x =>
-            //{
-            //    x.CreateMap<Guest, GuestModel>();
-            //    x.CreateMap<Room, RoomModel>();
-            //    x.CreateMap<Reservation, ReservationModel>();
-            //});
         }
     }
 }

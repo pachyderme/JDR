@@ -23,19 +23,11 @@ export class CanvasAdvancedBrushMenuComponent implements OnInit {
 
   //#region Outputs
 
-  @Output() onBrushShadowColorChange: EventEmitter<string> = new EventEmitter<
-    string
-  >();
-  @Output() onBrushShadowWidthChange: EventEmitter<number> = new EventEmitter<
-    number
-  >();
-  @Output() onBrushWidthChange: EventEmitter<number> = new EventEmitter<
-    number
-  >();
-  @Output() onBrushColorChange: EventEmitter<string> = new EventEmitter<
-    string
-  >();
-  @Output() onTextureChange: EventEmitter<string> = new EventEmitter<string>();
+  @Output() onBrushShadowColorChange = new EventEmitter<string>();
+  @Output() onBrushShadowWidthChange = new EventEmitter<number>();
+  @Output() onBrushWidthChange = new EventEmitter<number>();
+  @Output() onBrushColorChange = new EventEmitter<string>();
+  @Output() onBrushTextureChange = new EventEmitter<string>();
 
   //#endregion
 
@@ -59,7 +51,7 @@ export class CanvasAdvancedBrushMenuComponent implements OnInit {
     this.onBrushColorChange.emit(this.brush.color);
   }
 
-  public onRequestTextureChange(): void {
-    this.onTextureChange.emit(this.brush.textureImagePath);
+  public onRequestBrushTextureChange(): void {
+    this.onBrushTextureChange.emit(this.brush.textureImagePath);
   }
 }

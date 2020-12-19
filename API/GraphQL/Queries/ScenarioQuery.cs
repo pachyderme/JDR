@@ -69,7 +69,7 @@ namespace API.GraphQL.Queries
                     if (checkoutDate.HasValue)
                     {
                         return scenarioRepository.GetQuery()
-                            .Where(s => s.LastUpdateDate.Date >= checkoutDate.Value.Date);
+                            .Where(s => s.UpdateDate.Date >= checkoutDate.Value.Date);
                     }
 
                     var universeId = context.GetArgument<int?>("universeId");
@@ -90,7 +90,7 @@ namespace API.GraphQL.Queries
                     if (charactersCount.HasValue)
                     {
                         return scenarioRepository.GetQuery()
-                        .Where(s => s.Characters.Count == charactersCount);
+                        .Where(s => s.ScenarioCharacters.Count == charactersCount);
                     }
 
                     return query.ToList();

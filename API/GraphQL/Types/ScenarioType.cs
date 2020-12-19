@@ -1,6 +1,5 @@
-﻿using API.Entities.Scenario;
+﻿using API.Entities;
 using GraphQL.Types;
-using System.Collections.Generic;
 
 namespace API.GraphQL.Types
 {
@@ -13,10 +12,10 @@ namespace API.GraphQL.Types
             Field(x => x.Summary).Description("Once upon a time...");
             Field(x => x.Goal).Description("Kill the big bad guy");
             Field(x => x.CreationDate).Description("Initial creation date");
-            Field(x => x.LastUpdateDate).Description("Date of the last update");
+            Field(x => x.UpdateDate).Description("Date of the last update");
             Field<TemplateType>(nameof(Scenario.Template));
             Field<UniverseType>(nameof(Scenario.Universe));
-            Field<ListGraphType<CharacterType>>(nameof(Scenario.Characters));
+            Field<ListGraphType<CharacterType>>(nameof(Scenario.ScenarioCharacters));
         }
     }
 }

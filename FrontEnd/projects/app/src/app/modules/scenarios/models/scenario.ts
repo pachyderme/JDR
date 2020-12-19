@@ -5,7 +5,7 @@ export class Scenario {
   id: number;
   name: string;
   summary?: string;
-  goald?: string;
+  goal?: string;
   imageUrl?: string;
   template?: Select;
   universeId?: number;

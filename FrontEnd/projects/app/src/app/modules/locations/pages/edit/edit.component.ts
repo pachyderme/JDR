@@ -10,7 +10,7 @@ import { CanvasService } from '../../services/canvas.service';
 import { SToastConfig, SToastService } from '@ngx-spectre/common';
 import { SaveToastComponent } from '../../components/save-toast/save-toast.component';
 import { Key } from 'ts-keycode-enum';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   FabricjsEditorComponent,
   IEditableObject,
@@ -47,7 +47,8 @@ export class EditComponent implements OnInit, AfterViewInit {
     private canvasService: CanvasService,
     private sToastService: SToastService,
     private route: ActivatedRoute,
-    private routeDataService: RouteDataService
+    private routeDataService: RouteDataService,
+    private router: Router
   ) {}
 
   //#region Public
@@ -231,6 +232,10 @@ export class EditComponent implements OnInit, AfterViewInit {
     this.brush = { ...this.brush, shadowWidth: value };
   }
 
+  public onBrushTextureChange(value: string): void {
+    this.brush = { ...this.brush, textureImagePath: value };
+  }
+
   public onOpacityChange(value: number): void {
     this.canvasService.setOpacity(value, this.canvas);
   }
@@ -287,6 +292,16 @@ export class EditComponent implements OnInit, AfterViewInit {
   public onPoiOptionsChanged(value: POI): void {
     this.setCustomDataToCurrentObject('POI', value);
     this.canvasService.setCustomData(this.selectedObject.data, this.canvas);
+  }
+
+  public onLocationClick(location: Location): void {
+    const url = this.router.serializeUrl(
+      this.router.createUrlTree(['../', location.id], {
+        relativeTo: this.route,
+      })
+    );
+
+    window.open(url, '_blank');
   }
 
   //#endregion

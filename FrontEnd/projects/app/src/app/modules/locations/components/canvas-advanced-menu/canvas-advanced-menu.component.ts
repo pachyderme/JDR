@@ -50,47 +50,26 @@ export class CanvasAdvancedMenuComponent implements OnInit {
 
   //#region Outputs
 
-  @Output() onOpacityChange: EventEmitter<number> = new EventEmitter<number>();
-  @Output() onFillChange: EventEmitter<string> = new EventEmitter<string>();
-  @Output() onUrlChange: EventEmitter<string> = new EventEmitter<string>();
-  @Output() onFontFamilyChange: EventEmitter<string> = new EventEmitter<
-    string
-  >();
-  @Output() onTextAlignChange: EventEmitter<string> = new EventEmitter<
-    string
-  >();
-  @Output() onBoldChange: EventEmitter<boolean> = new EventEmitter<boolean>();
-  @Output() onItalicChange: EventEmitter<boolean> = new EventEmitter<boolean>();
-  @Output() onUnderlineChange: EventEmitter<boolean> = new EventEmitter<
-    boolean
-  >();
-  @Output() onLineThroughChange: EventEmitter<boolean> = new EventEmitter<
-    boolean
-  >();
-  @Output() onFontSizeChange: EventEmitter<number> = new EventEmitter<number>();
-  @Output() onLineHeightChange: EventEmitter<number> = new EventEmitter<
-    number
-  >();
-  @Output() onCharSpacingChange: EventEmitter<number> = new EventEmitter<
-    number
-  >();
-  @Output() onBrushShadowColorChange: EventEmitter<string> = new EventEmitter<
-    string
-  >();
-  @Output() onBrushShadowWidthChange: EventEmitter<number> = new EventEmitter<
-    number
-  >();
-  @Output() onBrushWidthChange: EventEmitter<number> = new EventEmitter<
-    number
-  >();
-  @Output() onBrushColorChange: EventEmitter<string> = new EventEmitter<
-    string
-  >();
-  @Output() onLocationSelected: EventEmitter<Location> = new EventEmitter<
-    Location
-  >();
-
-  @Output() onPoiOptionsChanged: EventEmitter<POI> = new EventEmitter<POI>();
+  @Output() onOpacityChange = new EventEmitter<number>();
+  @Output() onFillChange = new EventEmitter<string>();
+  @Output() onUrlChange = new EventEmitter<string>();
+  @Output() onFontFamilyChange = new EventEmitter<string>();
+  @Output() onTextAlignChange = new EventEmitter<string>();
+  @Output() onBoldChange = new EventEmitter<boolean>();
+  @Output() onItalicChange = new EventEmitter<boolean>();
+  @Output() onUnderlineChange = new EventEmitter<boolean>();
+  @Output() onLineThroughChange = new EventEmitter<boolean>();
+  @Output() onFontSizeChange = new EventEmitter<number>();
+  @Output() onLineHeightChange = new EventEmitter<number>();
+  @Output() onCharSpacingChange = new EventEmitter<number>();
+  @Output() onBrushShadowColorChange = new EventEmitter<string>();
+  @Output() onBrushShadowWidthChange = new EventEmitter<number>();
+  @Output() onBrushTextureChange = new EventEmitter<string>();
+  @Output() onBrushWidthChange = new EventEmitter<number>();
+  @Output() onBrushColorChange = new EventEmitter<string>();
+  @Output() onLocationSelected = new EventEmitter<Location>();
+  @Output() onPoiOptionsChanged = new EventEmitter<POI>();
+  @Output() onLocationClick = new EventEmitter<Location>();
 
   //#endregion
 
@@ -145,6 +124,10 @@ export class CanvasAdvancedMenuComponent implements OnInit {
 
   public onRequestBrushShadowWidthChange(value: number): void {
     this.onBrushShadowWidthChange.emit(value);
+  }
+
+  public onRequestBrushTextureChange(value: string): void {
+    this.onBrushTextureChange.emit(value);
   }
 
   public onRequestBrushWidthChange(value: number): void {
@@ -229,6 +212,10 @@ export class CanvasAdvancedMenuComponent implements OnInit {
 
   public canLinkToLocation(): boolean {
     return this.selectedObject.type !== EditableObjectTypes.MARKER;
+  }
+
+  public onRequestLocationClick(location: Location): void {
+    this.onLocationClick.emit(location);
   }
 
   private getCurrentLocation(): Location {

@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace API.Entities.Scenario
+namespace API.Entities
 {
-    public class Template
+    public class Universe
     {
         [Key]
         public int Id { get; set; }
@@ -11,9 +11,8 @@ namespace API.Entities.Scenario
         [StringLength(300)]
         public string Name { get; set; }
 
-        public Template(string name)
-        {
-            Name = name;
-        }
+        [Required]
+        [StringLength(2)]
+        public string Initials { get; set; }
     }
 }

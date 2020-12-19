@@ -6,7 +6,7 @@
         Link to location
       </button>
       <div *ngIf="location">
-        <s-card class="column col-12">
+        <s-card class="column col-12" (click)="onRequestLocationClick(location)">
           <s-card-image
             [src]="location?.src"
             *ngIf="location?.src"
@@ -37,6 +37,7 @@
     (onBrushWidthChange)="onRequestBrushWidthChange($event)"
     (onBrushShadowColorChange)="onRequestBrushShadowColorChange($event)"
     (onBrushShadowWidthChange)="onRequestBrushShadowWidthChange($event)"
+    (onBrushTextureChange)="onRequestBrushTextureChange($event)"
   ></app-canvas-advanced-brush-menu>
 
   <!-- Object selected -->

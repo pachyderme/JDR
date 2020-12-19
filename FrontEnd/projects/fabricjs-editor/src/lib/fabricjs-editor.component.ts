@@ -69,6 +69,7 @@ export class FabricjsEditorComponent implements AfterViewInit {
     if (value) {
       this._brush = JSON.parse(JSON.stringify(value));
       this.setBrushColor(this._brush.color);
+      this.setBrushTexture(this._brush.textureImagePath);
       this.setBrushWidth(this._brush.width);
       this.setBrushShadow(this._brush.shadowColor, this._brush.shadowWidth);
     } else {
@@ -906,6 +907,10 @@ export class FabricjsEditorComponent implements AfterViewInit {
       offsetX: 0,
       offsetY: 0,
     });
+  }
+
+  public setBrushTexture(texture: string): void {
+    this.canvas.freeDrawingBrush = this.getBrushTextureFromImage(texture);
   }
 
   public setId(id: string): void {

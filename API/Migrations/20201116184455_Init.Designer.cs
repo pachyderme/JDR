@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(JDRDbContext))]
-    [Migration("20200522104846_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20201116184455_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,6 +27,10 @@ namespace API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Biography");
+
+                    b.Property<string>("ImageUrl");
+
                     b.Property<string>("Initials")
                         .IsRequired()
                         .HasMaxLength(2);
@@ -35,11 +39,11 @@ namespace API.Migrations
                         .IsRequired()
                         .HasMaxLength(300);
 
-                    b.Property<int?>("ScenarioId");
+                    b.Property<int>("UserId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ScenarioId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Characters");
 
@@ -48,41 +52,77 @@ namespace API.Migrations
                         {
                             Id = 1,
                             Initials = "LU",
-                            Name = "Luna"
+                            Name = "Luna",
+                            UserId = 1
                         },
                         new
                         {
                             Id = 2,
                             Initials = "WR",
-                            Name = "Wrax"
+                            Name = "Wrax",
+                            UserId = 1
                         },
                         new
                         {
                             Id = 3,
                             Initials = "DC",
-                            Name = "Dicham"
+                            Name = "Dicham",
+                            UserId = 1
                         },
                         new
                         {
                             Id = 4,
                             Initials = "RA",
-                            Name = "Rakar"
+                            Name = "Rakar",
+                            UserId = 1
                         },
                         new
                         {
                             Id = 5,
                             Initials = "SA",
-                            Name = "Saud'ho"
+                            Name = "Saud'ho",
+                            UserId = 1
                         },
                         new
                         {
                             Id = 6,
                             Initials = "XA",
-                            Name = "Xavro"
+                            Name = "Xavro",
+                            UserId = 1
                         });
                 });
 
-            modelBuilder.Entity("API.Entities.Scenario.Scenario", b =>
+            modelBuilder.Entity("API.Entities.Location", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(300);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Locations");
+                });
+
+            modelBuilder.Entity("API.Entities.Ressource", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(300);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Ressources");
+                });
+
+            modelBuilder.Entity("API.Entities.Scenario", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -93,7 +133,7 @@ namespace API.Migrations
                     b.Property<string>("Goal")
                         .HasMaxLength(1000);
 
-                    b.Property<DateTime>("LastUpdateDate");
+                    b.Property<string>("ImageUrl");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -107,11 +147,17 @@ namespace API.Migrations
 
                     b.Property<int>("UniverseId");
 
+                    b.Property<DateTime>("UpdateDate");
+
+                    b.Property<int>("UserId");
+
                     b.HasKey("Id");
 
                     b.HasIndex("TemplateId");
 
                     b.HasIndex("UniverseId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Scenarios");
 
@@ -119,28 +165,65 @@ namespace API.Migrations
                         new
                         {
                             Id = 1,
-                            CreationDate = new DateTime(2020, 5, 12, 12, 48, 46, 2, DateTimeKind.Local).AddTicks(9777),
+                            CreationDate = new DateTime(2020, 11, 6, 19, 44, 55, 486, DateTimeKind.Local).AddTicks(3423),
                             Goal = "Les personnages devront tenter de survivre le plus longtemps possible à diverses aventures au sein de l'inquisition.",
-                            LastUpdateDate = new DateTime(2020, 5, 17, 12, 48, 46, 4, DateTimeKind.Local).AddTicks(9197),
                             Name = "Dark Heresy",
                             Summary = "Voici le résumé du scénario de Warhammer Dark Heresy...",
                             TemplateId = 4,
-                            UniverseId = 8
+                            UniverseId = 8,
+                            UpdateDate = new DateTime(2020, 11, 11, 19, 44, 55, 486, DateTimeKind.Local).AddTicks(3692),
+                            UserId = 1
                         },
                         new
                         {
                             Id = 2,
-                            CreationDate = new DateTime(2020, 5, 17, 12, 48, 46, 5, DateTimeKind.Local).AddTicks(3686),
+                            CreationDate = new DateTime(2020, 11, 11, 19, 44, 55, 486, DateTimeKind.Local).AddTicks(4392),
                             Goal = "Révéler certaines vérités et participer aux dénouements de l'époque de près ou de loin.",
-                            LastUpdateDate = new DateTime(2020, 5, 20, 12, 48, 46, 5, DateTimeKind.Local).AddTicks(3695),
                             Name = "SW - Le destin d'une galaxie",
                             Summary = "-4000 ans avant la bataille de Yavin 4 et la chute de l'étoile noire, Exar Kun...",
                             TemplateId = 3,
-                            UniverseId = 5
+                            UniverseId = 5,
+                            UpdateDate = new DateTime(2020, 11, 14, 19, 44, 55, 486, DateTimeKind.Local).AddTicks(4404),
+                            UserId = 1
                         });
                 });
 
-            modelBuilder.Entity("API.Entities.Scenario.Template", b =>
+            modelBuilder.Entity("API.Entities.ScenarioCharacter", b =>
+                {
+                    b.Property<int>("CharacterId");
+
+                    b.Property<int>("ScenarioId");
+
+                    b.HasKey("CharacterId", "ScenarioId");
+
+                    b.HasIndex("ScenarioId");
+
+                    b.ToTable("ScenariosCharacters");
+                });
+
+            modelBuilder.Entity("API.Entities.ScenarioLocation", b =>
+                {
+                    b.Property<int>("LocationId");
+
+                    b.Property<int>("ScenarioId");
+
+                    b.HasKey("LocationId", "ScenarioId");
+
+                    b.ToTable("ScenariosLocations");
+                });
+
+            modelBuilder.Entity("API.Entities.ScenarioRessource", b =>
+                {
+                    b.Property<int>("RessourceId");
+
+                    b.Property<int>("ScenarioId");
+
+                    b.HasKey("RessourceId", "ScenarioId");
+
+                    b.ToTable("ScenariosRessources");
+                });
+
+            modelBuilder.Entity("API.Entities.Template", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -182,7 +265,7 @@ namespace API.Migrations
                         });
                 });
 
-            modelBuilder.Entity("API.Entities.Scenario.Universe", b =>
+            modelBuilder.Entity("API.Entities.Universe", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -251,23 +334,101 @@ namespace API.Migrations
                         });
                 });
 
-            modelBuilder.Entity("API.Entities.Character", b =>
+            modelBuilder.Entity("API.Entities.User", b =>
                 {
-                    b.HasOne("API.Entities.Scenario.Scenario")
-                        .WithMany("Characters")
-                        .HasForeignKey("ScenarioId");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreationDate");
+
+                    b.Property<string>("Identifier")
+                        .IsRequired()
+                        .HasMaxLength(300);
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasMaxLength(300);
+
+                    b.Property<DateTime>("UpdateDate");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreationDate = new DateTime(2020, 11, 16, 19, 44, 55, 482, DateTimeKind.Local).AddTicks(2185),
+                            Identifier = "bouvetpierre49@gmail.com",
+                            Password = "admin",
+                            UpdateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
                 });
 
-            modelBuilder.Entity("API.Entities.Scenario.Scenario", b =>
+            modelBuilder.Entity("API.Entities.Character", b =>
                 {
-                    b.HasOne("API.Entities.Scenario.Template", "Template")
+                    b.HasOne("API.Entities.User", "User")
+                        .WithMany("Characters")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("API.Entities.Scenario", b =>
+                {
+                    b.HasOne("API.Entities.Template", "Template")
                         .WithMany()
                         .HasForeignKey("TemplateId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("API.Entities.Scenario.Universe", "Universe")
+                    b.HasOne("API.Entities.Universe", "Universe")
                         .WithMany()
                         .HasForeignKey("UniverseId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("API.Entities.User", "User")
+                        .WithMany("Scenarios")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("API.Entities.ScenarioCharacter", b =>
+                {
+                    b.HasOne("API.Entities.Character", "Character")
+                        .WithMany("ScenariosCharacter")
+                        .HasForeignKey("CharacterId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("API.Entities.Scenario", "Scenario")
+                        .WithMany("ScenarioCharacters")
+                        .HasForeignKey("ScenarioId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("API.Entities.ScenarioLocation", b =>
+                {
+                    b.HasOne("API.Entities.Location", "Location")
+                        .WithMany("ScenariosLocation")
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("API.Entities.Scenario", "Scenario")
+                        .WithMany("ScenarioLocations")
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("API.Entities.ScenarioRessource", b =>
+                {
+                    b.HasOne("API.Entities.Ressource", "Ressource")
+                        .WithMany("ScenariosRessource")
+                        .HasForeignKey("RessourceId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("API.Entities.Scenario", "Scenario")
+                        .WithMany("ScenarioRessources")
+                        .HasForeignKey("RessourceId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
